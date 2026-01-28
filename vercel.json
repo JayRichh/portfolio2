@@ -1,13 +1,13 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/portfolio2",
   "rewrites": [
     {
       "source": "/api/:path*",
       "destination": "/vercel-api/:path*"
     },
     {
-      "source": "/:path((?!api).*)",
+      "source": "/:path((?!api|_next).*)",
       "destination": "/index.html"
     }
   ]
