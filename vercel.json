@@ -1,0 +1,27 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "GITHUB_TOKEN": "@github_token",
+    "SMTP_API_KEY": "@smtp_api_key",
+    "PORT": "3001"
+  },
+  "routes": [
+    {
+      "src": "^/api/github/(.*)",
+      "dest": "/api/github.ts"
+    },
+    {
+      "src": "^/api/send-email/(.*)",
+      "dest": "/api/send-email.ts"
+    },
+    {
+      "src": "^/api/verify-human/(.*)",
+      "dest": "/api/verify-human.ts"
+    },
+    {
+      "src": "^/(?!api/)",
+      "dest": "/index.html"
+    }
+  ]
+}
