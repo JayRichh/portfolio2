@@ -1,27 +1,21 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "env": {
-    "GITHUB_TOKEN": "@github_token",
-    "SMTP_API_KEY": "@smtp_api_key",
-    "PORT": "3001"
+  "functions": {
+    "vercel-api/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/api/github/(.*)",
-      "dest": "/api/github.ts"
+      "source": "/api/:path*",
+      "destination": "/vercel-api/:path*"
     },
     {
-      "src": "^/api/send-email/(.*)",
-      "dest": "/api/send-email.ts"
-    },
-    {
-      "src": "^/api/verify-human/(.*)",
-      "dest": "/api/verify-human.ts"
-    },
-    {
-      "src": "^/(?!api/)",
-      "dest": "/index.html"
+      "source": "/:path((?!api).*)",
+      "destination": "/index.html"
     }
   ]
 }
+
+
