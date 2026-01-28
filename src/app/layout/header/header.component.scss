@@ -1,0 +1,267 @@
+:host {
+  display: contents;
+}
+
+// Header animation for scroll-based visibility
+.header-animate {
+  // Start completely hidden before Angular initializes
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+
+  // No transition until Angular is ready to prevent any flash
+  transition: none;
+
+  // Once Angular has initialized (route is set)
+  &.header-ready {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    // Show header if not explicitly hidden
+    &:not(.header-hidden) {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+}
+
+.header-hidden {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .header-animate {
+    transition: none;
+  }
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.logo-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.2s ease;
+
+  @media (prefers-color-scheme: dark) {
+    filter: invert(1) brightness(1.1);
+  }
+
+  html[data-theme*="dark"] & {
+    filter: invert(1) brightness(1.1);
+  }
+}
+
+.logo-link-mobile {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.logo-image-mobile {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.2s ease;
+
+  @media (prefers-color-scheme: dark) {
+    filter: invert(1) brightness(1.1);
+  }
+
+  html[data-theme*="dark"] & {
+    filter: invert(1) brightness(1.1);
+  }
+}
+
+.mobile-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: hsl(var(--accent));
+    border-color: hsl(var(--primary));
+  }
+
+  &.open {
+    background: hsl(var(--accent));
+    border-color: hsl(var(--primary));
+  }
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20px;
+  height: 14px;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background: hsl(var(--foreground));
+  border-radius: 2px;
+  transition: all 0.3s ease;
+
+  .mobile-menu-toggle.open & {
+    &:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    &:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    &:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+}
+
+.mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  top: 0;
+}
+
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background: hsl(var(--card));
+  border-left: 1px solid hsl(var(--border));
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-nav {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.desktop-nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: hsl(var(--primary));
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover {
+    color: hsl(var(--foreground));
+
+    &::after {
+      transform: scaleY(1);
+    }
+  }
+
+  &.active {
+    color: hsl(var(--primary));
+
+    &::after {
+      transform: scaleY(1);
+    }
+  }
+}
+
+.nav-link {
+  display: block;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  color: hsl(var(--muted-foreground));
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  word-break: break-word;
+  white-space: normal;
+
+  &:hover {
+    background: hsl(var(--accent) / 0.15);
+    color: hsl(var(--foreground));
+  }
+
+  &.active {
+    background: hsl(var(--accent) / 0.2);
+    color: hsl(var(--primary));
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,15 @@
+@if (isVisible()) {
+  <div
+    class="chart-tooltip"
+    [style.left]="position().left"
+    [style.top]="position().top"
+  >
+    <div class="tooltip-title">{{ data().content!.title }}</div>
+    @for (item of data().content!.items; track item.label) {
+      <div class="tooltip-item">
+        <span class="tooltip-label">{{ item.label }}:</span>
+        <span class="tooltip-value">{{ item.value }}</span>
+      </div>
+    }
+  </div>
+}

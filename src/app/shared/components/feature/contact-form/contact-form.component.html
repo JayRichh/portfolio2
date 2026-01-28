@@ -1,0 +1,182 @@
+<section class="contact-form">
+  <form (submit)="onSubmit($event)">
+    <div *ngIf="isSubmitting()" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Sending your message...</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-fields">
+        <div class="field-group">
+          <input
+            appInput
+            type="text"
+            name="name"
+            placeholder="Name *"
+            [(ngModel)]="formDataName"
+            required
+            [class.error]="fieldErrors().name"
+          />
+          <span *ngIf="fieldErrors().name" class="error-message">{{ fieldErrors().name }}</span>
+        </div>
+
+        <div class="field-group">
+          <input
+            appInput
+            type="email"
+            name="email"
+            placeholder="Email *"
+            [(ngModel)]="formDataEmail"
+            required
+            [class.error]="fieldErrors().email"
+          />
+          <span *ngIf="fieldErrors().email" class="error-message">{{ fieldErrors().email }}</span>
+        </div>
+
+        <div class="field-group">
+          <textarea
+            appTextarea
+            name="message"
+            placeholder="Message *"
+            rows="4"
+            [(ngModel)]="formDataMessage"
+            required
+            [class.error]="fieldErrors().message"
+          ></textarea>
+          <span *ngIf="fieldErrors().message" class="error-message">{{ fieldErrors().message }}</span>
+        </div>
+
+        <div class="verification">
+          <span>Verification: {{ challenge() }} =</span>
+          <input
+            appInput
+            type="number"
+            name="answer"
+            placeholder="?"
+            [(ngModel)]="userAnswerValue"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="canvas-section">
+        <div
+          #canvasContainer
+          class="canvas-container"
+          (pointermove)="updateCursorPosition($event)"
+          (pointerenter)="isOverCanvas.set(true)"
+          (pointerleave)="isOverCanvas.set(false); stopDrawing()"
+          [class.cursor-none]="isOverCanvas()"
+        >
+          <canvas
+            #canvas
+            (pointerdown)="startDrawing($event)"
+            (pointerup)="stopDrawing()"
+            (pointermove)="draw($event)"
+            (pointerleave)="stopDrawing()"
+          ></canvas>
+
+          <div *ngIf="isOverCanvas()" class="paintbrush-cursor" [style.left.px]="cursorPosition().x" [style.top.px]="cursorPosition().y">
+            🖌️
+          </div>
+
+          <div *ngIf="alertMessage()" class="alert">
+            {{ alertMessage() }}
+          </div>
+        </div>
+
+        <div class="canvas-controls">
+          <div class="control-group">
+            <div class="dropdown">
+              <button
+                appButton
+                variant="outline"
+                type="button"
+                (click)="isBrushMenuOpen.set(!isBrushMenuOpen())"
+              >
+                <span [innerHTML]="currentBrushIcon()"></span>
+                <span class="ml-2">{{ currentBrushLabel() }}</span>
+              </button>
+
+              <div *ngIf="isBrushMenuOpen()" class="dropdown-menu">
+                <button
+                  *ngFor="let brush of brushTypes"
+                  type="button"
+                  (click)="setBrushType(brush.type)"
+                  [class.active]="brushType() === brush.type"
+                >
+                  <span [innerHTML]="brush.icon"></span>
+                  <span>{{ brush.label }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="dropdown">
+              <button
+                appButton
+                variant="outline"
+                type="button"
+                (click)="isColorPickerOpen.set(!isColorPickerOpen())"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+              </button>
+
+              <div *ngIf="isColorPickerOpen()" class="color-picker">
+                <div class="color-grid">
+                  <button
+                    *ngFor="let color of presetColors"
+                    type="button"
+                    class="color-btn"
+                    [style.backgroundColor]="color"
+                    (click)="setBrushColor(color); isColorPickerOpen.set(false)"
+                  ></button>
+                </div>
+                <input
+                  type="color"
+                  [value]="brushColor()"
+                  (input)="setBrushColor($any($event.target).value)"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="slider-wrapper">
+            <app-slider
+              [min]="1"
+              [max]="20"
+              [value]="brushSize()"
+              (valueChange)="setBrushSize($event)"
+            ></app-slider>
+          </div>
+
+          <div class="tool-buttons">
+            <button appButton variant="outline" type="button" (click)="clearCanvas()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+            <button appButton variant="outline" type="button" (click)="downloadImage()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            </button>
+            <button appButton variant="outline" type="button" (click)="copyToClipboard()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="canvas-hint">Got an idea? Add a sketch to your message.</p>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button appButton variant="outline" type="button" (click)="clearForm()">
+        Clear All
+      </button>
+      <button appButton type="submit">
+        Send Message
+      </button>
+    </div>
+
+    <div *ngIf="status()" class="status-message" [class.success]="statusSuccess()" [class.error]="!statusSuccess()">
+      {{ statusMessage() }}
+    </div>
+  </form>
+</section>

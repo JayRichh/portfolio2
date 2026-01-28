@@ -1,0 +1,24 @@
+<div class="progress-loader" [class.compact]="compact()">
+  @if (compact()) {
+    <div class="compact-content">
+      <div class="spinner"></div>
+      <span class="compact-label">Loading...</span>
+    </div>
+  } @else {
+    <div class="progress-container">
+      <div class="progress-track">
+        <div
+          class="progress-fill"
+          [style.width.%]="progress()"
+        ></div>
+      </div>
+      <div class="progress-info">
+        <div class="spinner-container">
+          <span class="progress-spinner"></span>
+        </div>
+        <span class="progress-label">{{ progress() }}%</span>
+      </div>
+    </div>
+    <p class="progress-message">{{ displayMessage() }}</p>
+  }
+</div>

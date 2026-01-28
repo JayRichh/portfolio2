@@ -1,0 +1,56 @@
+<div class="calendar-chart">
+  <div class="calendar-stats">
+    <div class="contributions-total">
+      {{ formatNumber(data().totalContributions) }} contributions in {{ data().year }}
+    </div>
+    <app-info-tooltip
+      [content]="'Data sourced from GitHub GraphQL API. Shows contributions across all repositories, including commits, pull requests, issues, and code reviews.'"
+    />
+  </div>
+
+  <div class="calendar-controls">
+    <button
+      class="year-nav-btn"
+      [disabled]="isLoadingYear() || !canGoPrevious()"
+      (click)="onPreviousYear()"
+    >
+      @if (isLoadingPrevious()) {
+        <span class="loading-spinner"></span>
+      } @else {
+        Previous Year
+      }
+    </button>
+
+    <span class="current-year">{{ data().year }}</span>
+
+    <button
+      class="year-nav-btn"
+      [disabled]="isLoadingYear() || !canGoNext()"
+      (click)="onNextYear()"
+    >
+      @if (isLoadingNext()) {
+        <span class="loading-spinner"></span>
+      } @else {
+        Next Year
+      }
+    </button>
+  </div>
+
+  <div class="calendar-header">
+    <div class="calendar-legend">
+      <span class="legend-label">Less</span>
+      <div
+        *ngFor="let level of levels"
+        class="legend-box"
+        [style.background]="getColor(level)"
+      ></div>
+      <span class="legend-label">More</span>
+    </div>
+  </div>
+
+  <div class="calendar-svg-wrapper">
+    <svg #svgContainer class="calendar-svg"></svg>
+  </div>
+
+  <app-chart-tooltip #tooltip />
+</div>

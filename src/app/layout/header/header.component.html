@@ -1,0 +1,83 @@
+<header
+  class="hidden md:block fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border header-animate"
+  [class.header-hidden]="!shouldShowHeader()"
+  [class.header-ready]="currentRoute() !== ''"
+>
+  <nav class="container mx-auto px-6">
+    <div class="flex items-center justify-between h-16">
+      <a routerLink="/" class="logo-link" aria-label="Jayden Richardson - Home Page">
+        <img src="/JRLOGO.png" alt="JR Logo" class="logo-image" />
+      </a>
+
+      <div class="flex items-center h-full">
+        <a
+          *ngFor="let link of navLinks"
+          [routerLink]="link.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          class="desktop-nav-link"
+        >
+          {{ link.label }}
+        </a>
+      </div>
+
+      <app-theme-selector></app-theme-selector>
+    </div>
+  </nav>
+</header>
+
+<header
+  class="md:hidden fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border header-animate"
+  [class.header-hidden]="!shouldShowHeader()"
+  [class.header-ready]="currentRoute() !== ''"
+>
+  <div class="flex items-center justify-between px-4 py-3">
+    <a routerLink="/" class="logo-link-mobile" aria-label="Jayden Richardson - Home Page">
+      <img src="/JRLOGO.png" alt="JR Logo" class="logo-image-mobile" />
+    </a>
+
+    <div class="flex items-center gap-2">
+      <app-theme-selector></app-theme-selector>
+
+      <button
+        (click)="toggleMobileMenu()"
+        class="mobile-menu-toggle"
+        [class.open]="mobileMenuOpen()"
+        aria-label="Toggle menu"
+      >
+        <span class="hamburger">
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div
+  *ngIf="mobileMenuOpen()"
+  class="mobile-drawer-overlay"
+  (click)="closeMobileMenu()"
+>
+  <div class="mobile-drawer-backdrop"></div>
+
+  <div
+    class="mobile-drawer"
+    [class.open]="mobileMenuOpen()"
+    (click)="$event.stopPropagation()"
+  >
+    <nav class="mobile-nav mt-12">
+      <a
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+        (click)="closeMobileMenu()"
+        class="nav-link"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+  </div>
+</div>

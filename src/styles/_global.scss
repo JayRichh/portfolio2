@@ -1,0 +1,117 @@
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground h-full overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-sans);
+    position: relative;
+  }
+
+  /* Mobile Bottom Navigation Utilities */
+  .mobile-bottom-padding {
+    @apply pb-16 md:pb-0;
+  }
+
+  .mobile-bottom-padding-large {
+    @apply pb-20 md:pb-0;
+  }
+
+  .mobile-bottom-safe {
+    @apply bottom-16 md:bottom-0;
+  }
+
+  .mobile-bottom-offset {
+    @apply mb-16 md:mb-0;
+  }
+
+  .page-body-mobile-safe {
+    @apply min-h-screen pb-16 md:pb-0;
+  }
+
+  .content-above-mobile-nav {
+    @apply pb-16 md:pb-0;
+  }
+
+  .mobile-scroll-container {
+    @apply h-[calc(100vh-4rem)] md:h-screen overflow-y-auto;
+  }
+
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    .mobile-bottom-padding {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0));
+    }
+
+    .content-above-mobile-nav {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0));
+    }
+
+    .mobile-scroll-container {
+      height: calc(100vh - 4rem - env(safe-area-inset-bottom, 0));
+      height: calc(100dvh - 4rem - env(safe-area-inset-bottom, 0));
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav-item {
+      @apply rounded-lg transition-colors;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-nav-item:active {
+      @apply bg-accent/50;
+      transform: scale(0.98);
+    }
+  }
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+/* Focus States */
+*:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary/20;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted/30;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30 rounded-lg;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}

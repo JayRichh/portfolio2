@@ -1,0 +1,51 @@
+<div class="home-page">
+  <div class="hero-section">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Hi, I'm</h1>
+          <h2 class="hero-name">Jayden Richardson</h2>
+        </div>
+        <p class="hero-subtitle">
+          Building production applications with modern web technologies
+        </p>
+
+        <div class="cta-buttons">
+          <a href="https://github.com/jaydenrichardson" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            View GitHub
+          </a>
+          <a href="https://codepen.io/jaydenrichardson" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            View CodePen
+          </a>
+          <a routerLink="/about" class="btn-secondary">
+            About Me
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="image-wrapper">
+          <img src="/logo_bg_remove.png" alt="Jayden Richardson" class="profile-image" />
+        </div>
+      </div>
+    </div>
+
+    <nav class="social-links" aria-label="Social links">
+      <a
+        *ngFor="let link of socialLinks; let i = index"
+        [href]="link.href"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="link.label"
+        class="social-link"
+      >
+        <span [innerHTML]="link.icon"></span>
+      </a>
+    </nav>
+  </div>
+
+  <div id="contact" class="contact-section">
+    <h2 class="contact-title">👋</h2>
+    <app-contact-form></app-contact-form>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+/* Tailwind Base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Theme Variables */
+@import './styles/themes';
+
+/* Import Global Styles */
+@import './styles/global';
+
+/* Custom Utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

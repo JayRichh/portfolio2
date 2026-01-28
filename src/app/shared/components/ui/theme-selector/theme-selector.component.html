@@ -1,0 +1,65 @@
+<div class="theme-selector-wrapper">
+  <button
+    (click)="toggleDropdown()"
+    class="theme-trigger"
+    [class.open]="isOpen()"
+    [attr.aria-expanded]="isOpen()"
+    aria-label="Select theme"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="currentColor"><path d="M290.4 70C288.9 66.4 285.4 64 281.5 64L262.5 64C258.6 64 255 66.4 253.6 70L232.9 121.7C229.7 129.7 218.3 129.7 215.1 121.7L194.4 70C192.9 66.4 189.4 64 185.5 64L176 64C149.5 64 128 85.5 128 112L128 320L512 320L512 112C512 85.5 490.5 64 464 64L358.5 64C354.6 64 351 66.4 349.6 70L328.9 121.7C325.7 129.7 314.3 129.7 311.1 121.7L290.4 70zM128 368L128 384C128 419.3 156.7 448 192 448L256 448L256 512C256 547.3 284.7 576 320 576C355.3 576 384 547.3 384 512L384 448L448 448C483.3 448 512 419.3 512 384L512 368L128 368zM320 528C311.2 528 304 520.8 304 512C304 503.2 311.2 496 320 496C328.8 496 336 503.2 336 512C336 520.8 328.8 528 320 528z"/></svg>
+  </button>
+
+  <div *ngIf="isOpen()" class="theme-backdrop" (click)="closeDropdown()"></div>
+
+  <div *ngIf="isOpen()" class="theme-dropdown">
+    <div class="theme-header">
+      <span class="theme-title">Theme</span>
+    </div>
+
+    <div class="theme-options">
+      <div
+        *ngFor="let themeOption of themes"
+        class="theme-row"
+        [class.active]="isActiveTheme(themeOption.value)"
+        (click)="selectTheme(themeOption.value, $event)"
+      >
+        <div class="radio-wrapper">
+          <span class="radio-outer">
+            <span *ngIf="isActiveTheme(themeOption.value)" class="radio-inner"></span>
+          </span>
+        </div>
+
+        <span class="theme-label">{{ themeOption.label }}</span>
+
+        <div class="mode-buttons" (click)="$event.stopPropagation()">
+          <button
+            (click)="selectThemeAndMode(themeOption.value, 'light', $event)"
+            class="mode-btn"
+            [class.active]="isActive(themeOption.value, 'light')"
+            [attr.aria-label]="'Light mode'"
+            type="button"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+          </button>
+
+          <button
+            (click)="selectThemeAndMode(themeOption.value, 'dark', $event)"
+            class="mode-btn"
+            [class.active]="isActive(themeOption.value, 'dark')"
+            [attr.aria-label]="'Dark mode'"
+            type="button"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="theme-swatch" [style.background-color]="themeOption.color"></div>
+      </div>
+    </div>
+  </div>
+</div>
