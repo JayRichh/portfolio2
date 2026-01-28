@@ -1,16 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/portfolio2",
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/vercel-api/:path*"
-    },
-    {
-      "source": "/:path((?!api|_next).*)",
-      "destination": "/index.html"
-    }
-  ]
+  "outputDirectory": "dist/portfolio2/browser"
 }
 
 
