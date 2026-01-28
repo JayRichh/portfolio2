@@ -10,6 +10,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["api/**/*.ts"],
+  "include": ["vercel-api/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
