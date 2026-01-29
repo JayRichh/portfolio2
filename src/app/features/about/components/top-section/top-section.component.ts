@@ -259,9 +259,11 @@ export class TopSectionComponent implements OnInit {
   readonly languageData = this.githubService.languageData;
 
   ngOnInit(): void {
-    this.githubService.fetchContributions()
-      .pipe(take(1))
-      .subscribe();
+    if (this.yearData().length === 0) {
+      this.githubService.fetchContributions()
+        .pipe(take(1))
+        .subscribe();
+    }
   }
 
   retry(): void {

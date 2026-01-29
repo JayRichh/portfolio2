@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin, of, throwError, timer } from 'rxjs';
+import { Observable, forkJoin, of, throwError, timer, EMPTY } from 'rxjs';
 import { map, catchError, tap, switchMap, retry, delay } from 'rxjs/operators';
 import {
   YearContributions,
@@ -25,6 +25,7 @@ const EXCLUDED_LANGUAGES = new Set(['Roff']);
 export class GitHubService {
   private readonly http = inject(HttpClient);
   private lastCallTime = 0;
+  private readonly isFetching = signal(false);
 
   readonly progress = signal(0);
   readonly error = signal<string | null>(null);
@@ -52,6 +53,11 @@ export class GitHubService {
       }
     }
 
+    if (this.isFetching()) {
+      return EMPTY;
+    }
+
+    this.isFetching.set(true);
     this.isLoading.set(true);
     this.error.set(null);
     this.progress.set(5);
@@ -87,10 +93,12 @@ export class GitHubService {
       tap(() => {
         this.cacheData();
         this.isLoading.set(false);
+        this.isFetching.set(false);
       }),
       map(() => void 0),
       catchError(err => {
         this.handleError(err);
+        this.isFetching.set(false);
         return throwError(() => err);
       })
     );
