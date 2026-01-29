@@ -1,6 +1,18 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import axios from 'axios';
 
+interface CacheEntry {
+  data: any;
+  timestamp: number;
+}
+
+const cache = new Map<string, CacheEntry>();
+const CACHE_TTL = 5 * 60 * 1000;
+
+function getCacheKey(query: string, variables: any): string {
+  return Buffer.from(JSON.stringify({ query, variables })).toString('base64');
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
@@ -20,6 +32,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({
       error: 'GraphQL query is required',
     });
+  }
+
+  const cacheKey = getCacheKey(query, variables);
+  const cached = cache.get(cacheKey);
+
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    console.log('Returning cached GitHub data');
+    return res.json(cached.data);
   }
 
   const token = process.env['GITHUB_TOKEN'];
@@ -52,6 +72,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         data: response.data.data,
       });
     }
+
+    cache.set(cacheKey, {
+      data: response.data,
+      timestamp: Date.now(),
+    });
 
     return res.json(response.data);
   } catch (error: any) {

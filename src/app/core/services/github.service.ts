@@ -18,7 +18,7 @@ const CACHE_VERSION = 1;
 const CACHE_TIME = 300_000;
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000;
-const MIN_CALL_INTERVAL = 100;
+const MIN_CALL_INTERVAL = 0;
 const EXCLUDED_LANGUAGES = new Set(['Roff']);
 
 @Injectable({ providedIn: 'root' })
@@ -64,27 +64,19 @@ export class GitHubService {
 
     const currentYear = new Date().getFullYear();
     const yearsToFetch = [
+      currentYear,
       currentYear - 1,
       currentYear - 2,
       currentYear - 3,
       currentYear - 4
     ];
 
-    return forkJoin(
-      yearsToFetch.map((year, index) =>
-        this.fetchYearContributions(year).pipe(
-          tap(() => {
-            const progressPerYear = 40 / yearsToFetch.length;
-            this.progress.set(Math.round(15 + (index + 1) * progressPerYear));
-          })
-        )
-      )
-    ).pipe(
-      tap(() => this.progress.set(55)),
-      switchMap(years => {
-        this.yearData.set(years.filter((y): y is YearContributions => y !== null));
-        return this.fetchLanguageStats();
+    return this.fetchAllYearsContributions(yearsToFetch).pipe(
+      tap(years => {
+        this.yearData.set(years);
+        this.progress.set(55);
       }),
+      switchMap(() => this.fetchLanguageStats()),
       tap(langStats => {
         this.languageData.set(langStats);
         this.progress.set(85);
@@ -117,6 +109,80 @@ export class GitHubService {
         this.handleError(err);
         return of(null);
       })
+    );
+  }
+
+  private fetchAllYearsContributions(years: number[]): Observable<YearContributions[]> {
+    const query = `
+      query AllYearsContributions($username: String!) {
+        user(login: $username) {
+          ${years.map(year => `
+            y${year}: contributionsCollection(
+              from: "${year}-01-01T00:00:00Z",
+              to: "${year}-12-31T23:59:59Z"
+            ) {
+              contributionCalendar {
+                totalContributions
+                weeks {
+                  contributionDays {
+                    contributionCount
+                    date
+                  }
+                }
+              }
+            }
+          `).join('\n')}
+        }
+      }
+    `;
+
+    const variables = { username: 'JayRichh' };
+
+    return this.rateLimitedRequest(() =>
+      this.http.post<any>(GITHUB_API, { query, variables }).pipe(
+        retry({
+          count: MAX_RETRIES,
+          delay: (error, retryCount) => {
+            if (this.isRateLimitError(error)) {
+              return timer(RETRY_DELAY * retryCount);
+            }
+            return throwError(() => error);
+          }
+        }),
+        map(response => {
+          if (response.errors?.length > 0) {
+            throw new Error(response.errors[0].message);
+          }
+
+          const userData = response.data?.user;
+          if (!userData) return [];
+
+          return years.map(year => {
+            const calendar = userData[`y${year}`]?.contributionCalendar;
+            if (!calendar) return null;
+
+            const allDays = this.generateYearDays(year);
+            calendar.weeks.forEach(week => {
+              week.contributionDays.forEach(day => {
+                const existing = allDays.find(d => d.day === day.date);
+                if (existing) {
+                  (existing as any).value = day.contributionCount;
+                }
+              });
+            });
+
+            return {
+              year,
+              contributions: this.scaleContributions(allDays),
+              totalContributions: calendar.totalContributions,
+            };
+          }).filter((y): y is YearContributions => y !== null);
+        }),
+        catchError(err => {
+          console.error('Error fetching batched contributions:', err);
+          return of([]);
+        })
+      )
     );
   }
 
@@ -203,9 +269,9 @@ export class GitHubService {
       query RepositoriesQuery($username: String!, $cursor: String) {
         user(login: $username) {
           repositories(
-            first: 75,
+            first: 100,
             after: $cursor,
-            ownerAffiliations: [OWNER, COLLABORATOR],
+            ownerAffiliations: [OWNER],
             orderBy: {field: PUSHED_AT, direction: DESC}
           ) {
             pageInfo {
@@ -219,7 +285,7 @@ export class GitHubService {
               owner {
                 login
               }
-              languages(first: 15, orderBy: {field: SIZE, direction: DESC}) {
+              languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
                 edges {
                   size
                   node {
@@ -262,8 +328,7 @@ export class GitHubService {
             return of(accumulated);
           }
 
-          const filteredNodes = reposData.nodes.filter((repo: Repository) => !repo.isFork);
-          const newAccumulated = [...accumulated, ...filteredNodes];
+          const newAccumulated = [...accumulated, ...reposData.nodes];
           const newPageCount = pageCount + 1;
 
           const progressIncrement = Math.min(3.5, 25 / Math.max(newPageCount, 1));
