@@ -53,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    res.json(response.data);
+    return res.json(response.data);
   } catch (error: any) {
     console.error('GitHub API error:', error.message);
 
@@ -84,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Internal server error while fetching GitHub data',
     });
   }
