@@ -271,7 +271,7 @@ export class GitHubService {
           repositories(
             first: 100,
             after: $cursor,
-            ownerAffiliations: [OWNER],
+            ownerAffiliations: [OWNER, COLLABORATOR],
             orderBy: {field: PUSHED_AT, direction: DESC}
           ) {
             pageInfo {
@@ -328,7 +328,8 @@ export class GitHubService {
             return of(accumulated);
           }
 
-          const newAccumulated = [...accumulated, ...reposData.nodes];
+          const filteredNodes = reposData.nodes.filter((repo: Repository) => !repo.isFork);
+          const newAccumulated = [...accumulated, ...filteredNodes];
           const newPageCount = pageCount + 1;
 
           const progressIncrement = Math.min(3.5, 25 / Math.max(newPageCount, 1));
