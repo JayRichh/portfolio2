@@ -116,7 +116,6 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
       grid-template-columns: 1fr;
       gap: 2rem;
       width: 100%;
-      max-height: 70vh;
     }
 
     .loading-container {
@@ -179,6 +178,58 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
       }
     }
 
+    .chart-card {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .chart-card > * {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 1023px) {
+      .top-section {
+        padding: 4rem 1rem 2rem;
+        min-height: auto;
+      }
+
+      .top-container {
+        padding: 0;
+      }
+
+      .header-content {
+        margin-bottom: 2rem;
+        max-width: 100%;
+      }
+
+      .main-title {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .content-grid {
+        gap: 1.5rem;
+      }
+
+      .pie-chart {
+        min-height: 450px;
+      }
+
+      .calendar-chart {
+        min-height: 350px;
+      }
+    }
+
     @media (min-width: 1024px) {
       .top-section {
         padding: 8rem 1rem 4rem;
@@ -209,22 +260,6 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
         grid-row: 2;
         height: 100%;
       }
-    }
-
-    .chart-card {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .chart-card > * {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      max-width: 100%;
-      height: 100%;
     }
 
     @keyframes slideUp {
