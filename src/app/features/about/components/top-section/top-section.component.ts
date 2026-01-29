@@ -233,6 +233,11 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
     @media (min-width: 1024px) {
       .top-section {
         padding: 8rem 1rem 4rem;
+        max-height: 100vh;
+      }
+
+      .top-container {
+        max-height: 100%;
       }
 
       .content-grid {
@@ -240,7 +245,8 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
         grid-template-rows: auto 1fr;
         gap: 3rem;
         align-items: start;
-        min-height: 80vh;
+        max-height: calc(100vh - 12rem);
+        min-height: 0;
       }
 
       .header-content {
@@ -253,12 +259,24 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
         grid-row: 1 / -1;
         align-self: stretch;
         height: 100%;
+        max-height: 100%;
       }
 
       .calendar-chart {
         grid-column: 1;
         grid-row: 2;
         height: 100%;
+        max-height: 100%;
+        min-height: 0;
+      }
+
+      .chart-card {
+        max-height: 100%;
+        overflow: hidden;
+      }
+
+      .chart-card > * {
+        max-height: 100%;
       }
     }
 
