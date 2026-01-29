@@ -142,7 +142,7 @@ import { RouterModule } from '@angular/router';
     }
 
     .hero-greeting {
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-size: clamp(1rem, 2vw, 1.4rem);
       font-weight: 400;
       color: hsl(var(--muted-foreground));
       letter-spacing: 0.025em;
@@ -200,13 +200,14 @@ import { RouterModule } from '@angular/router';
 
     /* Hero Subtitle - Left Middle Quadrant */
     .hero-subtitle {
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-size: clamp(1rem, 2vw, 1.4rem);
       line-height: 1.6;
       color: hsl(var(--muted-foreground));
       flex: 1 1 100%;
       max-width: 600px;
       margin-top: clamp(2rem, 3vh, 5rem);
       margin-bottom: 0;
+      white-space: pre-line;
     }
 
     /* Hero Social Icons - Bottom Right Quadrant */
@@ -308,7 +309,7 @@ import { RouterModule } from '@angular/router';
         grid-column: 1;
         grid-row: 2;
         max-width: 600px;
-        margin-top: 0;
+        margin-top: clamp(-4rem, 3vh, -4rem);
       }
 
       .hero-social {
@@ -320,45 +321,41 @@ import { RouterModule } from '@angular/router';
       }
     }
 
-    /* Ultrawide Breakpoint (1536px+) */
-    @media (min-width: 1536px) {
+    /* 1440p Breakpoint (2048px - 3839px) */
+    @media (min-width: 2048px) and (max-width: 3839px) {
       .hero-container {
         max-width: 1800px;
-        row-gap: clamp(3rem, 4vh, 6rem);
-        column-gap: clamp(8rem, 9vw, 14rem);
+        row-gap: clamp(3rem, 4vh, 5rem);
+        column-gap: clamp(10rem, 10vw, 16rem);
+        padding-top: clamp(10rem, 14vh, 18rem);
       }
 
       .hero-name {
-        font-size: clamp(4rem, 8vw, 11rem);
-      }
-    }
-
-    /* Large Desktop / 1440p and 4k (2560px+) */
-    @media (min-width: 2560px) {
-      .hero-container {
-        padding-top: clamp(8rem, 12vh, 18rem);
-        padding-bottom: clamp(3rem, 6vh, 10rem);
-        row-gap: clamp(3rem, 5vh, 8rem);
-        column-gap: clamp(8rem, 10vw, 16rem);
-      }
-
-      .hero-name {
-        font-size: clamp(5rem, 7vw, 10rem);
-        margin-bottom: 1rem;
+        font-size: clamp(4.5rem, 7vw, 10rem);
       }
 
       .hero-greeting {
-        font-size: clamp(1.25rem, 2vw, 1.5rem);
-        margin-bottom: 0.5rem;
+        font-size: clamp(1.2rem, 2vw, 1.6rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-nav {
+        gap: 1.25rem;
       }
 
       .hero-nav-link {
-        font-size: clamp(2rem, 3vw, 3rem);
+        font-size: clamp(1.75rem, 3vw, 3.5rem);
       }
 
       .hero-subtitle {
-        font-size: clamp(1.25rem, 2vw, 1.5rem);
-        max-width: 700px;
+        font-size: clamp(1.2rem, 2vw, 1.6rem);
+        max-width: 750px;
+        margin-top: clamp(1.5rem, 3vh, 3rem);
+      }
+
+      .hero-social {
+        gap: 1.25rem;
+        margin-top: clamp(-1rem, -1vh, 0rem);
       }
 
       .social-icon {
@@ -369,6 +366,56 @@ import { RouterModule } from '@angular/router';
       .social-icon svg {
         width: 26px;
         height: 26px;
+      }
+    }
+
+    /* 4K Breakpoint (3840px+) */
+    @media (min-width: 3840px) {
+      .hero-container {
+        max-width: 2400px;
+        padding-top: clamp(12rem, 15vh, 22rem);
+        padding-bottom: clamp(6rem, 8vh, 12rem);
+        row-gap: clamp(5rem, 6vh, 10rem);
+        column-gap: clamp(12rem, 12vw, 20rem);
+      }
+
+      .hero-name {
+        font-size: clamp(6rem, 9vw, 14rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-greeting {
+        font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+        margin-bottom: 1rem;
+      }
+
+      .hero-nav {
+        gap: 2rem;
+      }
+
+      .hero-nav-link {
+        font-size: clamp(2.5rem, 4vw, 5rem);
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+        max-width: 900px;
+        margin-top: clamp(4rem, 6vh, 9rem);
+      }
+
+      .hero-social {
+        gap: 2rem;
+        margin-top: clamp(2rem, 3vh, 4rem);
+      }
+
+      .social-icon {
+        width: 56px;
+        height: 56px;
+      }
+
+      .social-icon svg {
+        width: 30px;
+        height: 30px;
       }
     }
 
