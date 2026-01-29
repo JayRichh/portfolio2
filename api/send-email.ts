@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   `;
 
   const emailData: any = {
-    api_key: process.env.SMTP_API_KEY,
+    api_key: process.env['SMTP_API_KEY'],
     to: [RECIPIENT_EMAIL],
     sender: RECIPIENT_EMAIL,
     subject: `New Contact Form Submission from ${name}`,

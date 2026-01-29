@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
-  const token = process.env.GITHUB_TOKEN;
+  const token = process.env['GITHUB_TOKEN'];
 
   if (!token) {
     console.error('GITHUB_TOKEN environment variable is not set');

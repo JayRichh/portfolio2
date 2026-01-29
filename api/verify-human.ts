@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createHmac, randomUUID } from 'crypto';
 
-const SECRET = process.env.SESSION_SECRET || randomUUID();
+const SECRET = process.env['SESSION_SECRET'] || randomUUID();
 const SESSION_EXPIRY = 5 * 60 * 1000;
 
 function createSession(answer: number): string {
