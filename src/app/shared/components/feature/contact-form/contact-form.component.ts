@@ -31,6 +31,10 @@ export class ContactFormComponent implements AfterViewInit {
   private readonly MAX_CHALLENGES_PER_MINUTE = 30;
   private challengeTimestamps: number[] = [];
 
+  // Verification caching (24 hours)
+  private readonly VERIFICATION_CACHE_KEY = 'human-verification';
+  private readonly VERIFICATION_EXPIRY = 24 * 60 * 60 * 1000;
+
   readonly formData = signal<FormData>({ name: '', email: '', message: '' });
   readonly brushColor = signal('#000000');
   readonly brushSize = signal(2);
@@ -107,7 +111,40 @@ export class ContactFormComponent implements AfterViewInit {
       }
       this.loadDrawing();
     }
-    this.fetchChallenge();
+    this.loadCachedVerification() || this.fetchChallenge();
+  }
+
+  private loadCachedVerification(): boolean {
+    try {
+      const cached = localStorage.getItem(this.VERIFICATION_CACHE_KEY);
+      if (!cached) return false;
+
+      const { challenge, sessionId, timestamp } = JSON.parse(cached);
+
+      if (Date.now() - timestamp > this.VERIFICATION_EXPIRY) {
+        localStorage.removeItem(this.VERIFICATION_CACHE_KEY);
+        return false;
+      }
+
+      this.challenge.set(challenge);
+      this.sessionId.set(sessionId);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  private saveCachedVerification(): void {
+    try {
+      const data = {
+        challenge: this.challenge(),
+        sessionId: this.sessionId(),
+        timestamp: Date.now()
+      };
+      localStorage.setItem(this.VERIFICATION_CACHE_KEY, JSON.stringify(data));
+    } catch (error) {
+      console.error('Failed to cache verification:', error);
+    }
   }
 
   fetchChallenge(): void {
@@ -144,6 +181,7 @@ export class ContactFormComponent implements AfterViewInit {
       next: (data) => {
         this.challenge.set(data.challenge);
         this.sessionId.set(data.sessionId);
+        this.saveCachedVerification();
         this.isChallengeLoading.set(false);
       },
       error: () => {
@@ -386,6 +424,8 @@ export class ContactFormComponent implements AfterViewInit {
         sessionId: this.sessionId()
       }).toPromise();
 
+      this.saveCachedVerification();
+
       const emailRes = await this.http.post('/api/send-email', {
         ...data,
         drawing: drawing ? drawing.split(',')[1] : null
@@ -407,9 +447,5 @@ export class ContactFormComponent implements AfterViewInit {
     this.fieldErrors.set({});
     this.clearCanvas();
     this.canvasUsed.set(false);
-    // Don't fetch challenge on clear if rate limited
-    if (Date.now() - this.lastChallengeTime >= this.CHALLENGE_COOLDOWN_MS) {
-      this.fetchChallenge();
-    }
   }
 }
