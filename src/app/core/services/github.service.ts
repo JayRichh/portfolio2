@@ -162,8 +162,8 @@ export class GitHubService {
             if (!calendar) return null;
 
             const allDays = this.generateYearDays(year);
-            calendar.weeks.forEach(week => {
-              week.contributionDays.forEach(day => {
+            calendar.weeks.forEach((week: ContributionWeek) => {
+              week.contributionDays.forEach((day: { contributionCount: number; date: string }) => {
                 const existing = allDays.find(d => d.day === day.date);
                 if (existing) {
                   (existing as any).value = day.contributionCount;
@@ -175,7 +175,7 @@ export class GitHubService {
               year,
               contributions: this.scaleContributions(allDays),
               totalContributions: calendar.totalContributions,
-            };
+            } as YearContributions;
           }).filter((y): y is YearContributions => y !== null);
         }),
         catchError(err => {
