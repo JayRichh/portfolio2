@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { take } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { ContributionCalendarComponent } from './charts/contribution-calendar.co
 import { LanguageDonutComponent } from './charts/language-donut.component';
 import { LanguageDonutSkeletonComponent } from './charts/skeletons/language-donut-skeleton.component';
 import { ContributionCalendarSkeletonComponent } from './charts/skeletons/contribution-calendar-skeleton.component';
+import { LoadingProgressComponent } from './loading-progress/loading-progress.component';
 
 @Component({
   selector: 'app-top-section',
@@ -16,7 +17,8 @@ import { ContributionCalendarSkeletonComponent } from './charts/skeletons/contri
     ContributionCalendarComponent,
     LanguageDonutComponent,
     LanguageDonutSkeletonComponent,
-    ContributionCalendarSkeletonComponent
+    ContributionCalendarSkeletonComponent,
+    LoadingProgressComponent
   ],
   template: `
     <section class="top-section">
@@ -29,6 +31,13 @@ import { ContributionCalendarSkeletonComponent } from './charts/skeletons/contri
               Passionate about clean code, performance optimization, and creating
               intuitive user interfaces.
             </p>
+
+            @if (isLoading()) {
+              <app-loading-progress
+                [progress]="progress()"
+                [label]="loadingLabel()"
+              />
+            }
           </div>
 
           <div class="chart-card pie-chart">
@@ -194,6 +203,7 @@ import { ContributionCalendarSkeletonComponent } from './charts/skeletons/contri
       flex-direction: column;
       max-width: 100%;
       height: 100%;
+      max-height: 100%;
     }
 
     @media (max-width: 1023px) {
@@ -311,6 +321,13 @@ export class TopSectionComponent implements OnInit {
   readonly progress = this.githubService.progress;
   readonly yearData = this.githubService.yearData;
   readonly languageData = this.githubService.languageData;
+
+  readonly loadingLabel = computed(() => {
+    const prog = this.progress();
+    if (prog < 55) return 'Fetching contribution data...';
+    if (prog < 85) return 'Loading language statistics...';
+    return 'Preparing charts...';
+  });
 
   ngOnInit(): void {
     if (this.yearData().length === 0) {

@@ -23,7 +23,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
         <app-skeleton-loader width="60px" height="16px" />
       </div>
       <div class="skeleton-calendar">
-        <app-skeleton-loader width="100%" height="140px" />
+        <app-skeleton-loader width="100%" height="100%" />
       </div>
     </div>
   `,
@@ -35,6 +35,8 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      height: 100%;
+      max-height: 100%;
       min-height: 220px;
     }
 
@@ -53,6 +55,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      justify-content: center;
     }
 
     .skeleton-legend-boxes {
@@ -62,11 +65,13 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
 
     .skeleton-calendar {
       width: 100%;
+      flex: 1;
       min-height: 140px;
     }
 
     @media (max-width: 768px) {
       .skeleton-container {
+        padding: 1.25rem;
         min-height: 170px;
       }
 
@@ -77,6 +82,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
 
     @media (max-width: 480px) {
       .skeleton-container {
+        padding: 1rem;
         min-height: 140px;
       }
 
