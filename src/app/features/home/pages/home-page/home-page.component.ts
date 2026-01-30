@@ -41,7 +41,6 @@ import { MetaService } from '../../../../core/services/meta.service';
   styles: [`
     .home-page {
       width: 100%;
-      overflow-x: hidden;
       background: hsl(var(--background));
     }
 

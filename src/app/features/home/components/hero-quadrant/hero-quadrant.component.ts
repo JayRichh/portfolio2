@@ -104,11 +104,16 @@ import { RouterModule } from '@angular/router';
       min-width: 100%;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       margin: 0;
-      overflow-x: hidden;
       background: hsl(var(--background));
+    }
+
+    @media (min-height: 900px) {
+      .hero-quadrant {
+        align-items: center;
+      }
     }
 
     .hero-container {
@@ -273,12 +278,14 @@ import { RouterModule } from '@angular/router';
       }
     }
 
-    /* Desktop Breakpoint (1024px+) */
-    @media (min-width: 1024px) {
+    /* Desktop Breakpoint (1024px+) - Only apply min-height: 100vh on taller screens */
+    @media (min-width: 1024px) and (min-height: 900px) {
       .hero-quadrant {
         min-height: 100vh;
       }
+    }
 
+    @media (min-width: 1024px) {
       .hero-container {
         display: grid;
         grid-template-columns: 1fr 1fr;

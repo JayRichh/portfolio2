@@ -272,7 +272,6 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
 
       .chart-card {
         max-height: 100%;
-        overflow: hidden;
       }
 
       .chart-card > * {
