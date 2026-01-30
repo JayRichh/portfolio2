@@ -101,6 +101,8 @@
   flex: 1;
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
 
   &::-webkit-scrollbar {
     height: 6px;
@@ -214,7 +216,8 @@
   }
 
   .calendar-svg {
-    min-width: 650px;
+    min-width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -275,6 +278,7 @@
   }
 
   .calendar-svg {
-    min-width: 500px;
+    min-width: 100%;
+    max-width: 100%;
   }
 }

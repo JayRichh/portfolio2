@@ -3,27 +3,59 @@ import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { take } from 'rxjs/operators';
 import { GitHubService } from '../../../../core/services/github.service';
-import { ProgressLoaderComponent } from '../../../../shared/components/ui/progress-loader/progress-loader.component';
 import { ContributionCalendarComponent } from './charts/contribution-calendar.component';
 import { LanguageDonutComponent } from './charts/language-donut.component';
+import { LanguageDonutSkeletonComponent } from './charts/skeletons/language-donut-skeleton.component';
+import { ContributionCalendarSkeletonComponent } from './charts/skeletons/contribution-calendar-skeleton.component';
 
 @Component({
   selector: 'app-top-section',
   standalone: true,
   imports: [
     CommonModule,
-    ProgressLoaderComponent,
     ContributionCalendarComponent,
-    LanguageDonutComponent
+    LanguageDonutComponent,
+    LanguageDonutSkeletonComponent,
+    ContributionCalendarSkeletonComponent
   ],
   template: `
     <section class="top-section">
       <div class="top-container">
-        @if (isLoading()) {
-          <div class="loading-container" @fadeIn>
-            <app-progress-loader [progress]="progress()" />
+        <div class="content-grid" @fadeIn>
+          <div class="header-content">
+            <h1 class="main-title">Full Stack Web</h1>
+            <p class="subtitle">
+              Building modern web experiences with cutting-edge technologies.
+              Passionate about clean code, performance optimization, and creating
+              intuitive user interfaces.
+            </p>
           </div>
-        } @else if (error()) {
+
+          <div class="chart-card pie-chart">
+            @if (isLoading() || !languageData()) {
+              <app-language-donut-skeleton />
+            } @else {
+              <app-language-donut [data]="languageData()!" />
+            }
+          </div>
+
+          <div class="chart-card calendar-chart">
+            @if (isLoading() || yearData().length === 0) {
+              <app-contribution-calendar-skeleton />
+            } @else {
+              <app-contribution-calendar
+                [data]="yearData()[selectedYearIndex()]"
+                [isLoadingYear]="isLoading()"
+                [currentYearIndex]="selectedYearIndex()"
+                [totalYears]="yearData().length"
+                (previousYear)="onPreviousYear()"
+                (nextYear)="onNextYear()"
+              />
+            }
+          </div>
+        </div>
+
+        @if (error()) {
           <div class="error-container" @fadeIn>
             <div class="error-state">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -36,36 +68,6 @@ import { LanguageDonutComponent } from './charts/language-donut.component';
                 Retry
               </button>
             </div>
-          </div>
-        } @else {
-          <div class="content-grid" @fadeIn>
-            <div class="header-content">
-              <h1 class="main-title">Full Stack Web</h1>
-              <p class="subtitle">
-                Building modern web experiences with cutting-edge technologies.
-                Passionate about clean code, performance optimization, and creating
-                intuitive user interfaces.
-              </p>
-            </div>
-
-            @if (languageData()) {
-              <div class="chart-card pie-chart">
-                <app-language-donut [data]="languageData()!" />
-              </div>
-            }
-
-            @if (yearData().length > 0) {
-              <div class="chart-card calendar-chart">
-                <app-contribution-calendar
-                  [data]="yearData()[selectedYearIndex()]"
-                  [isLoadingYear]="isLoading()"
-                  [currentYearIndex]="selectedYearIndex()"
-                  [totalYears]="yearData().length"
-                  (previousYear)="onPreviousYear()"
-                  (nextYear)="onNextYear()"
-                />
-              </div>
-            }
           </div>
         }
       </div>
