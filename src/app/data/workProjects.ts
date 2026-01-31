@@ -153,7 +153,7 @@ export const projectsData: WorkProject[] = [
     ],
     links: {
       live: "https://trekk-seven.vercel.app",
-      code: "https://github.com/jsric/trekk",
+      code: "",
     },
     theme: {
       textColor: "text-green-600 dark:text-green-400",

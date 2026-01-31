@@ -345,7 +345,7 @@ export const projectData: Project[] = [
     description:
       "Business website for garage screen door installation with interactive gallery, form handling, and SEO optimizations built with Next.js 15.",
     imgUrl: "/images/eweb4.png",
-    repoUrl: "https://github.com/jsric/elitescreens",
+    repoUrl: "",
     liveUrl: "https://elitescreens.co.nz",
     updatedAt: "2025-06-04",
     details: {
@@ -631,7 +631,7 @@ export const projectData: Project[] = [
     description:
       "Interactive 3D hiking trail platform with topographical mapping, trail details, and community features built with Vue 3, .NET Core, and Mapbox GL",
     imgUrl: "/images/trek1.png",
-    repoUrl: "https://github.com/jsric/trekk",
+    repoUrl: "",
     liveUrl: "https://trekk-seven.vercel.app",
     updatedAt: "2025-04-10",
     details: {
@@ -731,7 +731,7 @@ export const projectData: Project[] = [
     description:
       "Interactive GIF to ASCII art converter with real-time preview, zoom controls, and multiple export formats. Features smooth animation handling and color mode support.",
     imgUrl: "/images/ascii1.png",
-    repoUrl: "https://github.com/jsric/ascii",
+    repoUrl: "https://github.com/JayRichh/ascii/",
     liveUrl: "https://jayrichh.github.io/ascii/",
     updatedAt: "2025-01-26",
     details: {
@@ -1215,7 +1215,7 @@ export const projectData: Project[] = [
     description:
       "Trip planning app built with Next.js. Handles timelines, budgets, and activity tracking.",
     imgUrl: "/images/tiki1.png",
-    repoUrl: "https://github.com/jsric/trippa",
+    repoUrl: "https://github.com/JayRichh/tiki-tours",
     liveUrl: "https://tiki.tours",
     updatedAt: "2025-01-10",
     details: {
