@@ -1,0 +1,60 @@
+<section class="top-section">
+  <div class="top-container">
+    <div class="content-grid" @fadeIn>
+      <div class="header-content">
+        <h1 class="main-title">Full Stack Web</h1>
+        <p class="subtitle">
+          Building modern web experiences with cutting-edge technologies.
+          Passionate about clean code, performance optimization, and creating
+          intuitive user interfaces.
+        </p>
+
+        @if (isLoading()) {
+          <app-loading-progress
+            [progress]="progress()"
+            [label]="loadingLabel()"
+          />
+        }
+      </div>
+
+      <div class="chart-card pie-chart">
+        @if (isLoading() || !languageData()) {
+          <app-language-donut-skeleton />
+        } @else {
+          <app-language-donut [data]="languageData()!" />
+        }
+      </div>
+
+      <div class="chart-card calendar-chart">
+        @if (isLoading() || yearData().length === 0) {
+          <app-contribution-calendar-skeleton />
+        } @else {
+          <app-contribution-calendar
+            [data]="yearData()[selectedYearIndex()]"
+            [isLoadingYear]="isLoading()"
+            [currentYearIndex]="selectedYearIndex()"
+            [totalYears]="yearData().length"
+            (previousYear)="onPreviousYear()"
+            (nextYear)="onNextYear()"
+          />
+        }
+      </div>
+    </div>
+
+    @if (error()) {
+      <div class="error-container" @fadeIn>
+        <div class="error-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p class="error-message">{{ error() }}</p>
+          <button (click)="retry()" class="retry-button">
+            Retry
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</section>

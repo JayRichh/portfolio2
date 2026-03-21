@@ -1,0 +1,28 @@
+<section class="navigation-section">
+  <div class="navigation-container">
+    <h2 class="navigation-title">Explore More</h2>
+    <div class="navigation-buttons">
+      <ng-container *ngFor="let link of links">
+        <a
+          *ngIf="!link.onClick"
+          [routerLink]="link.route"
+          class="nav-button"
+          [ngClass]="'nav-button-' + link.variant"
+        >
+          <span [innerHTML]="link.icon"></span>
+          {{ link.label }}
+        </a>
+        <a
+          *ngIf="link.onClick"
+          [href]="link.route"
+          (click)="handleClick($event, link)"
+          class="nav-button"
+          [ngClass]="'nav-button-' + link.variant"
+        >
+          <span [innerHTML]="link.icon"></span>
+          {{ link.label }}
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,131 @@
+.navigation-section {
+  position: relative;
+  background: hsl(var(--background));
+  padding: 6rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .navigation-section {
+    padding: 8rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navigation-section {
+    padding: 10rem 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navigation-section {
+    margin-bottom: 10vh;
+  }
+}
+
+.navigation-container {
+  max-width: 60rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.navigation-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .navigation-title {
+    font-size: 3rem;
+  }
+}
+
+.navigation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 24rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .navigation-buttons {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+    gap: 2rem;
+  }
+}
+
+.nav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  border: 2px solid transparent;
+  min-height: 3.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.nav-button:active {
+  transform: scale(0.98);
+}
+
+.nav-button ::ng-deep svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.nav-button-primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.nav-button-primary:hover {
+  background: hsl(var(--primary) / 0.9);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15);
+  transform: translateY(-2px);
+}
+
+.nav-button-secondary {
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.nav-button-secondary:hover {
+  background: hsl(var(--secondary) / 0.9);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15);
+  transform: translateY(-2px);
+}
+
+.nav-button-tertiary {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+.nav-button-tertiary:hover {
+  background: hsl(var(--card) / 0.9);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-button {
+    transition: none;
+  }
+
+  .nav-button:hover {
+    transform: none;
+  }
+}

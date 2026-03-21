@@ -1,0 +1,27 @@
+<section class="timeline-section">
+  <div class="timeline-container">
+    <h2 class="timeline-title">Experience Timeline</h2>
+
+    <div class="timeline-wrapper" #timelineWrapper>
+      <div class="timeline-line" [style.height.%]="scrollProgress()"></div>
+
+      <div
+        *ngFor="let item of timelineItems; let i = index"
+        class="timeline-item"
+        [class.timeline-item-left]="item.side === 'left'"
+        [class.timeline-item-right]="item.side === 'right'"
+        @fadeInSlide
+      >
+        <div class="timeline-content">
+          <div class="timeline-year">{{ item.year }}</div>
+          <h3 class="timeline-item-title">{{ item.title }}</h3>
+          <p class="timeline-description">{{ item.description }}</p>
+        </div>
+
+        <div class="timeline-dot">
+          <div class="timeline-icon" [innerHTML]="item.icon"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
