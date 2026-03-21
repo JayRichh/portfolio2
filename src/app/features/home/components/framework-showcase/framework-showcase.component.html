@@ -1,0 +1,39 @@
+<section class="framework-showcase">
+  <div class="showcase-container">
+    <div class="showcase-header">
+      <h2 class="showcase-title">Projects</h2>
+      <span class="project-count">({{ totalProjects() }})</span>
+    </div>
+
+    <div *ngFor="let group of frameworkGroups()" class="framework-section">
+      <hr class="section-divider" />
+      <div class="section-layout">
+        <div class="section-category">
+          <h3 class="category-label">{{ group.framework }}</h3>
+        </div>
+
+        <div class="section-content">
+          <div class="project-list">
+            <a
+              *ngFor="let project of group.projects"
+              href="#"
+              class="project-item"
+              (click)="onProjectClick($event, project)"
+              (mouseenter)="onProjectHover(project, $event)"
+              (mousemove)="onProjectMove($event)"
+              (mouseleave)="onProjectLeave()"
+            >
+              <span class="project-name">{{ project.title }}</span>
+              <svg class="project-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-image-tooltip />
+  <app-scroll-indicator />
+</section>
