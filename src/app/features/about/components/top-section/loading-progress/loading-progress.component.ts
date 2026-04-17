@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,13 +9,7 @@ import { CommonModule } from '@angular/common';
     <div class="loading-progress">
       <div class="progress-content">
         <div class="spinner"></div>
-        <div class="progress-text">
-          <span class="progress-label">{{ label }}</span>
-          <span class="progress-percent">{{ progress }}%</span>
-        </div>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" [style.width.%]="progress"></div>
+        <span class="progress-label">{{ label }}</span>
       </div>
     </div>
   `,
@@ -44,15 +38,7 @@ import { CommonModule } from '@angular/common';
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .progress-text {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      to { transform: rotate(360deg); }
     }
 
     .progress-label {
@@ -61,58 +47,13 @@ import { CommonModule } from '@angular/common';
       font-weight: 500;
     }
 
-    .progress-percent {
-      font-size: 0.875rem;
-      color: hsl(var(--primary));
-      font-weight: 600;
-      min-width: 45px;
-      text-align: right;
-    }
-
-    .progress-bar-container {
-      width: 100%;
-      height: 4px;
-      background: hsl(var(--muted) / 0.3);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        hsl(var(--primary)) 0%,
-        hsl(var(--primary) / 0.8) 100%
-      );
-      transition: width 0.3s ease-out;
-      border-radius: 2px;
-    }
-
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
-    @media (max-width: 640px) {
-      .progress-text {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.25rem;
-      }
-
-      .progress-percent {
-        min-width: auto;
-      }
-    }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingProgressComponent {
-  @Input() progress: number = 0;
   @Input() label: string = 'Loading...';
 }

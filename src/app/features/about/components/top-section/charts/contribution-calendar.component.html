@@ -11,7 +11,7 @@
   <div class="calendar-controls">
     <button
       class="year-nav-btn"
-      [disabled]="isLoadingYear() || !canGoPrevious()"
+      [disabled]="prevDisabled()"
       (click)="onPreviousYear()"
     >
       @if (isLoadingPrevious()) {
@@ -25,7 +25,7 @@
 
     <button
       class="year-nav-btn"
-      [disabled]="isLoadingYear() || !canGoNext()"
+      [disabled]="nextDisabled()"
       (click)="onNextYear()"
     >
       @if (isLoadingNext()) {

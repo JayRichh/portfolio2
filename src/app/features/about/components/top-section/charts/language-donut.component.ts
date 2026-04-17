@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   signal,
@@ -15,12 +16,20 @@ import { LanguageStats, Language } from '../../../../../core/models/github.model
 import { InfoTooltipComponent } from '../../../../../shared/components/ui/info-tooltip/info-tooltip.component';
 import { ChartTooltipComponent } from '../../../../../shared/components/ui/chart-tooltip/chart-tooltip.component';
 
+interface PieSlice extends Language {
+  mergedLanguages?: ReadonlyArray<Language>;
+}
+
+const TOP_N = 8;
+const OTHER_COLOR = 'hsl(215, 16%, 55%)';
+
 @Component({
   selector: 'app-language-donut',
   standalone: true,
   imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
   templateUrl: './language-donut.component.html',
-  styleUrls: ['./language-donut.component.scss']
+  styleUrls: ['./language-donut.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageDonutComponent implements AfterViewInit, OnChanges {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;
@@ -29,16 +38,36 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
   readonly data = input.required<LanguageStats>();
 
   private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
-  readonly highlightedLanguage = signal<string | null>(null);
+  readonly highlightedSlice = signal<string | null>(null);
 
-  readonly topLanguages = computed(() => {
-    const primaryLanguages = ['TypeScript', 'JavaScript', 'Python', 'CSS', 'HTML', 'SCSS', 'Shell'];
+  readonly pieSlices = computed<PieSlice[]>(() => {
     const langs = this.data().languages;
+    if (langs.length <= TOP_N) return langs.map(l => ({ ...l }));
 
-    const primary = langs.filter(l => primaryLanguages.includes(l.name));
-    const others = langs.filter(l => !primaryLanguages.includes(l.name) && l.percentage >= 1);
+    const top = langs.slice(0, TOP_N).map(l => ({ ...l }));
+    const rest = langs.slice(TOP_N);
+    const size = rest.reduce((s, l) => s + l.size, 0);
+    const percentage = Math.round(rest.reduce((s, l) => s + l.percentage, 0) * 10) / 10;
+    const lineCount = rest.reduce((s, l) => s + l.lineCount, 0);
+    const fileCount = rest.reduce((s, l) => s + l.fileCount, 0);
 
-    return [...primary, ...others].slice(0, 10);
+    return [
+      ...top,
+      { name: 'Other', size, percentage, color: OTHER_COLOR, lineCount, fileCount, mergedLanguages: rest },
+    ];
+  });
+
+  private readonly mergedLanguageNames = computed(() => {
+    const other = this.pieSlices().find(s => s.name === 'Other');
+    return new Set(other?.mergedLanguages?.map(l => l.name) ?? []);
+  });
+
+  readonly fullList = computed<ReadonlyArray<Language & { sliceName: string }>>(() => {
+    const merged = this.mergedLanguageNames();
+    return this.data().languages.map(l => ({
+      ...l,
+      sliceName: merged.has(l.name) ? 'Other' : l.name,
+    }));
   });
 
   ngAfterViewInit(): void {
@@ -57,37 +86,38 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
     return num.toLocaleString();
   }
 
-  onLanguageHover(name: string): void {
-    this.highlightedLanguage.set(name);
-    this.highlightSegment(name);
+  formatPercent(value: number): string {
+    if (value >= 10) return `${Math.round(value)}%`;
+    if (value >= 0.1) return `${value.toFixed(1)}%`;
+    return '<0.1%';
+  }
+
+  onLanguageHover(sliceName: string): void {
+    this.highlightedSlice.set(sliceName);
+    this.highlightSegment(sliceName);
   }
 
   onLanguageLeave(): void {
-    this.highlightedLanguage.set(null);
+    this.highlightedSlice.set(null);
     this.unhighlightAllSegments();
   }
 
   private createChart(): void {
-    const data = this.topLanguages();
+    const data = this.pieSlices();
     const size = 450;
-    const width = size;
-    const height = size;
-    const center = [width / 2, height / 2];
+    const center = [size / 2, size / 2];
 
     this.svg = d3.select(this.svgContainer.nativeElement)
-      .attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('viewBox', `0 0 ${size} ${size}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    const innerRadius = 100;
-    const outerRadius = 180;
-
-    const arc = d3.arc<d3.PieArcDatum<Language>>()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadius)
+    const arc = d3.arc<d3.PieArcDatum<PieSlice>>()
+      .innerRadius(100)
+      .outerRadius(180)
       .padAngle(0.02)
       .cornerRadius(4);
 
-    const pie = d3.pie<Language>()
+    const pie = d3.pie<PieSlice>()
       .value(d => d.percentage)
       .sort(null);
 
@@ -107,17 +137,8 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
           .transition()
           .duration(200)
           .attr('transform', 'scale(1.08)');
-        this.highlightedLanguage.set(d.data.name);
-
-        const lang = d.data;
-        this.tooltip.show(event.clientX, event.clientY, {
-          title: lang.name,
-          items: [
-            { label: 'Percentage', value: `${lang.percentage}%` },
-            { label: 'Lines', value: this.formatNumber(lang.lineCount) },
-            { label: 'Files', value: this.formatNumber(lang.fileCount) }
-          ]
-        });
+        this.highlightedSlice.set(d.data.name);
+        this.showTooltipFor(event, d.data);
       })
       .on('mousemove', (event) => {
         this.tooltip.updatePosition(event.clientX, event.clientY);
@@ -127,7 +148,7 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
           .transition()
           .duration(200)
           .attr('transform', 'scale(1)');
-        this.highlightedLanguage.set(null);
+        this.highlightedSlice.set(null);
         this.tooltip.hide();
       });
 
@@ -141,16 +162,38 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
       .text(this.data().languages.length);
   }
 
+  private showTooltipFor(event: MouseEvent, slice: PieSlice): void {
+    if (slice.name === 'Other' && slice.mergedLanguages?.length) {
+      const items = slice.mergedLanguages
+        .slice(0, 12)
+        .map(l => ({ label: l.name, value: this.formatPercent(l.percentage) }));
+      const remaining = slice.mergedLanguages.length - items.length;
+      if (remaining > 0) items.push({ label: `+${remaining} more`, value: '' });
+      this.tooltip.show(event.clientX, event.clientY, {
+        title: `Other (${this.formatPercent(slice.percentage)})`,
+        items,
+      });
+    } else {
+      this.tooltip.show(event.clientX, event.clientY, {
+        title: slice.name,
+        items: [
+          { label: 'Percentage', value: this.formatPercent(slice.percentage) },
+          { label: 'Lines', value: this.formatNumber(slice.lineCount) },
+          { label: 'Files', value: this.formatNumber(slice.fileCount) },
+        ],
+      });
+    }
+  }
+
   private updateChart(): void {
     if (!this.svg) return;
-
     this.svg.selectAll('*').remove();
     this.createChart();
   }
 
-  private highlightSegment(name: string): void {
-    this.svg?.selectAll<SVGPathElement, d3.PieArcDatum<Language>>('.donut-segment')
-      .filter(d => d.data.name === name)
+  private highlightSegment(sliceName: string): void {
+    this.svg?.selectAll<SVGPathElement, d3.PieArcDatum<PieSlice>>('.donut-segment')
+      .filter(d => d.data.name === sliceName)
       .transition()
       .duration(200)
       .attr('transform', 'scale(1.08)');

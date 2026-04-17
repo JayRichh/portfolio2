@@ -5,13 +5,15 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "npm run generate:github",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "tsx server/index.ts",
     "dev": "concurrently \"npm start\" \"npm run server\"",
-    "generate:sitemap": "tsx scripts/generate-sitemap.ts"
+    "generate:sitemap": "tsx scripts/generate-sitemap.ts",
+    "generate:github": "tsx scripts/generate-github-snapshot.ts"
   },
   "repository": {
     "type": "git",

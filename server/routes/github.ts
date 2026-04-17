@@ -1,6 +1,11 @@
 import { Router, Request, Response } from 'express';
-import axios from 'axios';
 import rateLimit from 'express-rate-limit';
+import {
+  getYearContributions,
+  getLanguageStats,
+  parseYearParam,
+  GitHubError,
+} from '../../api/github/_core';
 
 const router = Router();
 
@@ -12,80 +17,33 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-router.post('/contributions', limiter, async (req: Request, res: Response) => {
-  const { query, variables } = req.body;
-
-  if (!query) {
-    return res.status(400).json({
-      error: 'GraphQL query is required',
-    });
+function handleError(res: Response, error: unknown): void {
+  if (error instanceof GitHubError) {
+    res.status(error.status).json({ error: error.message });
+    return;
   }
+  console.error('Unexpected GitHub error:', error);
+  res.status(500).json({ error: 'Unexpected server error' });
+}
 
-  const token = process.env.GITHUB_TOKEN;
-
-  if (!token) {
-    console.error('GITHUB_TOKEN environment variable is not set');
-    return res.status(500).json({
-      error: 'GitHub API is not configured',
-    });
-  }
-
+router.get('/year', limiter, async (req: Request, res: Response) => {
   try {
-    const response = await axios.post(
-      'https://api.github.com/graphql',
-      { query, variables },
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'User-Agent': 'Portfolio-App',
-        },
-        timeout: 30000,
-      }
-    );
+    const year = parseYearParam(req.query['year'] as string | string[] | undefined);
+    const data = await getYearContributions(year);
+    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    res.json(data);
+  } catch (error) {
+    handleError(res, error);
+  }
+});
 
-    if (response.data.errors) {
-      console.error('GitHub GraphQL errors:', response.data.errors);
-      return res.status(400).json({
-        errors: response.data.errors,
-        data: response.data.data,
-      });
-    }
-
-    res.json(response.data);
-  } catch (error: any) {
-    console.error('GitHub API error:', error.message);
-
-    if (error.response) {
-      const status = error.response.status;
-      const message = error.response.data?.message || error.message;
-
-      if (status === 403 && message.includes('rate limit')) {
-        return res.status(429).json({
-          error: 'GitHub API rate limit exceeded. Please try again later.',
-        });
-      }
-
-      if (status === 401) {
-        return res.status(401).json({
-          error: 'GitHub authentication failed. Please check your token.',
-        });
-      }
-
-      return res.status(status).json({
-        error: message,
-      });
-    }
-
-    if (error.code === 'ECONNABORTED') {
-      return res.status(504).json({
-        error: 'Request timeout. GitHub API took too long to respond.',
-      });
-    }
-
-    res.status(500).json({
-      error: 'Internal server error while fetching GitHub data',
-    });
+router.get('/languages', limiter, async (_req: Request, res: Response) => {
+  try {
+    const data = await getLanguageStats();
+    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    res.json(data);
+  } catch (error) {
+    handleError(res, error);
   }
 });
 

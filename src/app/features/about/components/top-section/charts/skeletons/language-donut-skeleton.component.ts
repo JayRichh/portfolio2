@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
@@ -7,139 +7,145 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
   standalone: true,
   imports: [CommonModule, SkeletonLoaderComponent],
   template: `
-    <div class="skeleton-container">
-      <div class="skeleton-header">
+    <div class="donut-chart-container">
+      <div class="chart-header">
         <app-skeleton-loader width="180px" height="28px" />
       </div>
 
-      <div class="skeleton-layout">
-        <div class="skeleton-chart-wrapper">
-          <div class="skeleton-chart-content">
-            <app-skeleton-loader width="100%" height="100%" [circle]="true" class="skeleton-chart" />
-            <div class="skeleton-footer">
+      <div class="chart-layout">
+        <div class="chart-section">
+          <div class="chart-wrapper">
+            <div class="donut-placeholder">
+              <app-skeleton-loader width="100%" height="100%" [circle]="true" />
+            </div>
+            <div class="chart-footer">
               <app-skeleton-loader width="130px" height="18px" />
               <app-skeleton-loader width="130px" height="18px" />
             </div>
           </div>
         </div>
 
-        <div class="skeleton-stats-panel">
-          <app-skeleton-loader width="100%" height="48px" *ngFor="let i of [1,2,3,4,5,6,7,8]" />
+        <div class="stats-section">
+          <div class="stats-scroll-container">
+            <div class="stats-grid">
+              <app-skeleton-loader width="100%" height="92px" *ngFor="let i of rows" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    .skeleton-container {
+    .donut-chart-container {
       background: hsl(var(--card));
-      border-radius: calc(var(--radius) - 2px);
+      border-radius: var(--radius);
       padding: 1.5rem;
+      border: 1px solid hsl(var(--border) / 0.5);
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
       height: 100%;
-      max-height: 100%;
     }
 
-    .skeleton-header {
+    .chart-header {
       display: flex;
-      justify-content: flex-start;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      min-height: 28px;
     }
 
-    .skeleton-layout {
+    .chart-layout {
       display: grid;
       grid-template-columns: 0.85fr 1.15fr;
       gap: 2rem;
       flex: 1;
       min-height: 0;
+      align-items: stretch;
     }
 
-    .skeleton-chart-wrapper {
+    .chart-section {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       height: 100%;
     }
 
-    .skeleton-chart-content {
+    .chart-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .donut-placeholder {
       width: 100%;
       max-width: 450px;
       aspect-ratio: 1;
+    }
+
+    .chart-footer {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1rem;
-    }
-
-    .skeleton-chart {
-      flex: 1;
-      width: 100%;
-    }
-
-    .skeleton-footer {
-      display: flex;
-      flex-direction: column;
       gap: 0.5rem;
-      align-items: center;
     }
 
-    .skeleton-stats-panel {
+    .stats-section {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .stats-scroll-container {
+      flex: 1;
+      min-height: 0;
+      overflow-y: hidden;
+      padding-right: 0.5rem;
+    }
+
+    .stats-grid {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      overflow-y: auto;
-      max-height: 100%;
-      padding-right: 0.5rem;
-
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: hsl(var(--muted) / 0.3);
-        border-radius: 3px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: hsl(var(--muted-foreground) / 0.3);
-        border-radius: 3px;
-
-        &:hover {
-          background: hsl(var(--muted-foreground) / 0.5);
-        }
-      }
     }
 
     @media (max-width: 1024px) {
-      .skeleton-layout {
+      .chart-layout {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
-
-      .skeleton-chart-content {
-        max-width: 280px;
-      }
-
-      .skeleton-stats-panel {
-        max-height: 300px;
-      }
+      .chart-section { order: 1; }
+      .stats-section { order: 2; }
+      .donut-placeholder { max-width: 280px; }
     }
 
     @media (max-width: 768px) {
-      .skeleton-container {
+      .donut-chart-container {
         padding: 1.25rem;
-        gap: 1.25rem;
+        height: auto;
+        min-height: 450px;
       }
-
-      .skeleton-layout {
-        gap: 1.5rem;
-      }
-
-      .skeleton-chart-content {
-        max-width: 240px;
-      }
+      .chart-header { margin-bottom: 1rem; }
+      .chart-layout { gap: 1.5rem; height: auto; }
+      .donut-placeholder { max-width: 280px; }
+      .stats-scroll-container { max-height: 300px; }
     }
-  `]
+
+    @media (max-width: 480px) {
+      .donut-chart-container { padding: 1rem; min-height: 400px; }
+      .chart-header { margin-bottom: 0.75rem; }
+      .chart-layout { gap: 1.5rem; }
+      .donut-placeholder { max-width: 240px; }
+      .stats-scroll-container { max-height: 250px; }
+    }
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageDonutSkeletonComponent {}
+export class LanguageDonutSkeletonComponent {
+  readonly rows = [1, 2, 3, 4, 5, 6, 7, 8];
+}

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   output,
@@ -25,7 +26,8 @@ interface MonthPosition {
   standalone: true,
   imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
   templateUrl: './contribution-calendar.component.html',
-  styleUrls: ['./contribution-calendar.component.scss']
+  styleUrls: ['./contribution-calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;
@@ -35,6 +37,8 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
   readonly isLoadingYear = input<boolean>(false);
   readonly currentYearIndex = input<number>(0);
   readonly totalYears = input<number>(1);
+  readonly canGoPrevious = input<boolean>(false);
+  readonly canGoNext = input<boolean>(false);
 
   readonly previousYear = output<void>();
   readonly nextYear = output<void>();
@@ -44,11 +48,11 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
   private readonly cellGap = 3;
 
   readonly isLoadingPrevious = computed(() =>
-    this.isLoadingYear() && this.currentYearIndex() < this.totalYears() - 1
+    this.isLoadingYear() && this.currentYearIndex() >= this.totalYears() - 1
   );
 
   readonly isLoadingNext = computed(() =>
-    this.isLoadingYear() && this.currentYearIndex() > 0
+    this.isLoadingYear() && this.currentYearIndex() === 0 && this.canGoNext()
   );
 
   readonly levels = [0, 1, 2, 3, 4];
@@ -61,14 +65,6 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
     if (changes['data'] && !changes['data'].firstChange && this.svg) {
       this.updateChart();
     }
-  }
-
-  canGoPrevious(): boolean {
-    return this.currentYearIndex() < this.totalYears() - 1;
-  }
-
-  canGoNext(): boolean {
-    return this.currentYearIndex() > 0;
   }
 
   formatNumber(num: number): string {
@@ -98,6 +94,14 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
     if (!this.isLoadingYear() && this.canGoNext()) {
       this.nextYear.emit();
     }
+  }
+
+  prevDisabled(): boolean {
+    return this.isLoadingYear() || !this.canGoPrevious();
+  }
+
+  nextDisabled(): boolean {
+    return this.isLoadingYear() || !this.canGoNext();
   }
 
   private createChart(): void {

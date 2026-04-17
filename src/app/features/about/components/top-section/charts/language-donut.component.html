@@ -1,9 +1,9 @@
 <div class="donut-chart-container">
   <div class="chart-header">
     <h3>Code Composition</h3>
-    <!-- <app-info-tooltip
-      [content]="'Lines of code and file counts are estimated based on language-specific averages. Actual numbers may vary based on coding style and file organization.'"
-    /> -->
+    <app-info-tooltip
+      [content]="'Byte-share of languages across all current repositories (not filtered by year). Line and file counts are estimates based on language-specific averages.'"
+    />
   </div>
 
   <div class="chart-layout">
@@ -24,43 +24,42 @@
     <div class="stats-section">
       <div class="stats-scroll-container">
         <div class="stats-grid">
-          <div
-            *ngFor="let lang of topLanguages()"
-            class="stat-item"
-            [class.highlighted]="highlightedLanguage() === lang.name"
-            (mouseenter)="onLanguageHover(lang.name)"
-            (mouseleave)="onLanguageLeave()"
-          >
-            <div class="stat-header">
-              <div class="stat-name">
-                <div
-                  class="stat-color"
-                  [style.background]="lang.color"
-                ></div>
-                <span>{{ lang.name }}</span>
+          @for (lang of fullList(); track lang.name) {
+            <div
+              class="stat-item"
+              [class.highlighted]="highlightedSlice() === lang.sliceName"
+              [class.is-other]="lang.sliceName === 'Other'"
+              (mouseenter)="onLanguageHover(lang.sliceName)"
+              (mouseleave)="onLanguageLeave()"
+            >
+              <div class="stat-header">
+                <div class="stat-name">
+                  <div class="stat-color" [style.background]="lang.color"></div>
+                  <span>{{ lang.name }}</span>
+                </div>
+                <span class="stat-percentage">{{ formatPercent(lang.percentage) }}</span>
               </div>
-              <span class="stat-percentage">{{ lang.percentage }}%</span>
-            </div>
 
-            @if (lang.percentage >= 1) {
-              <div class="stat-progress">
-                <div
-                  class="stat-progress-fill"
-                  [style.width.%]="lang.percentage"
-                  [style.background]="lang.color"
-                ></div>
+              @if (lang.percentage >= 0.5) {
+                <div class="stat-progress">
+                  <div
+                    class="stat-progress-fill"
+                    [style.width.%]="lang.percentage"
+                    [style.background]="lang.color"
+                  ></div>
+                </div>
+              }
+
+              <div class="stat-details">
+                <span class="stat-detail">
+                  {{ formatNumber(lang.lineCount) }} lines
+                </span>
+                <span class="stat-detail">
+                  {{ formatNumber(lang.fileCount) }} files
+                </span>
               </div>
-            }
-
-            <div class="stat-details">
-              <span class="stat-detail">
-                {{ formatNumber(lang.lineCount) }} lines
-              </span>
-              <span class="stat-detail">
-                {{ formatNumber(lang.fileCount) }} files
-              </span>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
