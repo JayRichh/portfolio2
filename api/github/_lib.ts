@@ -1,5 +1,5 @@
 import type { VercelResponse } from '@vercel/node';
-import { GitHubError } from './_core';
+import { GitHubError } from './_core.js';
 
 export function setCacheHeaders(res: VercelResponse, sMaxAge = 3600, swr = 86400): void {
   res.setHeader('Access-Control-Allow-Origin', '*');

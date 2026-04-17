@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getLanguageStats } from './_core';
-import { setCacheHeaders, respondWithError } from './_lib';
+import { getLanguageStats } from './_core.js';
+import { setCacheHeaders, respondWithError } from './_lib.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCacheHeaders(res);

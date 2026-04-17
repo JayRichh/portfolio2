@@ -44,6 +44,7 @@ export class TopSectionComponent implements OnInit {
   readonly yearError = this.githubService.yearError;
   readonly languageError = this.githubService.languageError;
   readonly anyLoading = this.githubService.isLoading;
+  readonly earliestAvailableYear = this.githubService.earliestAvailableYear;
 
   private readonly MIN_YEAR = 2008;
   private readonly CURRENT_YEAR = new Date().getFullYear();
@@ -53,7 +54,10 @@ export class TopSectionComponent implements OnInit {
     if (!years.length) return false;
     const idx = this.selectedYearIndex();
     const viewing = years[idx]?.year;
-    return viewing !== undefined && viewing > this.MIN_YEAR;
+    if (viewing === undefined || viewing <= this.MIN_YEAR) return false;
+    const earliest = this.earliestAvailableYear();
+    if (earliest !== null && viewing <= earliest) return false;
+    return true;
   });
 
   readonly canGoNext = computed(() => {

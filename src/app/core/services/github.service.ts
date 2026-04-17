@@ -37,6 +37,7 @@ export class GitHubService {
   readonly isLoadingLanguages = signal(false);
   readonly yearError = signal<string | null>(null);
   readonly languageError = signal<string | null>(null);
+  readonly earliestAvailableYear = signal<number | null>(null);
 
   readonly isLoading = computed(() =>
     (this.isLoadingYear() && this.yearData().length === 0) ||
@@ -94,6 +95,7 @@ export class GitHubService {
   retry(): void {
     this.yearError.set(null);
     this.languageError.set(null);
+    this.earliestAvailableYear.set(null);
     this.refreshInBackground();
   }
 
@@ -101,19 +103,20 @@ export class GitHubService {
     if (this.yearData().some(y => y.year === year)) {
       return of(this.yearData().find(y => y.year === year) ?? null);
     }
+    const earliest = this.earliestAvailableYear();
+    if (earliest !== null && year < earliest) {
+      return of(null);
+    }
 
     this.isLoadingYear.set(true);
     return this.http.get<YearContributions>(`${YEAR_API}?year=${year}`).pipe(
-      retry({
-        count: MAX_RETRIES,
-        delay: (_, retryCount) => timer(RETRY_DELAY * retryCount),
-      }),
       tap(yearContrib => {
         const updated = [...this.yearData(), yearContrib].sort((a, b) => b.year - a.year);
         this.yearData.set(updated);
         this.writeCache();
       }),
       catchError(err => {
+        this.earliestAvailableYear.set(year + 1);
         this.yearError.set(this.messageFromError(err));
         return of(null);
       }),
