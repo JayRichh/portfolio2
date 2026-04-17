@@ -4,11 +4,10 @@ import {
   input,
   signal,
   computed,
+  effect,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  OnChanges,
-  SimpleChanges
+  AfterViewInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -31,14 +30,22 @@ const OTHER_COLOR = 'hsl(215, 16%, 55%)';
   styleUrls: ['./language-donut.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageDonutComponent implements AfterViewInit, OnChanges {
+export class LanguageDonutComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;
   @ViewChild('tooltip') tooltip!: ChartTooltipComponent;
 
   readonly data = input.required<LanguageStats>();
 
   private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private viewReady = false;
   readonly highlightedSlice = signal<string | null>(null);
+
+  constructor() {
+    effect(() => {
+      this.data();
+      if (this.viewReady && this.svg) this.updateChart();
+    });
+  }
 
   readonly pieSlices = computed<PieSlice[]>(() => {
     const langs = this.data().languages;
@@ -72,12 +79,7 @@ export class LanguageDonutComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.createChart();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'] && !changes['data'].firstChange && this.svg) {
-      this.updateChart();
-    }
+    this.viewReady = true;
   }
 
   formatNumber(num: number): string {

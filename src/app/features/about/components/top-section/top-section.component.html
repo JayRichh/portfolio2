@@ -15,25 +15,20 @@
       </div>
 
       <div class="chart-card pie-chart">
-        @if (languageError()) {
+        @if (languageData()) {
+          <app-language-donut [data]="languageData()!" />
+        } @else if (languageError()) {
           <div class="chart-error">
             <p class="error-message">{{ languageError() }}</p>
             <button (click)="retry()" class="retry-button">Retry</button>
           </div>
-        } @else if (languageData()) {
-          <app-language-donut [data]="languageData()!" />
         } @else {
           <app-language-donut-skeleton />
         }
       </div>
 
       <div class="chart-card calendar-chart">
-        @if (yearError()) {
-          <div class="chart-error">
-            <p class="error-message">{{ yearError() }}</p>
-            <button (click)="retry()" class="retry-button">Retry</button>
-          </div>
-        } @else if (yearData().length > 0) {
+        @if (yearData().length > 0) {
           <app-contribution-calendar
             [data]="yearData()[selectedYearIndex()]"
             [isLoadingYear]="isLoadingYear()"
@@ -44,6 +39,11 @@
             (previousYear)="onPreviousYear()"
             (nextYear)="onNextYear()"
           />
+        } @else if (yearError()) {
+          <div class="chart-error">
+            <p class="error-message">{{ yearError() }}</p>
+            <button (click)="retry()" class="retry-button">Retry</button>
+          </div>
         } @else {
           <app-contribution-calendar-skeleton />
         }

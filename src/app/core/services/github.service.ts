@@ -123,14 +123,16 @@ export class GitHubService {
 
   private refreshInBackground(): void {
     const currentYear = new Date().getFullYear();
+    const hasYearData = this.yearData().length > 0;
+    const hasLangData = this.languageData() !== null;
 
-    this.isLoadingYear.set(true);
+    if (!hasYearData) this.isLoadingYear.set(true);
     this.http.get<YearContributions>(`${YEAR_API}?year=${currentYear}`).pipe(
       retry({
         count: MAX_RETRIES,
         delay: (_, retryCount) => timer(RETRY_DELAY * retryCount),
       }),
-      finalize(() => this.isLoadingYear.set(false)),
+      finalize(() => { if (!hasYearData) this.isLoadingYear.set(false); }),
     ).subscribe({
       next: year => {
         const existing = this.yearData().filter(y => y.year !== year.year);
@@ -138,23 +140,27 @@ export class GitHubService {
         this.yearError.set(null);
         this.writeCache();
       },
-      error: err => this.yearError.set(this.messageFromError(err)),
+      error: err => {
+        if (!hasYearData) this.yearError.set(this.messageFromError(err));
+      },
     });
 
-    this.isLoadingLanguages.set(true);
+    if (!hasLangData) this.isLoadingLanguages.set(true);
     this.http.get<LanguageStats>(LANGUAGES_API).pipe(
       retry({
         count: MAX_RETRIES,
         delay: (_, retryCount) => timer(RETRY_DELAY * retryCount),
       }),
-      finalize(() => this.isLoadingLanguages.set(false)),
+      finalize(() => { if (!hasLangData) this.isLoadingLanguages.set(false); }),
     ).subscribe({
       next: langs => {
         this.languageData.set(langs);
         this.languageError.set(null);
         this.writeCache();
       },
-      error: err => this.languageError.set(this.messageFromError(err)),
+      error: err => {
+        if (!hasLangData) this.languageError.set(this.messageFromError(err));
+      },
     });
   }
 
@@ -188,8 +194,10 @@ export class GitHubService {
   private messageFromError(error: any): string {
     if (error?.status === 429) return 'GitHub API rate limit exceeded. Please try again later.';
     if (error?.status === 401) return 'GitHub authentication failed.';
-    if (error?.error?.error) return error.error.error;
-    if (error?.message) return error.message;
+    const nested = error?.error?.error;
+    if (typeof nested === 'string' && nested.length > 0) return nested;
+    const message = error?.message;
+    if (typeof message === 'string' && message.length > 0) return message;
     return 'Error fetching GitHub data';
   }
 }

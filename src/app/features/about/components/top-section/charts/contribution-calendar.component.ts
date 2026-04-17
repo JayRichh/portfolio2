@@ -4,11 +4,10 @@ import {
   input,
   output,
   computed,
+  effect,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  OnChanges,
-  SimpleChanges
+  AfterViewInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -29,7 +28,7 @@ interface MonthPosition {
   styleUrls: ['./contribution-calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
+export class ContributionCalendarComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;
   @ViewChild('tooltip') tooltip!: ChartTooltipComponent;
 
@@ -44,8 +43,16 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
   readonly nextYear = output<void>();
 
   private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private viewReady = false;
   private readonly cellSize = 16;
   private readonly cellGap = 3;
+
+  constructor() {
+    effect(() => {
+      this.data();
+      if (this.viewReady && this.svg) this.updateChart();
+    });
+  }
 
   readonly isLoadingPrevious = computed(() =>
     this.isLoadingYear() && this.currentYearIndex() >= this.totalYears() - 1
@@ -59,12 +66,7 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.createChart();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'] && !changes['data'].firstChange && this.svg) {
-      this.updateChart();
-    }
+    this.viewReady = true;
   }
 
   formatNumber(num: number): string {
@@ -97,11 +99,11 @@ export class ContributionCalendarComponent implements AfterViewInit, OnChanges {
   }
 
   prevDisabled(): boolean {
-    return this.isLoadingYear() || !this.canGoPrevious();
+    return this.isLoadingPrevious() || !this.canGoPrevious();
   }
 
   nextDisabled(): boolean {
-    return this.isLoadingYear() || !this.canGoNext();
+    return this.isLoadingNext() || !this.canGoNext();
   }
 
   private createChart(): void {
