@@ -141,6 +141,28 @@
   transition: all 0.2s ease;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
+}
+
+.project-bg {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease-out;
+  -webkit-mask-image: linear-gradient(to left, black 0%, black 25%, transparent 95%);
+  mask-image: linear-gradient(to left, black 0%, black 25%, transparent 95%);
+}
+
+.project-name,
+.project-arrow {
+  position: relative;
+  z-index: 1;
 }
 
 .project-item img {
@@ -206,6 +228,14 @@
 
   .project-item {
     padding: 0.75rem 0;
+  }
+
+  .project-bg {
+    display: block;
+  }
+
+  .project-name {
+    text-shadow: 0 1px 2px hsl(var(--background));
   }
 }
 

@@ -48,6 +48,7 @@ import { MetaService } from '../../../../core/services/meta.service';
       width: 80%;
       background: hsl(var(--card));
       margin: 4rem auto 3px auto;
+      padding: 3rem 1.25rem 3.5rem;
       border-radius: 0.5rem;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }

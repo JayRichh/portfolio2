@@ -1,27 +1,35 @@
-import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Project } from '@data/projectData';
+import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
+import { LightboxComponent, LightboxImage } from '@features/code/components/lightbox.component';
 
 @Component({
   selector: 'app-project-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TechBadgeComponent, LightboxComponent],
   template: `
     <div
       *ngIf="isOpen && project"
       @fadeIn
-      class="fixed inset-0 z-[200] overflow-y-auto bg-black/90"
+      class="fixed inset-0 z-[100] overflow-y-auto bg-black/50 backdrop-blur-sm"
       (click)="onBackdropClick($event)"
     >
-      <div class="relative min-h-screen flex items-center justify-center p-4" (click)="onBackdropClick($event)">
-        <div class="relative bg-card rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
-          <!-- Close Button -->
+      <div
+        class="min-h-screen flex items-start justify-center p-4 sm:p-8"
+        (click)="onBackdropClick($event)"
+      >
+        <div
+          @slideUp
+          class="relative w-full max-w-7xl my-8 rounded-lg bg-card text-card-foreground shadow-2xl"
+          (click)="$event.stopPropagation()"
+        >
           <button
             type="button"
-            class="sticky top-4 right-4 float-right z-10 rounded-lg bg-background/80 p-2 text-foreground transition-all hover:bg-accent"
+            class="absolute right-4 top-4 z-10 rounded-lg bg-background/80 p-2 text-foreground transition-all hover:bg-background"
             (click)="close()"
-            aria-label="Close modal"
+            aria-label="Close dialog"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 6 6 18"/>
@@ -29,133 +37,175 @@ import { Project } from '@data/projectData';
             </svg>
           </button>
 
-          <!-- Project Content -->
-          <div class="p-8">
-            <!-- Project Image -->
-            <div class="mb-6 rounded-lg overflow-hidden">
-              <img
-                [src]="project.imgUrl"
-                [alt]="project.title"
-                class="w-full h-auto object-cover"
-                loading="eager"
-              />
+          <div
+            *ngIf="isLoading()"
+            class="absolute inset-0 z-20 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm"
+          >
+            <div class="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          </div>
+
+          <div class="relative h-64 overflow-hidden rounded-t-lg bg-muted sm:h-80 md:h-96">
+            <img
+              [src]="project.imgUrl"
+              [alt]="project.title"
+              class="h-full w-full object-cover cursor-pointer transition-transform hover:scale-105"
+              (click)="openLightbox(0)"
+              (load)="onImageLoad()"
+              (error)="onImageError()"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <h2 class="text-3xl font-bold text-white sm:text-4xl">
+                {{ project.details.title }}
+              </h2>
             </div>
+          </div>
 
-            <!-- Project Title -->
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              {{ project.title }}
-            </h2>
+          <div class="space-y-8 p-6 sm:p-8">
+            <section>
+              <p class="text-lg leading-relaxed text-foreground">
+                {{ project.details.description }}
+              </p>
+            </section>
 
-            <!-- Project Description -->
-            <p class="text-lg text-muted-foreground mb-6 leading-relaxed">
-              {{ project.description }}
-            </p>
-
-            <!-- Technologies -->
-            <div class="mb-6">
-              <h3 class="text-xl font-semibold mb-3 text-foreground">Technologies</h3>
+            <section>
+              <h3 class="mb-4 text-xl font-semibold text-foreground">Technologies</h3>
               <div class="flex flex-wrap gap-2">
-                <span
+                <app-tech-badge
                   *ngFor="let tech of project.details.technologies"
-                  class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                >
-                  {{ tech }}
-                </span>
+                  [tech]="tech"
+                  [isClickable]="false"
+                />
               </div>
-            </div>
+            </section>
 
-            <!-- Features -->
-            <div *ngIf="project.details.features.length > 0" class="mb-6">
-              <h3 class="text-xl font-semibold mb-3 text-foreground">Features</h3>
-              <ul class="space-y-3">
-                <li
+            <section *ngIf="project.details.features.length > 0">
+              <h3 class="mb-4 text-xl font-semibold text-foreground">Key Features</h3>
+              <div class="grid gap-6 sm:grid-cols-2">
+                <div
                   *ngFor="let feature of project.details.features"
-                  class="flex items-start gap-2 text-muted-foreground"
+                  class="rounded-lg border border-border bg-background p-4"
                 >
-                  <svg class="w-5 h-5 mt-0.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <div>
-                    <div class="font-medium text-foreground">{{ feature.title }}</div>
-                    <div class="text-sm">{{ feature.text }}</div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                  <h4 class="mb-2 font-semibold text-foreground">{{ feature.title }}</h4>
+                  <p class="text-sm leading-relaxed text-muted-foreground">{{ feature.text }}</p>
+                  <img
+                    *ngIf="feature.image"
+                    [src]="feature.image"
+                    [alt]="feature.title"
+                    class="mt-4 w-full rounded-md cursor-pointer transition-transform hover:scale-[1.02]"
+                    (click)="openLightboxForImage(feature.image)"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </section>
 
-            <!-- Challenges -->
-            <div *ngIf="project.details.challenges.length > 0" class="mb-6">
-              <h3 class="text-xl font-semibold mb-3 text-foreground">Challenges</h3>
-              <ul class="space-y-3">
-                <li
-                  *ngFor="let challenge of project.details.challenges"
-                  class="flex items-start gap-2 text-muted-foreground"
-                >
-                  <svg class="w-5 h-5 mt-0.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                  <div>
-                    <div class="font-medium text-foreground">{{ challenge.title }}</div>
-                    <div class="text-sm">{{ challenge.text }}</div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Learnings -->
-            <div *ngIf="project.details.learnings.length > 0" class="mb-6">
-              <h3 class="text-xl font-semibold mb-3 text-foreground">Key Learnings</h3>
+            <section *ngIf="project.details.challenges.length > 0">
+              <h3 class="mb-4 text-xl font-semibold text-foreground">Challenges</h3>
               <div class="space-y-4">
-                <div *ngFor="let learning of project.details.learnings">
-                  <h4 class="font-medium text-foreground mb-2">{{ learning.title }}</h4>
-                  <ul class="space-y-2 ml-4">
+                <div
+                  *ngFor="let challenge of project.details.challenges"
+                  class="rounded-lg border border-border bg-background p-4"
+                >
+                  <h4 class="mb-2 font-semibold text-foreground">{{ challenge.title }}</h4>
+                  <p class="text-sm leading-relaxed text-muted-foreground">{{ challenge.text }}</p>
+                  <img
+                    *ngIf="challenge.image"
+                    [src]="challenge.image"
+                    [alt]="challenge.title"
+                    class="mt-4 w-full rounded-md cursor-pointer transition-transform hover:scale-[1.02]"
+                    (click)="openLightboxForImage(challenge.image)"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section *ngIf="project.details.learnings.length > 0">
+              <h3 class="mb-4 text-xl font-semibold text-foreground">Learnings</h3>
+              <div class="grid gap-6 sm:grid-cols-2">
+                <div
+                  *ngFor="let learning of project.details.learnings"
+                  class="rounded-lg border border-border bg-background p-4"
+                >
+                  <h4 class="mb-3 font-semibold text-foreground">{{ learning.title }}</h4>
+                  <ul class="space-y-2">
                     <li
                       *ngFor="let point of learning.points"
-                      class="flex items-start gap-2 text-muted-foreground text-sm"
+                      class="text-sm leading-relaxed text-muted-foreground"
                     >
-                      <svg class="w-4 h-4 mt-0.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                      </svg>
-                      <span>{{ point.text }}</span>
+                      <span class="mr-2 text-primary">•</span>
+                      {{ point.text }}
+                      <img
+                        *ngIf="point.image"
+                        [src]="point.image"
+                        [alt]="point.text"
+                        class="mt-2 w-full rounded-md cursor-pointer transition-transform hover:scale-[1.02]"
+                        (click)="openLightboxForImage(point.image)"
+                        loading="lazy"
+                      />
                     </li>
                   </ul>
                 </div>
               </div>
-            </div>
+            </section>
 
-            <!-- Links -->
-            <div class="flex flex-wrap gap-4 pt-6 border-t border-border">
-              <a
-                *ngIf="project.repoUrl"
-                [href]="project.repoUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.840 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-                View Code
-              </a>
+            <section *ngIf="project.details.additionalImages.length > 0">
+              <h3 class="mb-4 text-xl font-semibold text-foreground">Gallery</h3>
+              <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <img
+                  *ngFor="let image of project.details.additionalImages; let i = index"
+                  [src]="image"
+                  [alt]="'Gallery image ' + (i + 1)"
+                  class="aspect-video w-full rounded-md object-cover cursor-pointer transition-transform hover:scale-105"
+                  (click)="openLightboxForImage(image)"
+                  loading="lazy"
+                />
+              </div>
+            </section>
+
+            <section class="flex flex-wrap gap-4 border-t border-border pt-6">
               <a
                 *ngIf="project.liveUrl"
                 [href]="project.liveUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors"
+                class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-all hover:bg-primary/90 active:scale-95"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" x2="21" y1="14" y2="3"/>
                 </svg>
-                Live Demo
+                View Live Demo
               </a>
-            </div>
+              <a
+                *ngIf="project.repoUrl"
+                [href]="project.repoUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-lg bg-secondary px-6 py-3 font-medium text-secondary-foreground transition-all hover:bg-secondary/80 active:scale-95"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                  <path d="M9 18c-4.51 2-5-2-7-2"/>
+                </svg>
+                View Repository
+              </a>
+            </section>
           </div>
         </div>
       </div>
     </div>
+
+    <app-lightbox
+      [images]="lightboxImages()"
+      [currentIndex]="lightboxIndex()"
+      [isOpen]="lightboxOpen()"
+      (closeEvent)="closeLightbox()"
+      (previousEvent)="previousImage()"
+      (nextEvent)="nextImage()"
+    />
   `,
   styles: [`
     :host {
@@ -171,6 +221,12 @@ import { Project } from '@data/projectData';
       transition(':leave', [
         animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))
       ])
+    ]),
+    trigger('slideUp', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
     ])
   ]
 })
@@ -179,15 +235,55 @@ export class ProjectModalComponent implements OnChanges {
   @Input() isOpen = false;
   @Output() closeEvent = new EventEmitter<void>();
 
+  readonly isLoading = signal(true);
+  readonly lightboxOpen = signal(false);
+  readonly lightboxIndex = signal(0);
+
+  readonly lightboxImages = computed<LightboxImage[]>(() => {
+    if (!this.project) return [];
+
+    const images: LightboxImage[] = [];
+
+    images.push({ src: this.project.imgUrl, alt: this.project.title });
+
+    this.project.details.features.forEach(feature => {
+      if (feature.image) {
+        images.push({ src: feature.image, alt: feature.title });
+      }
+    });
+
+    this.project.details.challenges.forEach(challenge => {
+      if (challenge.image) {
+        images.push({ src: challenge.image, alt: challenge.title });
+      }
+    });
+
+    this.project.details.learnings.forEach(learning => {
+      learning.points.forEach(point => {
+        if (point.image) {
+          images.push({ src: point.image, alt: point.text });
+        }
+      });
+    });
+
+    this.project.details.additionalImages.forEach((image, index) => {
+      images.push({ src: image, alt: `Gallery image ${index + 1}` });
+    });
+
+    return images;
+  });
+
   private scrollY = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isOpen']) {
       setTimeout(() => {
         if (this.isOpen) {
+          this.isLoading.set(true);
           this.preventBodyScroll();
         } else {
           this.allowBodyScroll();
+          this.lightboxOpen.set(false);
         }
       }, 0);
     }
@@ -195,9 +291,12 @@ export class ProjectModalComponent implements OnChanges {
 
   @HostListener('document:keydown.escape')
   handleEscape(): void {
-    if (this.isOpen) {
-      this.close();
+    if (!this.isOpen) return;
+    if (this.lightboxOpen()) {
+      this.closeLightbox();
+      return;
     }
+    this.close();
   }
 
   close(): void {
@@ -208,6 +307,44 @@ export class ProjectModalComponent implements OnChanges {
   onBackdropClick(event: MouseEvent): void {
     if (event.target === event.currentTarget) {
       this.close();
+    }
+  }
+
+  onImageLoad(): void {
+    this.isLoading.set(false);
+  }
+
+  onImageError(): void {
+    this.isLoading.set(false);
+  }
+
+  openLightbox(index: number): void {
+    this.lightboxIndex.set(index);
+    this.lightboxOpen.set(true);
+  }
+
+  openLightboxForImage(imageSrc: string): void {
+    const index = this.lightboxImages().findIndex(img => img.src === imageSrc);
+    if (index !== -1) {
+      this.openLightbox(index);
+    }
+  }
+
+  closeLightbox(): void {
+    this.lightboxOpen.set(false);
+  }
+
+  previousImage(): void {
+    const current = this.lightboxIndex();
+    if (current > 0) {
+      this.lightboxIndex.set(current - 1);
+    }
+  }
+
+  nextImage(): void {
+    const current = this.lightboxIndex();
+    if (current < this.lightboxImages().length - 1) {
+      this.lightboxIndex.set(current + 1);
     }
   }
 

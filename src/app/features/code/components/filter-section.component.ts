@@ -47,7 +47,7 @@ import { techCategories } from '@data/techCategories';
           <div
             *ngIf="isDropdownOpen"
             @slideDown
-            class="absolute left-0 mt-2 w-full min-w-[500px] max-w-4xl rounded-lg border border-border bg-card p-4 shadow-lg sm:w-auto z-10"
+            class="absolute left-0 mt-2 w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-card p-4 shadow-lg sm:w-auto sm:min-w-[500px] sm:max-w-4xl z-10"
           >
             <div class="space-y-4">
               <div *ngFor="let category of categoryKeys" class="space-y-2">

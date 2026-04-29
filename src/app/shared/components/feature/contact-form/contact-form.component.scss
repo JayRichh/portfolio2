@@ -255,9 +255,14 @@
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  padding-bottom: 1.25rem;
 
   button {
     min-width: 120px;
+  }
+
+  @media (min-width: 640px) {
+    padding-bottom: 0;
   }
 }
 

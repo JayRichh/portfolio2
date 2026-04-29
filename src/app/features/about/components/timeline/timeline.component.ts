@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TIMELINE_ITEMS } from './timeline.data';
@@ -18,27 +18,55 @@ import { TIMELINE_ITEMS } from './timeline.data';
     ])
   ]
 })
-export class TimelineComponent implements OnInit, OnDestroy {
-  @ViewChild('timelineWrapper', { read: ElementRef }) timelineWrapper?: ElementRef;
+export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('timelineWrapper', { read: ElementRef }) timelineWrapper?: ElementRef<HTMLElement>;
+  @ViewChildren('dot', { read: ElementRef }) dots?: QueryList<ElementRef<HTMLElement>>;
 
   readonly scrollProgress = signal(0);
+  readonly lineTop = signal(0);
+  readonly lineMaxHeight = signal(0);
 
   private scrollListener?: () => void;
+  private resizeListener?: () => void;
+  private dotsSubscription?: { unsubscribe(): void };
 
   readonly timelineItems = TIMELINE_ITEMS;
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.scrollListener = this.updateScrollProgress.bind(this);
+      this.resizeListener = this.measureLineBounds.bind(this);
       window.addEventListener('scroll', this.scrollListener, { passive: true });
+      window.addEventListener('resize', this.resizeListener);
       this.updateScrollProgress();
     }
   }
 
+  ngAfterViewInit(): void {
+    this.dotsSubscription = this.dots?.changes.subscribe(() => this.measureLineBounds());
+    requestAnimationFrame(() => this.measureLineBounds());
+  }
+
   ngOnDestroy(): void {
-    if (typeof window !== 'undefined' && this.scrollListener) {
-      window.removeEventListener('scroll', this.scrollListener);
+    if (typeof window !== 'undefined') {
+      if (this.scrollListener) window.removeEventListener('scroll', this.scrollListener);
+      if (this.resizeListener) window.removeEventListener('resize', this.resizeListener);
     }
+    this.dotsSubscription?.unsubscribe();
+  }
+
+  private measureLineBounds(): void {
+    if (!this.timelineWrapper || !this.dots || this.dots.length === 0) return;
+
+    const wrapperRect = this.timelineWrapper.nativeElement.getBoundingClientRect();
+    const firstDot = this.dots.first.nativeElement.getBoundingClientRect();
+    const lastDot = this.dots.last.nativeElement.getBoundingClientRect();
+
+    const firstTop = firstDot.top - wrapperRect.top;
+    const lastBottom = lastDot.bottom - wrapperRect.top;
+
+    this.lineTop.set(Math.max(0, firstTop));
+    this.lineMaxHeight.set(Math.max(0, lastBottom - firstTop));
   }
 
   private updateScrollProgress(): void {

@@ -76,38 +76,37 @@ export class HobbiesComponent implements OnInit, OnDestroy {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
+      const cardWidth = this.isMobile ? 240 : 320;
+      const cardHeight = this.isMobile ? 300 : 400;
+
+      const maxX = Math.max(0, (viewportWidth - cardWidth) / 2 - 8);
+      const maxY = Math.max(0, (viewportHeight - cardHeight) / 2 - 8);
+
+      const radiusX = this.isMobile
+        ? Math.min(maxX, viewportWidth * 0.18)
+        : Math.min(maxX, viewportWidth * 0.32);
+      const radiusY = this.isMobile
+        ? Math.min(maxY, viewportHeight * 0.16)
+        : Math.min(maxY, viewportHeight * 0.20);
+
+      const noiseScale = this.isMobile ? 0.03 : 0.06;
+
       return group.details.map((_, index) => {
-        const horizontalSpread = this.isMobile
-          ? viewportWidth * 0.5
-          : viewportWidth * 0.9;
-        const verticalSpread = this.isMobile
-          ? viewportHeight * 0.7
-          : viewportHeight * 0.5;
+        const angle = (index / Math.max(1, total)) * Math.PI * 2 + Math.PI / 4;
+        let baseX = Math.cos(angle) * radiusX;
+        let baseY = Math.sin(angle) * radiusY;
 
-        const cardWidth = this.isMobile ? 240 : 320;
-        const cardHeight = this.isMobile ? 300 : 400;
+        baseX += (Math.random() - 0.5) * (viewportWidth * noiseScale);
+        baseY += (Math.random() - 0.5) * (viewportHeight * noiseScale);
 
-        let baseX: number;
-        let baseY: number;
-
-        if (this.isMobile) {
-          baseX = ((index % 2) / 1) * (horizontalSpread / 2) - horizontalSpread / 4;
-          baseY = Math.floor(index / 2) * (cardHeight + 20);
-        } else {
-          baseX = (index / (total - 1)) * horizontalSpread - horizontalSpread / 2;
-          baseY = (Math.random() - 0.5) * verticalSpread;
-        }
-
-        const noise = {
-          x: (Math.random() - 0.5) * (viewportWidth * (this.isMobile ? 0.05 : 0.1)),
-          y: (Math.random() - 0.5) * (viewportHeight * (this.isMobile ? 0.05 : 0.1))
-        };
+        baseX = Math.max(-maxX, Math.min(maxX, baseX));
+        baseY = Math.max(-maxY, Math.min(maxY, baseY));
 
         return {
-          x: baseX + noise.x,
-          y: baseY + noise.y,
+          x: baseX,
+          y: baseY,
           rotation: (Math.random() - 0.5) * (this.isMobile ? 5 : 10),
-          scale: 0.95 + Math.random() * 0.1
+          scale: this.isMobile ? 0.92 + Math.random() * 0.08 : 0.95 + Math.random() * 0.1
         };
       });
     });

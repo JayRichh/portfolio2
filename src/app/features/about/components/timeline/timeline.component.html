@@ -3,7 +3,11 @@
     <h2 class="timeline-title">Experience Timeline</h2>
 
     <div class="timeline-wrapper" #timelineWrapper>
-      <div class="timeline-line" [style.height.%]="scrollProgress()"></div>
+      <div
+        class="timeline-line"
+        [style.top.px]="lineTop()"
+        [style.height.px]="lineMaxHeight() * scrollProgress() / 100"
+      ></div>
 
       <div
         *ngFor="let item of timelineItems; let i = index"
@@ -18,7 +22,7 @@
           <p class="timeline-description">{{ item.description }}</p>
         </div>
 
-        <div class="timeline-dot">
+        <div class="timeline-dot" #dot>
           <div class="timeline-icon" [innerHTML]="item.icon"></div>
         </div>
       </div>

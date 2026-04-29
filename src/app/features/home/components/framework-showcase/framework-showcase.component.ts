@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter, NgZone, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
@@ -19,8 +19,9 @@ interface FrameworkGroup {
   templateUrl: './framework-showcase.component.html',
   styleUrl: './framework-showcase.component.scss'
 })
-export class FrameworkShowcaseComponent implements OnInit {
+export class FrameworkShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ImageTooltipComponent) tooltip!: ImageTooltipComponent;
+  @ViewChildren('projectItem') projectItems!: QueryList<ElementRef<HTMLElement>>;
   @Output() projectClick = new EventEmitter<Project>();
 
   readonly frameworkGroups = signal<FrameworkGroup[]>([]);
@@ -30,6 +31,16 @@ export class FrameworkShowcaseComponent implements OnInit {
   private hideTimeout: number | null = null;
   private currentProject: Project | null = null;
   private currentFrameworkProjects: Project[] = [];
+
+  private readonly zone = inject(NgZone);
+  private rafId: number | null = null;
+  private mediaQuery: MediaQueryList | null = null;
+  private mediaListener: ((e: MediaQueryListEvent) => void) | null = null;
+  private scrollListener: (() => void) | null = null;
+  private resizeListener: (() => void) | null = null;
+  private itemsSubscription: { unsubscribe(): void } | null = null;
+  private readonly maxOpacity = 0.35;
+  private readonly siblingOpacity = 0.15;
 
   ngOnInit(): void {
     const grouped = groupProjectsByFramework(projectData);
@@ -51,8 +62,120 @@ export class FrameworkShowcaseComponent implements OnInit {
     this.totalProjects.set(total);
   }
 
+  ngAfterViewInit(): void {
+    if (typeof window === 'undefined') return;
+
+    this.mediaQuery = window.matchMedia('(max-width: 767px)');
+    this.mediaListener = (e: MediaQueryListEvent) => this.toggleFadeEffect(e.matches);
+    this.mediaQuery.addEventListener('change', this.mediaListener);
+
+    this.itemsSubscription = this.projectItems.changes.subscribe(() => {
+      if (this.mediaQuery?.matches) this.requestUpdate();
+    });
+
+    this.toggleFadeEffect(this.mediaQuery.matches);
+  }
+
+  ngOnDestroy(): void {
+    this.detachListeners();
+    this.itemsSubscription?.unsubscribe();
+    if (this.mediaQuery && this.mediaListener) {
+      this.mediaQuery.removeEventListener('change', this.mediaListener);
+    }
+  }
+
+  private toggleFadeEffect(active: boolean): void {
+    if (active) {
+      this.attachListeners();
+      this.requestUpdate();
+    } else {
+      this.detachListeners();
+      this.clearOpacities();
+    }
+  }
+
+  private attachListeners(): void {
+    if (this.scrollListener || typeof window === 'undefined') return;
+    this.zone.runOutsideAngular(() => {
+      this.scrollListener = () => this.requestUpdate();
+      this.resizeListener = () => this.requestUpdate();
+      window.addEventListener('scroll', this.scrollListener, { passive: true });
+      window.addEventListener('resize', this.resizeListener);
+    });
+  }
+
+  private detachListeners(): void {
+    if (typeof window === 'undefined') return;
+    if (this.scrollListener) {
+      window.removeEventListener('scroll', this.scrollListener);
+      this.scrollListener = null;
+    }
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+      this.resizeListener = null;
+    }
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  private requestUpdate(): void {
+    if (this.rafId !== null) return;
+    this.rafId = requestAnimationFrame(() => {
+      this.rafId = null;
+      this.updateOpacities();
+    });
+  }
+
+  private updateOpacities(): void {
+    if (!this.projectItems || typeof window === 'undefined') return;
+
+    const items = this.projectItems.toArray();
+    if (items.length === 0) return;
+
+    const viewportCenter = window.innerHeight / 2;
+    const viewportHeight = window.innerHeight;
+    const offscreenBuffer = viewportHeight * 0.5;
+
+    let focusIdx = -1;
+    let focusDist = Infinity;
+
+    items.forEach((ref, i) => {
+      const rect = ref.nativeElement.getBoundingClientRect();
+      if (rect.bottom < -offscreenBuffer || rect.top > viewportHeight + offscreenBuffer) return;
+      const itemCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(itemCenter - viewportCenter);
+      if (distance < focusDist) {
+        focusDist = distance;
+        focusIdx = i;
+      }
+    });
+
+    items.forEach((ref, i) => {
+      const bg = ref.nativeElement.querySelector<HTMLElement>('.project-bg');
+      if (!bg) return;
+
+      let opacity = 0;
+      if (focusIdx !== -1) {
+        if (i === focusIdx) {
+          opacity = this.maxOpacity;
+        } else if (i === focusIdx - 1 || i === focusIdx + 1) {
+          opacity = this.siblingOpacity;
+        }
+      }
+      bg.style.opacity = String(opacity);
+    });
+  }
+
+  private clearOpacities(): void {
+    this.projectItems?.forEach(ref => {
+      const bg = ref.nativeElement.querySelector<HTMLElement>('.project-bg');
+      if (bg) bg.style.opacity = '';
+    });
+  }
+
   onProjectHover(project: Project, event: MouseEvent): void {
-    // Cancel pending hide if moving to another project
     if (this.hideTimeout !== null) {
       clearTimeout(this.hideTimeout);
       this.hideTimeout = null;
@@ -67,7 +190,6 @@ export class FrameworkShowcaseComponent implements OnInit {
 
       this.showTimeout = window.setTimeout(() => {
         if (this.tooltip && this.currentProject === project) {
-          // Find which framework group this project belongs to
           const group = this.frameworkGroups().find(g =>
             g.projects.some(p => p.title === project.title)
           );
@@ -76,7 +198,6 @@ export class FrameworkShowcaseComponent implements OnInit {
             this.currentFrameworkProjects = group.projects as Project[];
             const projectIndex = this.currentFrameworkProjects.findIndex(p => p.title === project.title);
 
-            // Create tooltip items from all projects in the framework
             const tooltipItems = this.currentFrameworkProjects.map(p => ({
               imageUrl: p.imgUrl,
               title: p.title
@@ -106,7 +227,6 @@ export class FrameworkShowcaseComponent implements OnInit {
       this.showTimeout = null;
     }
 
-    // Delay hide to allow cursor to move to next item without tooltip disappearing
     if (this.hideTimeout !== null) {
       clearTimeout(this.hideTimeout);
     }
@@ -140,4 +260,3 @@ export class FrameworkShowcaseComponent implements OnInit {
     this.projectClick.emit(project);
   }
 }
- 

@@ -18,11 +18,17 @@
               *ngFor="let project of group.projects"
               href="#"
               class="project-item"
+              #projectItem
+              [attr.data-img]="project.imgUrl"
               (click)="onProjectClick($event, project)"
               (mouseenter)="onProjectHover(project, $event)"
               (mousemove)="onProjectMove($event)"
               (mouseleave)="onProjectLeave()"
             >
+              <span
+                class="project-bg"
+                [style.background-image]="'url(' + project.imgUrl + ')'"
+              ></span>
               <span class="project-name">{{ project.title }}</span>
               <svg class="project-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M7 17L17 7M17 7H7M17 7V17"/>
