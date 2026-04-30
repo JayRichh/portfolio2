@@ -48,6 +48,8 @@ export class GitHubService {
   readonly error = computed(() => this.yearError() ?? this.languageError());
 
   fetchInitial(): void {
+    if (!this.platform.isBrowser) return;
+
     const cached = this.readCache();
     const now = Date.now();
 

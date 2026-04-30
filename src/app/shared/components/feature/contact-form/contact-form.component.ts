@@ -7,6 +7,7 @@ import { ButtonComponent } from '@shared/components/ui/button/button.component';
 import { InputComponent } from '@shared/components/ui/input/input.component';
 import { TextareaComponent } from '@shared/components/ui/textarea/textarea.component';
 import { DrawingCanvasComponent } from '@shared/components/feature/drawing-canvas/drawing-canvas.component';
+import { BrowserPlatformService } from '@core/services/browser-platform.service';
 import { FormData, FormStatus } from './models/form-data.interface';
 
 @Component({
@@ -27,6 +28,7 @@ export class ContactFormComponent implements OnInit {
   @ViewChild(DrawingCanvasComponent) canvas?: DrawingCanvasComponent;
 
   private readonly http = inject(HttpClient);
+  private readonly platform = inject(BrowserPlatformService);
 
   readonly formData = signal<FormData>({ name: '', email: '', message: '' });
   readonly honeypot = signal('');
@@ -39,7 +41,7 @@ export class ContactFormComponent implements OnInit {
   readonly statusMessage = computed(() => this.status()?.message ?? '');
 
   ngOnInit(): void {
-    this.fetchFormToken();
+    if (this.platform.isBrowser) this.fetchFormToken();
   }
 
   updateField<K extends keyof FormData>(key: K, value: FormData[K]): void {
