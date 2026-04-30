@@ -46,14 +46,14 @@ export interface Project {
 const rawProjects: Omit<Project, 'slug'>[] = [
   {
     title: "Web Portfolio",
-    description: "Personal portfolio site, now on its fifth iteration. Attached screenshots show v1 — a static React/CSS-modules build that has since been rewritten in Next.js, then rebuilt twice more before landing on the current Angular 18 SSR version.",
+    description: "Personal portfolio site I keep rebuilding to test new patterns. Screenshots here are from the original React build; the live site has been through several rewrites since.",
     imgUrl: "/images/main1.png",
     repoUrl: "https://github.com/JayRichh/portfolio2",
     liveUrl: "https://jayrich.dev",
     updatedAt: "2026-04-30",
     details: {
-      title: "Web Portfolio (v5)",
-      description: "Five iterations across roughly three years. v1 (pictured) was a static React site with CSS modules and a hand-rolled grid; v2 moved to Next.js for faster routing and image optimization; v3 added a Zustand-backed GitHub data layer and a 3D word cloud; v4 was a Next.js redesign with a richer theme system and contact form drawing canvas. v5 is a full rewrite in Angular 18 with standalone components, signals, SSR + per-route prerendering, JSON-LD structured data, and a self-contained spam-protected contact API. Each rewrite has been an excuse to re-evaluate the stack and trim what didn't earn its keep.",
+      title: "Web Portfolio",
+      description: "A personal site that doubles as a sandbox for whatever framework or pattern I want to try next. The visible screenshots are from the very first build; the current version is a full Angular 18 rewrite with server rendering, structured data, and a self-contained contact API. The shape of the site has stayed roughly the same across rebuilds — what changes each time is the architecture underneath.",
       technologies: [
         "Angular 18",
         "TypeScript",
@@ -69,81 +69,56 @@ const rawProjects: Omit<Project, 'slug'>[] = [
       ],
       features: [
         {
-          title: "v1 — React + CSS Modules (pictured)",
-          text: "First version: a static React SPA with CSS modules, a CSS-grid project gallery, and zero dependencies beyond the framework. The screenshots attached here are from v1 and capture the original visual direction that several later iterations drew from.",
-          image: "/images/main1.png"
+          title: "Server-side rendering with prerendering",
+          text: "Every static and per-project route is prerendered at build time, with a Vercel SSR fallback for anything dynamic. Crawlers and link previews see real HTML and per-page metadata instead of an empty SPA shell."
         },
         {
-          title: "v2 / v3 — Next.js Era",
-          text: "Migrated to Next.js for routing, MDX-style project pages, and image optimization. v3 layered in a Zustand store for GitHub stats, contribution heatmap, and a Three.js word cloud — features that proved the data plumbing more than they earned a place in the final design.",
-          image: "/images/main2.png"
+          title: "Structured data via TitleStrategy",
+          text: "A custom TitleStrategy reads route data and writes Person, WebSite, BreadcrumbList, and per-project CreativeWork JSON-LD into the document head. One source of truth for titles, OG tags, canonical URLs, and schema."
         },
         {
-          title: "v4 — Next.js Redesign",
-          text: "A visual reset: three swappable themes (Earthy Luxe, Classic Green, Desert Warmth) driven by HSL CSS variables, a sticky-scroll work timeline, and a contact form with a built-in HTML5 canvas drawing pad. Most of v5's content and layout choices come from this iteration.",
-          image: "/images/main3.png"
+          title: "Standalone signals throughout",
+          text: "No NgModules. Signals drive component state, computed selectors handle derivations, and a small BrowserPlatformService wraps every browser API so the same code path renders on the server without crashing."
         },
         {
-          title: "v5 — Angular SSR Rewrite (current)",
-          text: "Full rewrite in Angular 18: standalone components, signals end-to-end, SSR with build-time prerendering of every route (including 32 per-project pages), JSON-LD structured data via a TitleStrategy, Cloudflare-Vercel cache + security headers, and a stateless HMAC-signed contact form with honeypot spam protection.",
-          image: "/images/main4.png"
+          title: "Self-contained contact API",
+          text: "Contact form submissions hit a Vercel function gated by an HMAC-signed form token, a hidden honeypot field, and a per-IP rate limiter. No third-party captcha, no extra config beyond the SMTP key."
         }
       ],
       challenges: [
         {
-          title: "Next.js to Angular Migration",
-          text: "Complete rewrite from Next.js to Angular while maintaining feature parity and improving performance and design. Required review and planning of component architecture and state management patterns.",
+          title: "Making SSR genuinely safe",
+          text: "Most of the app was written assuming the browser was always available. Adding server rendering meant tracking down every direct touch of window, document, and storage and routing it through a single platform service so the same components could render on the server without crashing or producing hydration mismatches."
         },
         {
-          title: "Signal-Based Reactivity",
-          text: "Implementing Angular's new signal-based reactivity system throughout the application, replacing traditional RxJS patterns where appropriate while maintaining backward compatibility.",
+          title: "One source of truth for metadata",
+          text: "Page-level meta started out duplicated across four ngOnInit handlers, with quietly broken og:url and orphan OG image references. Moving everything into route data plus a TitleStrategy was straightforward; making sure server-rendered HTML and client navigations produced identical tags took more iteration."
         },
         {
-          title: "Session-Based Security",
-          text: "Building secure server-side session management with Express backend for contact form handling, implementing CSRF protection and rate limiting.",
+          title: "Spam protection without extra services",
+          text: "The earlier math captcha was theatre — bots could call the email endpoint directly. Replacing it with an HMAC-signed token plus a honeypot keeps protection inside the codebase, avoids vendor lock-in, and stays invisible to real users."
         }
       ],
       learnings: [
         {
-          title: "Angular 2025 Patterns",
+          title: "Signals in practice",
           points: [
-            {
-              text: "Standalone component architecture and signal-based state management"
-            },
-            {
-              text: "Implemented routing patterns with route guards and lazy loading"
-            },
-            {
-              text: "Built reusable component library following Angular best practices"
-            }
+            { text: "Signals replaced most of the local RxJS, but observables still earn their keep at the HTTP boundary." },
+            { text: "computed() handles derivations cleanly as long as you keep side effects out of it." }
           ]
         },
         {
-          title: "Performance Optimization",
+          title: "SSR ergonomics",
           points: [
-            {
-              text: "Optimized bundle sizes through code splitting and tree shaking"
-            },
-            {
-              text: "Implemented OnPush change detection strategy for improved rendering performance"
-            },
-            {
-              text: "Used signals for efficient reactive updates without unnecessary re-renders"
-            }
+            { text: "Most SSR pain comes from libraries that touch the DOM at module load — easier to wrap them than to fix them." },
+            { text: "Prerendering covers nearly everything for a site this size; on-demand SSR is just a fallback for unmatched routes." }
           ]
         },
         {
-          title: "Design Systems",
+          title: "Trimming as you go",
           points: [
-            {
-              text: "Created flexible theming system using CSS custom properties"
-            },
-            {
-              text: "Built responsive layouts that work across all device sizes"
-            },
-            {
-              text: "Implemented accessible components following WCAG guidelines"
-            }
+            { text: "Each rewrite has been a chance to delete features that looked good in isolation but didn't earn their place." },
+            { text: "A portfolio is a useful place to keep the bar high — it's small enough that the right answer is usually less code, not more." }
           ]
         }
       ],

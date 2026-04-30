@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-04-30T09:54:38.893Z",
+  "generatedAt": "2026-04-30T10:01:47.496Z",
   "yearData": [
     {
       "year": 2026,
@@ -7341,11 +7341,11 @@
     "languages": [
       {
         "name": "TypeScript",
-        "size": 20418580,
+        "size": 20438840,
         "color": "#3178c6",
-        "percentage": 75,
-        "lineCount": 583389,
-        "fileCount": 1703
+        "percentage": 75.1,
+        "lineCount": 583968,
+        "fileCount": 1705
       },
       {
         "name": "JavaScript",
@@ -7381,18 +7381,18 @@
       },
       {
         "name": "HTML",
-        "size": 425192,
+        "size": 426583,
         "color": "#e34c26",
         "percentage": 1.6,
-        "lineCount": 10628,
+        "lineCount": 10663,
         "fileCount": 89
       },
       {
         "name": "SCSS",
-        "size": 210985,
+        "size": 211483,
         "color": "#c6538c",
         "percentage": 0.8,
-        "lineCount": 7034,
+        "lineCount": 7050,
         "fileCount": 45
       },
       {
@@ -7484,8 +7484,8 @@
         "fileCount": 1
       }
     ],
-    "totalSize": 27210309,
-    "totalFiles": 2597,
-    "totalLines": 794306
+    "totalSize": 27232458,
+    "totalFiles": 2599,
+    "totalLines": 794936
   }
 }
