@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { escapeHtml } from './_lib/escape-html';
-import { rateLimit, clientIp } from './_lib/rate-limit';
-import { issueFormToken, verifyFormToken, isHoneypotTriggered } from './_lib/anti-spam';
+import { escapeHtml } from './_lib/escape-html.js';
+import { rateLimit, clientIp } from './_lib/rate-limit.js';
+import { issueFormToken, verifyFormToken, isHoneypotTriggered } from './_lib/anti-spam.js';
 
 const RECIPIENT_EMAIL = 'web@jayrich.dev';
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
