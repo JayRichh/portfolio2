@@ -30,8 +30,11 @@ export interface ProjectDetail {
   additionalImages: string[];
 }
 
+import { slugify } from '../shared/utils/slugify';
+
 export interface Project {
   title: string;
+  slug: string;
   description: string;
   imgUrl: string;
   repoUrl: string;
@@ -40,7 +43,7 @@ export interface Project {
   updatedAt: string;
 }
 
-export const projectData: Project[] = [
+const rawProjects: Omit<Project, 'slug'>[] = [
   {
     title: "Angular Portfolio",
     description: "Angular 18+ app with standalone components, signals, and feature-based architecture. Three theme systems and clean UI components.",
@@ -3215,3 +3218,5 @@ export const projectData: Project[] = [
     },
   },
 ];
+
+export const projectData: Project[] = rawProjects.map(p => ({ ...p, slug: slugify(p.title) }));

@@ -1,4 +1,5 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject } from '@angular/core';
+import { BrowserPlatformService } from './browser-platform.service';
 
 export type Theme = 'earthy-luxe' | 'classic-green' | 'desert-warmth';
 export type Mode = 'light' | 'dark';
@@ -8,6 +9,9 @@ export interface ThemeState {
   readonly mode: Mode;
 }
 
+const THEME_KEY = 'portfolio-theme';
+const MODE_KEY = 'portfolio-mode';
+
 const THEME_CLASS_MAP: Record<Theme, string> = {
   'earthy-luxe': '',
   'classic-green': 'theme-classic',
@@ -16,8 +20,7 @@ const THEME_CLASS_MAP: Record<Theme, string> = {
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  private readonly THEME_KEY = 'portfolio-theme';
-  private readonly MODE_KEY = 'portfolio-mode';
+  private readonly platform = inject(BrowserPlatformService);
 
   readonly theme = signal<Theme>(this.getInitialTheme());
   readonly mode = signal<Mode>(this.getInitialMode());
@@ -30,12 +33,12 @@ export class ThemeService {
 
   setTheme(theme: Theme): void {
     this.theme.set(theme);
-    localStorage.setItem(this.THEME_KEY, theme);
+    this.platform.storage.set(THEME_KEY, theme);
   }
 
   setMode(mode: Mode): void {
     this.mode.set(mode);
-    localStorage.setItem(this.MODE_KEY, mode);
+    this.platform.storage.set(MODE_KEY, mode);
   }
 
   toggleMode(): void {
@@ -43,30 +46,22 @@ export class ThemeService {
   }
 
   private getInitialTheme(): Theme {
-    const stored = localStorage.getItem(this.THEME_KEY);
+    const stored = this.platform.storage.get(THEME_KEY);
     return (stored as Theme) || 'earthy-luxe';
   }
 
   private getInitialMode(): Mode {
-    const stored = localStorage.getItem(this.MODE_KEY);
-    if (stored) {
-      return stored as Mode;
-    }
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
+    const stored = this.platform.storage.get(MODE_KEY);
+    if (stored) return stored as Mode;
+    return this.platform.viewport.matchMedia('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light';
   }
 
   private applyTheme(theme: Theme, mode: Mode): void {
-    const html = document.documentElement;
-
+    if (!this.platform.isBrowser) return;
+    const html = this.platform.document.documentElement;
     html.classList.remove('theme-classic', 'theme-desert', 'light', 'dark');
-
     const themeClass = THEME_CLASS_MAP[theme];
-    if (themeClass) {
-      html.classList.add(themeClass);
-    }
+    if (themeClass) html.classList.add(themeClass);
     html.classList.add(mode);
   }
 }

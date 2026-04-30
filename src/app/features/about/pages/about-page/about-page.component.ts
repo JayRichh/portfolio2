@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopSectionComponent } from '../../components/top-section/top-section.component';
 import { TimelineComponent } from '../../components/timeline/timeline.component';
@@ -6,7 +6,6 @@ import { HobbiesComponent } from '../../components/hobbies/hobbies.component';
 import { SocialLinksComponent } from '../../components/social-links/social-links.component';
 import { ScrollIndicatorComponent } from '../../components/scroll-indicator/scroll-indicator.component';
 import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/explore-nav/explore-nav.component';
-import { MetaService } from '../../../../core/services/meta.service';
 
 @Component({
   selector: 'app-about-page',
@@ -39,9 +38,7 @@ import { MetaService } from '../../../../core/services/meta.service';
     }
   `]
 })
-export class AboutPageComponent implements OnInit {
-  private readonly metaService = inject(MetaService);
-
+export class AboutPageComponent {
   readonly navLinks: ExploreNavLink[] = [
     {
       label: 'View My Projects',
@@ -56,16 +53,4 @@ export class AboutPageComponent implements OnInit {
       variant: 'secondary'
     }
   ];
-
-  ngOnInit(): void {
-    this.metaService.updatePageMetadata({
-      title: 'About',
-      description: 'Learn about my journey as a full stack developer, tech stack expertise, and professional experience in modern web development.',
-      keywords: 'about, developer bio, tech stack, professional experience',
-      ogTitle: 'About Jayden Richardson',
-      ogDescription: 'Full stack developer with expertise in Angular, React, Node.js, and cloud technologies',
-      ogImage: 'https://jayrich.dev/images/og-about.png',
-      canonical: '/about'
-    });
-  }
 }

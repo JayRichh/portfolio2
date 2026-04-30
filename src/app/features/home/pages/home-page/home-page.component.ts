@@ -5,7 +5,7 @@ import { FrameworkShowcaseComponent } from '../../components/framework-showcase/
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 import { ProjectModalComponent } from '../../components/project-modal/project-modal.component';
 import { projectData, Project } from '@data/projectData';
-import { MetaService } from '../../../../core/services/meta.service';
+import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 @Component({
   selector: 'app-home-page',
@@ -117,34 +117,22 @@ import { MetaService } from '../../../../core/services/meta.service';
 })
 export class HomePageComponent implements OnInit {
   private readonly location = inject(Location);
-  private readonly metaService = inject(MetaService);
+  private readonly platform = inject(BrowserPlatformService);
 
   readonly selectedProject = signal<Project | null>(null);
   readonly isModalOpen = signal(false);
 
   ngOnInit(): void {
-    this.metaService.updatePageMetadata({
-      title: 'Jayden Richardson | Full Stack Developer Portfolio',
-      description: 'Full stack web developer specializing in Angular, React, TypeScript, and modern web technologies. View my projects and experience.',
-      keywords: 'full stack developer, web developer, Angular, React, TypeScript, portfolio',
-      ogTitle: 'Jayden Richardson - Full Stack Developer',
-      ogDescription: 'Experienced full stack developer building modern web applications with Angular, React, and Node.js',
-      ogImage: 'https://jayrich.dev/images/og-home.png',
-      twitterTitle: 'Jayden Richardson | Full Stack Developer',
-      twitterDescription: 'Full stack web developer portfolio - Angular, React, TypeScript',
-      canonical: '/'
-    });
-
+    if (!this.platform.isBrowser) return;
     this.checkHash();
-
     window.addEventListener('hashchange', () => this.checkHash());
   }
 
   private checkHash(): void {
     const hash = window.location.hash;
     if (hash.startsWith('#project-')) {
-      const projectTitle = decodeURIComponent(hash.substring(9));
-      const project = projectData.find(p => p.title === projectTitle);
+      const slug = hash.substring(9);
+      const project = projectData.find(p => p.slug === slug);
       if (project) {
         this.selectedProject.set(project);
         this.isModalOpen.set(true);
@@ -155,15 +143,13 @@ export class HomePageComponent implements OnInit {
   openProject(project: Project): void {
     this.selectedProject.set(project);
     this.isModalOpen.set(true);
-    // Update URL hash without triggering navigation
-    const hash = `#project-${encodeURIComponent(project.title)}`;
+    const hash = `#project-${project.slug}`;
     this.location.go(this.location.path().split('#')[0] + hash);
   }
 
   closeModal(): void {
     this.isModalOpen.set(false);
     this.selectedProject.set(null);
-    // Remove hash from URL
     this.location.go(this.location.path().split('#')[0]);
   }
 }

@@ -6,7 +6,6 @@ import { HeroSectionComponent } from '../../components/hero-section.component';
 import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
 import { ScrollIndicatorComponent } from '@features/about/components/scroll-indicator/scroll-indicator.component';
 import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/explore-nav/explore-nav.component';
-import { MetaService } from '../../../../core/services/meta.service';
 
 @Component({
   selector: 'app-work-page',
@@ -17,7 +16,6 @@ import { MetaService } from '../../../../core/services/meta.service';
 })
 export class WorkPageComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly metaService = inject(MetaService);
 
   readonly projects = projectsData;
   readonly scrollProgress = signal(0);
@@ -45,16 +43,6 @@ export class WorkPageComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    this.metaService.updatePageMetadata({
-      title: 'Work Experience',
-      description: 'Professional work history and projects completed across various industries and technologies.',
-      keywords: 'work experience, professional projects, portfolio',
-      ogTitle: 'Work Experience - Jayden Richardson',
-      ogDescription: 'View my professional work history and project contributions',
-      ogImage: 'https://jayrich.dev/images/og-work.png',
-      canonical: '/work'
-    });
-
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', this.onScroll, { passive: true });
     }

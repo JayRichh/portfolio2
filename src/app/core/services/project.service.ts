@@ -1,6 +1,7 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { projectData, Project } from '../../data/projectData';
 import { filterProjectsByTech, sortProjectsByDate } from '../../data/techUtils';
+import { BrowserPlatformService } from './browser-platform.service';
 
 const CACHE_KEY = 'project-page-state';
 const CACHE_VERSION = 1;
@@ -12,42 +13,23 @@ interface ProjectPageCache {
   version: number;
 }
 
-interface LoadedImages {
-  [url: string]: boolean;
-}
-
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
+  private readonly platform = inject(BrowserPlatformService);
+
   readonly selectedTech = signal<string[]>([]);
   readonly sortByRecent = signal<boolean>(false);
   readonly shouldAnimate = signal<boolean>(true);
 
-  private loadedImagesMap = new Map<string, boolean>();
-  private lastFilterKey = '';
-  private cachedFilteredProjects: Project[] = [];
+  private readonly loadedImages = new Set<string>();
 
   readonly filteredProjects = computed(() => {
     const tech = this.selectedTech();
     const sortRecent = this.sortByRecent();
-
-    const filterKey = `${tech.sort().join(',')}-${sortRecent}`;
-
-    if (filterKey === this.lastFilterKey && this.cachedFilteredProjects.length > 0) {
-      return this.cachedFilteredProjects;
-    }
-
-    let projects = [...projectData];
-
-    if (tech.length > 0) {
-      projects = filterProjectsByTech(projects, tech);
-    }
-
-    if (sortRecent) {
-      projects = sortProjectsByDate(projects, false);
-    }
-
-    this.lastFilterKey = filterKey;
-    this.cachedFilteredProjects = projects;
+    let projects = tech.length > 0
+      ? filterProjectsByTech([...projectData], tech)
+      : [...projectData];
+    if (sortRecent) projects = sortProjectsByDate(projects, false);
     return projects;
   });
 
@@ -62,11 +44,11 @@ export class ProjectService {
   }
 
   markImageLoaded(url: string): void {
-    this.loadedImagesMap.set(url, true);
+    this.loadedImages.add(url);
   }
 
   isImageLoaded(url: string): boolean {
-    return this.loadedImagesMap.has(url) && this.loadedImagesMap.get(url) === true;
+    return this.loadedImages.has(url);
   }
 
   markFreshNavigation(): void {
@@ -78,60 +60,44 @@ export class ProjectService {
   }
 
   loadState(): boolean {
+    const cached = this.platform.session.get(CACHE_KEY);
+    if (!cached) return false;
     try {
-      const cached = sessionStorage.getItem(CACHE_KEY);
-      if (!cached) return false;
-
       const data: ProjectPageCache = JSON.parse(cached);
-
       if (data.version !== CACHE_VERSION) {
         this.clearState();
         return false;
       }
-
       this.selectedTech.set(data.selectedTech);
       this.sortByRecent.set(data.sortByRecent);
       return true;
-    } catch (error) {
-      console.error('Failed to load project state:', error);
+    } catch {
       return false;
     }
   }
 
   saveState(): void {
-    try {
-      const cache: ProjectPageCache = {
-        selectedTech: this.selectedTech(),
-        sortByRecent: this.sortByRecent(),
-        timestamp: Date.now(),
-        version: CACHE_VERSION
-      };
-
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-    } catch (error) {
-      console.error('Failed to save project state:', error);
-    }
+    const cache: ProjectPageCache = {
+      selectedTech: this.selectedTech(),
+      sortByRecent: this.sortByRecent(),
+      timestamp: Date.now(),
+      version: CACHE_VERSION
+    };
+    this.platform.session.set(CACHE_KEY, JSON.stringify(cache));
   }
 
   clearState(): void {
-    try {
-      sessionStorage.removeItem(CACHE_KEY);
-      this.selectedTech.set([]);
-      this.sortByRecent.set(false);
-      this.lastFilterKey = '';
-      this.cachedFilteredProjects = [];
-    } catch (error) {
-      console.error('Failed to clear project state:', error);
-    }
+    this.platform.session.remove(CACHE_KEY);
+    this.selectedTech.set([]);
+    this.sortByRecent.set(false);
   }
 
   clearImageCache(): void {
-    if (this.loadedImagesMap.size > 100) {
-      this.loadedImagesMap.clear();
-    }
+    if (this.loadedImages.size > 100) this.loadedImages.clear();
   }
 
   preloadTopImages(count: number = 6): void {
+    if (!this.platform.isBrowser) return;
     const topProjects = this.filteredProjects().slice(0, count);
     topProjects.forEach(project => {
       if (!this.isImageLoaded(project.imgUrl)) {

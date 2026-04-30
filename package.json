@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "npm run generate:github",
+    "prebuild": "npm run generate:github && npm run generate:sitemap",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
@@ -19,14 +19,14 @@
     "type": "git",
     "url": "git+https://github.com/JayRichh/portfolio2.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["angular", "portfolio", "typescript", "ssr", "full-stack"],
+  "author": "Jayden Richardson <jayrich.dev@gmail.com>",
+  "license": "MIT",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/JayRichh/portfolio2/issues"
   },
-  "homepage": "https://github.com/JayRichh/portfolio2#readme",
+  "homepage": "https://jayrich.dev",
   "dependencies": {
     "@angular/animations": "^18.2.14",
     "@angular/cdk": "^18.2.14",
@@ -36,7 +36,9 @@
     "@angular/forms": "^18.2.14",
     "@angular/platform-browser": "^18.2.14",
     "@angular/platform-browser-dynamic": "^18.2.14",
+    "@angular/platform-server": "^18.2.14",
     "@angular/router": "^18.2.14",
+    "@angular/ssr": "^18.2.21",
     "@types/cors": "^2.8.19",
     "@types/d3": "^7.4.3",
     "@types/express": "^5.0.6",
@@ -57,6 +59,7 @@
     "@angular-devkit/build-angular": "^18.2.21",
     "@angular/cli": "^18.2.21",
     "@angular/compiler-cli": "^18.2.14",
+    "@types/node": "^25.6.0",
     "@vercel/node": "^5.5.28",
     "autoprefixer": "^10.4.23",
     "concurrently": "^9.2.1",

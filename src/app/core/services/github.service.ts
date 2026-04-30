@@ -7,6 +7,7 @@ import {
   LanguageStats,
   CachedGitHubData,
 } from '../models/github.models';
+import { BrowserPlatformService } from './browser-platform.service';
 
 const YEAR_API = '/api/github/year';
 const LANGUAGES_API = '/api/github/languages';
@@ -29,6 +30,7 @@ interface GitHubSnapshot {
 @Injectable({ providedIn: 'root' })
 export class GitHubService {
   private readonly http = inject(HttpClient);
+  private readonly platform = inject(BrowserPlatformService);
 
   readonly yearData = signal<YearContributions[]>([]);
   readonly languageData = signal<LanguageStats | null>(null);
@@ -168,9 +170,9 @@ export class GitHubService {
   }
 
   private readCache(): CachedGitHubData | null {
+    const raw = this.platform.storage.get(CACHE_KEY);
+    if (!raw) return null;
     try {
-      const raw = localStorage.getItem(CACHE_KEY);
-      if (!raw) return null;
       const data: CachedGitHubData = JSON.parse(raw);
       if (data.version !== CACHE_VERSION) return null;
       return data;
@@ -180,18 +182,14 @@ export class GitHubService {
   }
 
   private writeCache(): void {
-    try {
-      const data: CachedGitHubData = {
-        version: CACHE_VERSION,
-        yearData: this.yearData(),
-        languageData: this.languageData(),
-        timestamp: Date.now(),
-        expiresAt: Date.now() + CACHE_TTL,
-      };
-      localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-    } catch (err) {
-      console.error('Failed to cache GitHub data:', err);
-    }
+    const data: CachedGitHubData = {
+      version: CACHE_VERSION,
+      yearData: this.yearData(),
+      languageData: this.languageData(),
+      timestamp: Date.now(),
+      expiresAt: Date.now() + CACHE_TTL,
+    };
+    this.platform.storage.set(CACHE_KEY, JSON.stringify(data));
   }
 
   private messageFromError(error: any): string {

@@ -1,14 +1,11 @@
-import { Component, signal, effect, OnInit, inject } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { projectData, Project } from '@data/projectData';
+import { Router } from '@angular/router';
+import { Project } from '@data/projectData';
 import { ProjectService } from '../../../../core/services/project.service';
-import { MetaService } from '../../../../core/services/meta.service';
 import { FilterSectionComponent } from '../../components/filter-section.component';
 import { ProjectGridComponent } from '../../components/project-grid.component';
-import { ProjectDetailDialogComponent } from '../../components/project-detail-dialog.component';
-import { CODE_CONSTANTS, PAGE_METADATA } from '../../constants/code.constants';
+import { CODE_CONSTANTS } from '../../constants/code.constants';
 
 @Component({
   selector: 'app-code-page',
@@ -16,8 +13,7 @@ import { CODE_CONSTANTS, PAGE_METADATA } from '../../constants/code.constants';
   imports: [
     CommonModule,
     FilterSectionComponent,
-    ProjectGridComponent,
-    ProjectDetailDialogComponent,
+    ProjectGridComponent
   ],
   template: `
     <div class="min-h-screen bg-background pt-24 md:pt-32">
@@ -73,61 +69,28 @@ import { CODE_CONSTANTS, PAGE_METADATA } from '../../constants/code.constants';
           [filteredProjects]="filteredProjects()"
           [shouldAnimate]="projectService.shouldAnimate()"
           [mounted]="mounted()"
-          (selectProject)="selectProject($event)"
-        />
-
-        <app-project-detail-dialog
-          [project]="selectedProject()"
-          [isOpen]="!!selectedProject()"
-          (closeDialog)="closeProjectDialog()"
+          (selectProject)="navigateToProject($event)"
         />
       </div>
     </div>
   `,
-  styles: [`
-    :host {
-      display: block;
-    }
-  `]
+  styles: [`:host { display: block; }`]
 })
 export class CodePageComponent implements OnInit {
   readonly CODE_CONSTANTS = CODE_CONSTANTS;
-  readonly PAGE_METADATA = PAGE_METADATA;
 
   readonly projectService = inject(ProjectService);
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly location = inject(Location);
-  private readonly metaService = inject(MetaService);
 
   readonly mounted = signal(false);
   readonly selectedTech = this.projectService.selectedTech;
-  readonly selectedProject = signal<Project | null>(null);
   readonly isDropdownOpen = signal(false);
   readonly sortByRecent = this.projectService.sortByRecent;
   readonly isLoading = signal(false);
 
   readonly filteredProjects = this.projectService.filteredProjects;
 
-  constructor() {
-    effect(() => {
-      if (this.selectedProject()) {
-        this.updateRouteHash(this.selectedProject()!.title);
-      }
-    });
-  }
-
   ngOnInit(): void {
-    this.metaService.updatePageMetadata({
-      title: 'Projects',
-      description: 'Web development projects showcasing Angular, React, TypeScript, and various modern web technologies.',
-      keywords: 'projects, web development, portfolio, Angular projects, React projects',
-      ogTitle: 'Code Projects - Jayden Richardson',
-      ogDescription: 'Browse my web development project portfolio',
-      ogImage: 'https://jayrich.dev/images/og-code.png',
-      canonical: '/code'
-    });
-
     const hasState = this.projectService.loadState();
 
     if (hasState) {
@@ -137,21 +100,10 @@ export class CodePageComponent implements OnInit {
     } else {
       this.projectService.markFreshNavigation();
       this.isLoading.set(true);
-
       setTimeout(() => {
         this.mounted.set(true);
         this.isLoading.set(false);
       }, CODE_CONSTANTS.LOADING.INITIAL_DELAY);
-    }
-
-    const hash = window.location.hash.slice(1);
-    if (hash) {
-      const project = projectData.find(
-        p => this.slugify(p.title) === hash
-      );
-      if (project) {
-        this.selectedProject.set(project);
-      }
     }
 
     this.projectService.preloadTopImages(6);
@@ -174,32 +126,7 @@ export class CodePageComponent implements OnInit {
     this.projectService.setSortByRecent(sort);
   }
 
-  selectProject(project: Project): void {
-    this.selectedProject.set(project);
-  }
-
-  closeProjectDialog(): void {
-    this.selectedProject.set(null);
-    this.clearRouteHash();
-  }
-
-  private updateRouteHash(title: string): void {
-    const slug = this.slugify(title);
-    const path = this.location.path().split('#')[0];
-    this.location.replaceState(`${path}#${slug}`);
-  }
-
-  private clearRouteHash(): void {
-    const path = this.location.path().split('#')[0];
-    this.location.replaceState(path);
-  }
-
-  private slugify(text: string): string {
-    return text
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
+  navigateToProject(project: Project): void {
+    this.router.navigate(['/code', project.slug]);
   }
 }

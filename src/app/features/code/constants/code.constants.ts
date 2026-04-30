@@ -25,8 +25,3 @@ export const CODE_CONSTANTS = {
     QUALITY: 90,
   },
 } as const;
-
-export const PAGE_METADATA = {
-  TITLE: 'Projects | Jayden Richardson',
-  DESCRIPTION: 'Web development projects showcasing various technologies and approaches',
-} as const;
