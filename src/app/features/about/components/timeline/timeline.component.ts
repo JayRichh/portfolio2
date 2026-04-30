@@ -44,7 +44,9 @@ export class TimelineComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dotsSubscription = this.dots?.changes.subscribe(() => this.measureLineBounds());
-    requestAnimationFrame(() => this.measureLineBounds());
+    if (typeof window !== 'undefined') {
+      requestAnimationFrame(() => this.measureLineBounds());
+    }
   }
 
   ngOnDestroy(): void {

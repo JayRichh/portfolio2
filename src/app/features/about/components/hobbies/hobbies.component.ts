@@ -53,10 +53,10 @@ export class HobbiesComponent implements OnInit, OnDestroy {
   readonly hobbyGroups = HOBBY_GROUPS;
 
   ngOnInit(): void {
+    this.initializeCardStates();
     if (typeof window !== 'undefined') {
       this.isMobile = window.innerWidth <= 768;
       this.initializeCardOffsetsOnce();
-      this.initializeCardStates();
       this.scrollListener = this.updateCardPositions.bind(this);
       window.addEventListener('scroll', this.scrollListener, { passive: true });
       setTimeout(() => this.updateCardPositions(), 100);
