@@ -1,0 +1,49 @@
+<div class="detail-shell" *ngIf="project" [attr.data-mode]="mode">
+  <app-project-hero [project]="project" (imageClick)="openHeroLightbox()" />
+
+  <div class="detail-body">
+    <aside class="detail-sidebar" *ngIf="mode === 'page'">
+      <app-project-toc [items]="tocItems()" />
+      <app-project-actions [liveUrl]="project.liveUrl" [repoUrl]="project.repoUrl" />
+    </aside>
+
+    <main class="detail-main">
+      <app-project-overview [project]="project" />
+
+      <app-project-features
+        [features]="project.details.features"
+        (imageClick)="openLightboxFor($event)"
+      />
+
+      <app-project-challenges
+        [challenges]="project.details.challenges"
+        (imageClick)="openLightboxFor($event)"
+      />
+
+      <app-project-learnings
+        [learnings]="project.details.learnings"
+        (imageClick)="openLightboxFor($event)"
+      />
+
+      <app-project-gallery
+        [images]="project.details.additionalImages"
+        (imageClick)="openGalleryAt($event)"
+      />
+
+      <app-project-actions
+        *ngIf="mode === 'modal'"
+        [liveUrl]="project.liveUrl"
+        [repoUrl]="project.repoUrl"
+      />
+    </main>
+  </div>
+
+  <app-lightbox
+    [images]="lightboxImages()"
+    [currentIndex]="lightboxIndex()"
+    [isOpen]="lightboxOpen()"
+    (closeEvent)="closeLightbox()"
+    (previousEvent)="previousImage()"
+    (nextEvent)="nextImage()"
+  />
+</div>

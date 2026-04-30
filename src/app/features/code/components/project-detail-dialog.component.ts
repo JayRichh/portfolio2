@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, HostListener, inject } from '@a
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Project } from '@data/projectData';
-import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail-view/project-detail-view.component';
+import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail/project-detail-view.component';
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 @Component({
@@ -33,7 +33,7 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
               <path d="m6 6 12 12"/>
             </svg>
           </button>
-          <app-project-detail-view [project]="project" />
+          <app-project-detail-view [project]="project" mode="modal" />
         </div>
       </div>
     </div>

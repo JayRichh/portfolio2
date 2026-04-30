@@ -2,7 +2,7 @@
 /about
 /code
 /work
-/code/angular-portfolio
+/code/web-portfolio
 /code/cirro-iot-platform
 /code/riddlit
 /code/elite-garage-screens

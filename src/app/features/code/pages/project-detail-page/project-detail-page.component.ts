@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
-import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail-view/project-detail-view.component';
+import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail/project-detail-view.component';
 import { MetaService } from '@core/services/meta.service';
 import { JsonLdService } from '@core/services/json-ld.service';
 
@@ -12,8 +12,8 @@ import { JsonLdService } from '@core/services/json-ld.service';
   imports: [CommonModule, RouterModule, ProjectDetailViewComponent],
   template: `
     <div class="min-h-screen bg-background pt-24 md:pt-32">
-      <div class="container mx-auto px-4 pb-16 sm:px-6 lg:px-8">
-        <nav class="mb-6 flex items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
+      <div class="container mx-auto px-4 pb-24 sm:px-6 lg:px-8">
+        <nav class="mb-8 flex items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <a routerLink="/" class="hover:text-foreground transition-colors">Home</a>
           <span aria-hidden="true">/</span>
           <a routerLink="/code" class="hover:text-foreground transition-colors">Projects</a>
@@ -21,9 +21,7 @@ import { JsonLdService } from '@core/services/json-ld.service';
           <span class="text-foreground" aria-current="page">{{ project()?.title }}</span>
         </nav>
 
-        <div *ngIf="project() as p" class="relative rounded-lg bg-card text-card-foreground shadow-xl">
-          <app-project-detail-view [project]="p" />
-        </div>
+        <app-project-detail-view *ngIf="project() as p" [project]="p" mode="page" />
 
         <div *ngIf="!project()" class="text-center py-16">
           <h1 class="text-2xl font-semibold mb-4">Project not found</h1>
