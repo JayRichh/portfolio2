@@ -45,46 +45,47 @@ export interface Project {
 
 const rawProjects: Omit<Project, 'slug'>[] = [
   {
-    title: "Angular Portfolio",
-    description: "Angular 18+ app with standalone components, signals, and feature-based architecture. Three theme systems and clean UI components.",
+    title: "Web Portfolio",
+    description: "Personal portfolio site, now on its fifth iteration. Attached screenshots show v1 — a static React/CSS-modules build that has since been rewritten in Next.js, then rebuilt twice more before landing on the current Angular 18 SSR version.",
     imgUrl: "/images/main1.png",
     repoUrl: "https://github.com/JayRichh/portfolio2",
     liveUrl: "https://jayrich.dev",
-    updatedAt: "2026-01-21",
+    updatedAt: "2026-04-30",
     details: {
-      title: "Web Portfolio",
-      description: "A portfolio app showcasing modern Angular development patterns, featuring standalone architecture, signal-based reactivity, and advanced UI components with three theme systems.",
+      title: "Web Portfolio (v5)",
+      description: "Five iterations across roughly three years. v1 (pictured) was a static React site with CSS modules and a hand-rolled grid; v2 moved to Next.js for faster routing and image optimization; v3 added a Zustand-backed GitHub data layer and a 3D word cloud; v4 was a Next.js redesign with a richer theme system and contact form drawing canvas. v5 is a full rewrite in Angular 18 with standalone components, signals, SSR + per-route prerendering, JSON-LD structured data, and a self-contained spam-protected contact API. Each rewrite has been an excuse to re-evaluate the stack and trim what didn't earn its keep.",
       technologies: [
-        "Angular",
+        "Angular 18",
         "TypeScript",
         "SCSS",
         "Tailwind CSS",
         "Signals",
         "RxJS",
+        "Angular SSR",
         "D3.js",
-        "Three.js",
         "Node.js",
-        "Express"
+        "Express",
+        "Vercel"
       ],
       features: [
         {
-          title: "Standalone Architecture",
-          text: "Built entirely with Angular 18+ standalone components, eliminating NgModules for cleaner, more maintainable code. Features lazy-loaded routes and optimized bundle sizes.",
+          title: "v1 — React + CSS Modules (pictured)",
+          text: "First version: a static React SPA with CSS modules, a CSS-grid project gallery, and zero dependencies beyond the framework. The screenshots attached here are from v1 and capture the original visual direction that several later iterations drew from.",
           image: "/images/main1.png"
         },
         {
-          title: "Advanced Theme System",
-          text: "Three distinct themes (Earthy Luxe, Classic Green, Desert Warmth) with dark/light mode support. Uses CSS custom properties and signal-based state management for instant theme switching.",
+          title: "v2 / v3 — Next.js Era",
+          text: "Migrated to Next.js for routing, MDX-style project pages, and image optimization. v3 layered in a Zustand store for GitHub stats, contribution heatmap, and a Three.js word cloud — features that proved the data plumbing more than they earned a place in the final design.",
           image: "/images/main2.png"
         },
         {
-          title: "UI Component Library",
-          text: "Comprehensive library of reusable components including Button, Card, Container, and specialized feature components. All built with accessibility and responsive design in mind.",
+          title: "v4 — Next.js Redesign",
+          text: "A visual reset: three swappable themes (Earthy Luxe, Classic Green, Desert Warmth) driven by HSL CSS variables, a sticky-scroll work timeline, and a contact form with a built-in HTML5 canvas drawing pad. Most of v5's content and layout choices come from this iteration.",
           image: "/images/main3.png"
         },
         {
-          title: "Data Visualizations",
-          text: "Interactive D3.js visualizations for project data and technology relationships. Features smooth animations and responsive layouts that adapt to viewport sizes.",
+          title: "v5 — Angular SSR Rewrite (current)",
+          text: "Full rewrite in Angular 18: standalone components, signals end-to-end, SSR with build-time prerendering of every route (including 32 per-project pages), JSON-LD structured data via a TitleStrategy, Cloudflare-Vercel cache + security headers, and a stateless HMAC-signed contact form with honeypot spam protection.",
           image: "/images/main4.png"
         }
       ],
