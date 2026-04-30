@@ -1,7 +1,10 @@
 import 'dotenv/config';
 import { writeFileSync, mkdirSync } from 'fs';
 import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { getYearContributions, getLanguageStats, YearContributions, LanguageStats } from '../api/github/_core';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface Snapshot {
   version: number;

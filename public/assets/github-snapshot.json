@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": "2026-04-30T10:01:47.496Z",
+  "generatedAt": "2026-04-30T10:12:39.134Z",
   "yearData": [
     {
       "year": 2026,
@@ -7341,10 +7341,10 @@
     "languages": [
       {
         "name": "TypeScript",
-        "size": 20438840,
+        "size": 20436787,
         "color": "#3178c6",
         "percentage": 75.1,
-        "lineCount": 583968,
+        "lineCount": 583909,
         "fileCount": 1705
       },
       {
@@ -7484,8 +7484,8 @@
         "fileCount": 1
       }
     ],
-    "totalSize": 27232458,
+    "totalSize": 27230405,
     "totalFiles": 2599,
-    "totalLines": 794936
+    "totalLines": 794877
   }
 }

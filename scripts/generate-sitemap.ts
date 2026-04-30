@@ -1,7 +1,10 @@
 import { SitemapStream, streamToPromise, EnumChangefreq } from 'sitemap';
 import { createWriteStream, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { projectData } from '../src/app/data/projectData';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface RouteEntry {
   url: string;
