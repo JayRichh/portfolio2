@@ -52,6 +52,20 @@ const workMeta: RouteMeta = {
   ]
 };
 
+const contactMeta: RouteMeta = {
+  meta: {
+    title: 'Get In Touch',
+    description: "Have a project in mind or want to discuss opportunities? I'd love to hear from you.",
+    ogTitle: 'Get In Touch - Jayden Richardson',
+    ogDescription: "Have a project in mind or want to discuss opportunities? I'd love to hear from you.",
+    canonical: '/contact'
+  },
+  breadcrumbs: [
+    { name: 'Home', url: '/' },
+    { name: 'Contact', url: '/contact' }
+  ]
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -76,6 +90,11 @@ export const routes: Routes = [
     path: 'work',
     loadComponent: () => import('./features/work/pages/work-page/work-page.component').then(m => m.WorkPageComponent),
     data: workMeta
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/contact/pages/contact-page/contact-page.component').then(m => m.ContactPageComponent),
+    data: contactMeta
   },
   {
     path: '**',

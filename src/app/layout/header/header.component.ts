@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
     { label: 'About', path: '/about' },
     { label: 'Code', path: '/code' },
     { label: 'Featured', path: '/work' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   @HostListener('window:scroll')

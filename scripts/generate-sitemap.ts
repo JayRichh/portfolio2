@@ -21,7 +21,8 @@ const staticRoutes: RouteEntry[] = [
   { url: '/', changefreq: EnumChangefreq.WEEKLY, priority: 1.0 },
   { url: '/about', changefreq: EnumChangefreq.MONTHLY, priority: 0.8 },
   { url: '/code', changefreq: EnumChangefreq.WEEKLY, priority: 0.9 },
-  { url: '/work', changefreq: EnumChangefreq.MONTHLY, priority: 0.7 }
+  { url: '/work', changefreq: EnumChangefreq.MONTHLY, priority: 0.7 },
+  { url: '/contact', changefreq: EnumChangefreq.MONTHLY, priority: 0.8 }
 ];
 
 const projectRoutes: RouteEntry[] = projectData.map(p => ({

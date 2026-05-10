@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { projectsData } from '@data/workProjects';
 import { HeroSectionComponent } from '../../components/hero-section.component';
 import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
@@ -15,8 +15,6 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
   styleUrl: './work-page.component.scss'
 })
 export class WorkPageComponent implements OnInit, OnDestroy {
-  private readonly router = inject(Router);
-
   readonly projects = projectsData;
   readonly scrollProgress = signal(0);
 
@@ -35,10 +33,9 @@ export class WorkPageComponent implements OnInit, OnDestroy {
     },
     {
       label: 'Get In Touch',
-      route: '/',
+      route: '/contact',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-      variant: 'tertiary',
-      onClick: (event: Event) => this.scrollToContact(event)
+      variant: 'tertiary'
     }
   ];
 
@@ -66,27 +63,6 @@ export class WorkPageComponent implements OnInit, OnDestroy {
 
     this.scrollProgress.set(progress);
   };
-
-  scrollToContact(event: Event): void {
-    event.preventDefault();
-
-    this.router.navigate(['/']).then(() => {
-      if (typeof window !== 'undefined') {
-        setTimeout(() => {
-          const documentHeight = document.documentElement.scrollHeight;
-          const viewportHeight = window.innerHeight;
-          const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
-          const offset = 2 * remInPixels;
-          const scrollTarget = documentHeight - viewportHeight - offset;
-
-          window.scrollTo({
-            top: Math.max(0, scrollTarget),
-            behavior: 'smooth'
-          });
-        }, 100);
-      }
-    });
-  }
 
   getProjectTitleClass(title: string): string {
     const colorMap: Record<string, string> = {

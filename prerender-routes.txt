@@ -2,6 +2,7 @@
 /about
 /code
 /work
+/contact
 /code/web-portfolio
 /code/cirro-iot-platform
 /code/riddlit
