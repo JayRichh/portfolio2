@@ -61,8 +61,11 @@ export class ContributionCalendarComponent implements AfterViewInit {
   readonly isLoadingNext = computed(() =>
     this.isLoadingYear() && this.currentYearIndex() === 0 && this.canGoNext()
   );
-
-  readonly levels = [0, 1, 2, 3, 4];
+  // increase to max 40 for count/data query but keep 0-4 for color levels
+  readonly levels = [0, 1, 2, 3, 4].map(level => ({
+    value: level === 0 ? 0 : Math.pow(2, level - 1),
+    color: this.getColor(level)
+  }));
 
   ngAfterViewInit(): void {
     this.createChart();
@@ -83,7 +86,8 @@ export class ContributionCalendarComponent implements AfterViewInit {
       'hsl(var(--primary) / 0.7)',
       'hsl(var(--primary))'
     ];
-    return colors[level] || colors[0];
+    const clampedLevel = Math.min(4, Math.max(0, Math.floor(level)));
+    return colors[clampedLevel];
   }
 
   onPreviousYear(): void {

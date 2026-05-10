@@ -171,33 +171,6 @@ function generateYearDays(year: number): ContributionDay[] {
   return days;
 }
 
-function scaleContributions(contributions: ContributionDay[]): ContributionDay[] {
-  const nonZero = contributions.map(c => c.value).filter(v => v > 0).sort((a, b) => a - b);
-  if (nonZero.length === 0) return contributions;
-
-  const quartile = (q: number) => {
-    const pos = (nonZero.length - 1) * q;
-    const base = Math.floor(pos);
-    const rest = pos - base;
-    return nonZero[base + 1] !== undefined
-      ? nonZero[base] + rest * (nonZero[base + 1] - nonZero[base])
-      : nonZero[base];
-  };
-
-  const q1 = quartile(0.25);
-  const q2 = quartile(0.5);
-  const q3 = quartile(0.75);
-
-  return contributions.map(c => ({
-    day: c.day,
-    value:
-      c.value === 0 ? 0 :
-      c.value <= q1 ? 1 :
-      c.value <= q2 ? 2 :
-      c.value <= q3 ? 3 : 4,
-  }));
-}
-
 export async function getYearContributions(year: number): Promise<YearContributions> {
   const data = await fetchGitHub<YearGraphResponse>(YEAR_QUERY, {
     username: GITHUB_USERNAME,
@@ -218,7 +191,7 @@ export async function getYearContributions(year: number): Promise<YearContributi
 
   return {
     year,
-    contributions: scaleContributions(allDays),
+    contributions: allDays,
     totalContributions: calendar.totalContributions,
   };
 }

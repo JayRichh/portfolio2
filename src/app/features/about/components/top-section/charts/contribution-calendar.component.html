@@ -42,7 +42,7 @@
       <div
         *ngFor="let level of levels"
         class="legend-box"
-        [style.background]="getColor(level)"
+        [style.background]="getColor(level.value)"
       ></div>
       <span class="legend-label">More</span>
     </div>

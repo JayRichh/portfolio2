@@ -13,7 +13,7 @@ const YEAR_API = '/api/github/year';
 const LANGUAGES_API = '/api/github/languages';
 const SNAPSHOT_URL = '/assets/github-snapshot.json';
 const CACHE_KEY = 'github-data';
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 const CACHE_TTL = 60 * 60 * 1000;
 const STALE_THRESHOLD = 10 * 60 * 1000;
 const SNAPSHOT_REFRESH_THRESHOLD = 24 * 60 * 60 * 1000;
@@ -73,8 +73,9 @@ export class GitHubService {
     this.http.get<GitHubSnapshot>(SNAPSHOT_URL).subscribe({
       next: snapshot => {
         const hasData = snapshot.yearData.length > 0 || snapshot.languageData !== null;
+        const isCurrentSnapshot = snapshot.version === CACHE_VERSION;
 
-        if (hasData) {
+        if (hasData && isCurrentSnapshot) {
           this.yearData.set([...snapshot.yearData].sort((a, b) => b.year - a.year));
           this.languageData.set(snapshot.languageData);
           this.writeCache();

@@ -53,6 +53,11 @@ export class ContactFormComponent implements OnInit {
 
   async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
+    const submitter = (event as SubmitEvent).submitter as HTMLElement | null;
+    if (submitter && submitter.getAttribute('data-submit-intent') !== 'send') {
+      return;
+    }
+
     const data = this.formData();
     const errors: Partial<Record<keyof FormData, string>> = {};
     if (!data.name.trim()) errors.name = 'Name is required';

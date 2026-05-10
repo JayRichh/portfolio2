@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="slider-container">
       <button
+        type="button"
         (click)="decrease()"
         [disabled]="value <= min"
         class="slider-btn"
@@ -34,6 +35,7 @@ import { CommonModule } from '@angular/common';
       </div>
 
       <button
+        type="button"
         (click)="increase()"
         [disabled]="value >= max"
         class="slider-btn"

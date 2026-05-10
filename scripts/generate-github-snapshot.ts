@@ -13,7 +13,7 @@ interface Snapshot {
   languageData: LanguageStats | null;
 }
 
-const SNAPSHOT_VERSION = 2;
+const SNAPSHOT_VERSION = 3;
 const YEARS_TO_FETCH = 5;
 const OUTPUT_PATH = resolve(__dirname, '../public/assets/github-snapshot.json');
 

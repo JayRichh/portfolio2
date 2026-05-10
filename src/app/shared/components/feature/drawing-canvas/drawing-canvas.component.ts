@@ -148,6 +148,10 @@ export class DrawingCanvasComponent implements AfterViewInit {
   }
 
   getDrawingData(): string | null {
+    if (this.isDrawing()) {
+      this.stopDrawing();
+    }
+
     if (!this.canvasRef || !this.canvasUsed()) return null;
     const dataUrl = this.canvasRef.nativeElement.toDataURL('image/png');
     return dataUrl.split(',')[1] ?? null;

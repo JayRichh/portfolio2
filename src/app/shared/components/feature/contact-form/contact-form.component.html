@@ -70,7 +70,7 @@
       <button appButton variant="outline" type="button" (click)="clearForm()">
         Clear All
       </button>
-      <button appButton type="submit" [disabled]="isSubmitting()">
+      <button appButton type="submit" data-submit-intent="send" [disabled]="isSubmitting()">
         Send Message
       </button>
     </div>
