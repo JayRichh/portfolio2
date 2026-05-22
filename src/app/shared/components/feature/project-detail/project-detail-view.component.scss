@@ -7,11 +7,19 @@
   width: 100%;
 }
 
+.detail-shell[data-mode='modal'] {
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
 .detail-body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
   width: 100%;
+}
+
+.detail-shell[data-mode='modal'] .detail-body {
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .detail-shell[data-mode='page'] .detail-body {
