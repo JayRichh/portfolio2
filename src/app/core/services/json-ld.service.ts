@@ -7,7 +7,7 @@ const BASE_URL = 'https://jayrich.dev';
 const SOCIAL_LINKS = [
   'https://github.com/JayRichh',
   'https://codepen.io/jayrichh',
-  'https://www.linkedin.com/in/jayden-richardson'
+  'https://www.linkedin.com/in/jayrichdev/'
 ];
 
 @Injectable({ providedIn: 'root' })

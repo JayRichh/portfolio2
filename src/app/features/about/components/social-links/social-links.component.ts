@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
           </a>
 
           <a
-            href="https://linkedin.com/in/jay-richardson-nz"
+            href="https://www.linkedin.com/in/jayrichdev/"
             target="_blank"
             rel="noopener noreferrer"
             class="social-link"
