@@ -1,4 +1,5 @@
-import { Component, signal, computed, OnInit, HostListener, inject } from '@angular/core';
+import { Component, signal, computed, OnInit, HostListener, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -18,6 +19,7 @@ interface NavLink {
 })
 export class HeaderComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly mobileMenuOpen = signal(false);
   readonly currentRoute = signal<string>('');
@@ -26,11 +28,9 @@ export class HeaderComponent implements OnInit {
 
   readonly isHomePage = computed(() => this.currentRoute() === '/');
   readonly shouldShowHeader = computed(() => {
-    // Always show header on non-home pages
     if (!this.isHomePage()) {
       return true;
     }
-    // On home page, only show after scrolling past first viewport
     return this.scrollY() > this.viewportHeight();
   });
 
@@ -53,18 +53,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Set initial state FIRST to prevent flash
     if (typeof window !== 'undefined') {
       this.scrollY.set(window.scrollY);
       this.viewportHeight.set(window.innerHeight);
     }
 
-    // Set initial route immediately
     this.currentRoute.set(this.router.url);
 
-    // Subscribe to router events to track current route
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe((event: NavigationEnd) => {
       this.currentRoute.set(event.url);
     });

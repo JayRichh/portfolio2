@@ -195,7 +195,7 @@ export class GitHubService {
     this.platform.storage.set(CACHE_KEY, JSON.stringify(data));
   }
 
-  private messageFromError(error: any): string {
+  private messageFromError(error: unknown): string {
     if (error?.status === 429) return 'GitHub API rate limit exceeded. Please try again later.';
     if (error?.status === 401) return 'GitHub authentication failed.';
     const nested = error?.error?.error;

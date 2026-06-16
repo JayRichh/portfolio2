@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal, effect, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, afterNextRender, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TechBadgeComponent } from './tech-badge.component';
@@ -135,11 +135,9 @@ export class FilterSectionComponent {
   readonly categoryKeys = Object.keys(techCategories);
 
   constructor() {
-    effect(() => {
-      if (typeof window !== 'undefined') {
-        setTimeout(() => this.mounted.set(true), 0);
-      }
-    }, { allowSignalWrites: true });
+    afterNextRender(() => {
+      this.mounted.set(true);
+    });
   }
 
   @HostListener('document:mousedown', ['$event'])

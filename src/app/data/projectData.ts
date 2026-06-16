@@ -1359,7 +1359,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     description:
       "GitHub analytics dashboard built with Next.js 15, featuring interactive contribution visualizations, language distribution analysis, and detailed activity metrics",
     imgUrl: "/images/_com4.png",
-    repoUrl: "https://https://github.com/JayRichh/checkpoint",
+    repoUrl: "https://github.com/JayRichh/checkpoint",
     liveUrl: "https://checkpoint-self.vercel.app/",
     updatedAt: "2024-12-01",
     details: {

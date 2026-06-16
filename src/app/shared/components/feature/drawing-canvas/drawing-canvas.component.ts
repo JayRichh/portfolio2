@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, signal, computed, inject, output } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, signal, computed, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@shared/components/ui/button/button.component';
 import { SliderComponent } from '@shared/components/ui/slider/slider.component';
@@ -23,7 +23,7 @@ const BRUSH_TYPES: readonly BrushTypeOption[] = [
   templateUrl: './drawing-canvas.component.html',
   styleUrls: ['./drawing-canvas.component.scss']
 })
-export class DrawingCanvasComponent implements AfterViewInit {
+export class DrawingCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvasContainer') canvasContainerRef?: ElementRef<HTMLDivElement>;
 
@@ -31,6 +31,7 @@ export class DrawingCanvasComponent implements AfterViewInit {
 
   private readonly platform = inject(BrowserPlatformService);
   private ctx?: CanvasRenderingContext2D | null;
+  private alertTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly brushColor = signal('#000000');
   readonly brushSize = signal(2);
@@ -228,8 +229,13 @@ export class DrawingCanvasComponent implements AfterViewInit {
     img.src = saved;
   }
 
+  ngOnDestroy(): void {
+    if (this.alertTimer) clearTimeout(this.alertTimer);
+  }
+
   private showAlert(message: string): void {
     this.alertMessage.set(message);
-    setTimeout(() => this.alertMessage.set(null), 3000);
+    if (this.alertTimer) clearTimeout(this.alertTimer);
+    this.alertTimer = setTimeout(() => this.alertMessage.set(null), 3000);
   }
 }

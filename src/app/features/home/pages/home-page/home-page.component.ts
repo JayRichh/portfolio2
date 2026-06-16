@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { HeroQuadrantComponent } from '../../components/hero-quadrant/hero-quadrant.component';
 import { FrameworkShowcaseComponent } from '../../components/framework-showcase/framework-showcase.component';
@@ -115,17 +115,23 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
     }
   `]
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   private readonly location = inject(Location);
   private readonly platform = inject(BrowserPlatformService);
 
   readonly selectedProject = signal<Project | null>(null);
   readonly isModalOpen = signal(false);
 
+  private readonly hashHandler = () => this.checkHash();
+
   ngOnInit(): void {
     if (!this.platform.isBrowser) return;
     this.checkHash();
-    window.addEventListener('hashchange', () => this.checkHash());
+    window.addEventListener('hashchange', this.hashHandler);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('hashchange', this.hashHandler);
   }
 
   private checkHash(): void {
