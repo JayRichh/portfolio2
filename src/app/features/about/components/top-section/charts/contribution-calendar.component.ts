@@ -10,7 +10,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { select, Selection } from 'd3-selection';
 import { YearContributions, ContributionDay } from '../../../../../core/models/github.models';
 import { InfoTooltipComponent } from '../../../../../shared/components/ui/info-tooltip/info-tooltip.component';
 import { ChartTooltipComponent } from '../../../../../shared/components/ui/chart-tooltip/chart-tooltip.component';
@@ -42,7 +42,7 @@ export class ContributionCalendarComponent implements AfterViewInit {
   readonly previousYear = output<void>();
   readonly nextYear = output<void>();
 
-  private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private svg?: Selection<SVGSVGElement, unknown, null, undefined>;
   private viewReady = false;
   private readonly cellSize = 16;
   private readonly cellGap = 3;
@@ -117,7 +117,7 @@ export class ContributionCalendarComponent implements AfterViewInit {
     const width = weeks.length * (this.cellSize + this.cellGap);
     const height = 7 * (this.cellSize + this.cellGap) + 20;
 
-    this.svg = d3.select(this.svgContainer.nativeElement)
+    this.svg = select(this.svgContainer.nativeElement)
       .attr('viewBox', `0 0 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
@@ -158,7 +158,7 @@ export class ContributionCalendarComponent implements AfterViewInit {
       .attr('fill', d => this.getColor(d.value))
       .attr('class', 'contribution-cell')
       .on('mouseenter', (event, d) => {
-        d3.select(event.currentTarget)
+        select(event.currentTarget as SVGRectElement)
           .attr('stroke', 'hsl(var(--foreground))')
           .attr('stroke-width', 1.5);
 
@@ -181,7 +181,7 @@ export class ContributionCalendarComponent implements AfterViewInit {
         this.tooltip.updatePosition(event.clientX, event.clientY);
       })
       .on('mouseleave', (event) => {
-        d3.select(event.currentTarget)
+        select(event.currentTarget as SVGRectElement)
           .attr('stroke', 'none');
         this.tooltip.hide();
       });

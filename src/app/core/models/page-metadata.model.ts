@@ -9,6 +9,7 @@ export interface PageMetadata {
   readonly twitterDescription?: string;
   readonly twitterImage?: string;
   readonly canonical?: string;
+  readonly noindex?: boolean;
 }
 
 export interface JsonLdBreadcrumbItem {

@@ -38,14 +38,12 @@ src/
 │   ├── features/               # Feature modules (lazy loaded)
 │   │   ├── home/
 │   │   ├── about/
-│   │   ├── code/
+│   │   ├── code/               # Project list + detail (/code/:slug)
 │   │   ├── work/
-│   │   ├── learnings/
-│   │   └── wordmap/
+│   │   ├── contact/
+│   │   └── not-found/
 │   ├── layout/                 # Layout components
-│   │   ├── header/
-│   │   ├── footer/
-│   │   └── navigation/
+│   │   └── header/
 │   └── data/                   # Static data
 ├── assets/
 │   ├── images/
@@ -92,7 +90,9 @@ Run `npm run build` to build the project. The build artifacts will be stored in 
 - `/` - Home (hero, contact, social)
 - `/about` - Tech stack, timeline, hobbies
 - `/code` - Project portfolio with filtering
+- `/code/:slug` - Individual project detail
 - `/work` - Work experience sticky scroll
+- `/contact` - Contact form
 
 ### Responsive Design
 - Full viewport usage on all devices

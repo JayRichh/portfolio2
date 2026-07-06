@@ -9,6 +9,11 @@ const MAX_NAME = 200;
 const MAX_MESSAGE = 5000;
 const RATE_LIMIT_PER_HOUR = 5;
 const HOUR_MS = 60 * 60 * 1000;
+const ALLOWED_ORIGINS = new Set([
+  'https://jayrich.dev',
+  'http://localhost:4200',
+  'http://localhost:4000'
+]);
 
 interface SendEmailBody {
   name?: string;
@@ -20,7 +25,12 @@ interface SendEmailBody {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin;
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://jayrich.dev'
+  );
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 

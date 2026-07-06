@@ -66,6 +66,14 @@ const contactMeta: RouteMeta = {
   ]
 };
 
+const notFoundMeta: RouteMeta = {
+  meta: {
+    title: 'Page Not Found',
+    description: 'The page you are looking for does not exist or may have been moved.',
+    noindex: true
+  }
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -98,6 +106,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    loadComponent: () => import('./features/not-found/not-found.component').then(m => m.NotFoundComponent),
+    data: notFoundMeta
   }
 ];

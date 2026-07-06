@@ -10,10 +10,13 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as d3 from 'd3';
+import { select, Selection } from 'd3-selection';
+import { arc, pie, PieArcDatum } from 'd3-shape';
+import 'd3-transition';
 import { LanguageStats, Language } from '../../../../../core/models/github.models';
 import { InfoTooltipComponent } from '../../../../../shared/components/ui/info-tooltip/info-tooltip.component';
 import { ChartTooltipComponent } from '../../../../../shared/components/ui/chart-tooltip/chart-tooltip.component';
+import { prefersReducedMotion } from '../../../../../shared/utils/prefers-reduced-motion';
 
 interface PieSlice extends Language {
   mergedLanguages?: ReadonlyArray<Language>;
@@ -36,8 +39,9 @@ export class LanguageDonutComponent implements AfterViewInit {
 
   readonly data = input.required<LanguageStats>();
 
-  private svg?: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+  private svg?: Selection<SVGSVGElement, unknown, null, undefined>;
   private viewReady = false;
+  private readonly reducedMotion = prefersReducedMotion();
   readonly highlightedSlice = signal<string | null>(null);
 
   constructor() {
@@ -109,17 +113,17 @@ export class LanguageDonutComponent implements AfterViewInit {
     const size = 450;
     const center = [size / 2, size / 2];
 
-    this.svg = d3.select(this.svgContainer.nativeElement)
+    this.svg = select(this.svgContainer.nativeElement)
       .attr('viewBox', `0 0 ${size} ${size}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    const arc = d3.arc<d3.PieArcDatum<PieSlice>>()
+    const arcGenerator = arc<PieArcDatum<PieSlice>>()
       .innerRadius(100)
       .outerRadius(180)
       .padAngle(0.02)
       .cornerRadius(4);
 
-    const pie = d3.pie<PieSlice>()
+    const pieGenerator = pie<PieSlice>()
       .value(d => d.percentage)
       .sort(null);
 
@@ -128,17 +132,14 @@ export class LanguageDonutComponent implements AfterViewInit {
       .attr('transform', `translate(${center[0]}, ${center[1]})`);
 
     chartGroup.selectAll('path')
-      .data(pie(data))
+      .data(pieGenerator(data))
       .join('path')
-      .attr('d', arc)
+      .attr('d', arcGenerator)
       .attr('fill', d => d.data.color)
       .attr('class', 'donut-segment')
       .attr('data-name', d => d.data.name)
       .on('mouseenter', (event, d) => {
-        d3.select(event.currentTarget)
-          .transition()
-          .duration(200)
-          .attr('transform', 'scale(1.08)');
+        this.applyScale(select(event.currentTarget as SVGPathElement), 'scale(1.08)');
         this.highlightedSlice.set(d.data.name);
         this.showTooltipFor(event, d.data);
       })
@@ -146,10 +147,7 @@ export class LanguageDonutComponent implements AfterViewInit {
         this.tooltip.updatePosition(event.clientX, event.clientY);
       })
       .on('mouseleave', (event) => {
-        d3.select(event.currentTarget)
-          .transition()
-          .duration(200)
-          .attr('transform', 'scale(1)');
+        this.applyScale(select(event.currentTarget as SVGPathElement), 'scale(1)');
         this.highlightedSlice.set(null);
         this.tooltip.hide();
       });
@@ -194,17 +192,21 @@ export class LanguageDonutComponent implements AfterViewInit {
   }
 
   private highlightSegment(sliceName: string): void {
-    this.svg?.selectAll<SVGPathElement, d3.PieArcDatum<PieSlice>>('.donut-segment')
-      .filter(d => d.data.name === sliceName)
-      .transition()
-      .duration(200)
-      .attr('transform', 'scale(1.08)');
+    const segment = this.svg?.selectAll<SVGPathElement, PieArcDatum<PieSlice>>('.donut-segment')
+      .filter(d => d.data.name === sliceName);
+    if (segment) this.applyScale(segment, 'scale(1.08)');
   }
 
   private unhighlightAllSegments(): void {
-    this.svg?.selectAll('.donut-segment')
-      .transition()
-      .duration(200)
-      .attr('transform', 'scale(1)');
+    const segments = this.svg?.selectAll('.donut-segment');
+    if (segments) this.applyScale(segments, 'scale(1)');
+  }
+
+  private applyScale(selection: Selection<any, any, any, any>, transform: string): void {
+    if (this.reducedMotion) {
+      selection.attr('transform', transform);
+      return;
+    }
+    selection.transition().duration(200).attr('transform', transform);
   }
 }

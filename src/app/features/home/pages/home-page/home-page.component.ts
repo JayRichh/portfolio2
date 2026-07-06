@@ -131,6 +131,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!this.platform.isBrowser) return;
     window.removeEventListener('hashchange', this.hashHandler);
   }
 

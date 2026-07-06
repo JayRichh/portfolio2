@@ -189,6 +189,14 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .chart-wrapper .donut-svg :global(.donut-segment),
+  .stat-item,
+  .stat-progress .stat-progress-fill {
+    transition: none;
+  }
+}
+
 
 @media (max-width: 1024px) {
   .chart-layout {

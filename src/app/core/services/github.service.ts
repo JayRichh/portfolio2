@@ -196,11 +196,12 @@ export class GitHubService {
   }
 
   private messageFromError(error: unknown): string {
-    if (error?.status === 429) return 'GitHub API rate limit exceeded. Please try again later.';
-    if (error?.status === 401) return 'GitHub authentication failed.';
-    const nested = error?.error?.error;
+    const err = error as { status?: number; error?: { error?: unknown }; message?: unknown } | null | undefined;
+    if (err?.status === 429) return 'GitHub API rate limit exceeded. Please try again later.';
+    if (err?.status === 401) return 'GitHub authentication failed.';
+    const nested = err?.error?.error;
     if (typeof nested === 'string' && nested.length > 0) return nested;
-    const message = error?.message;
+    const message = err?.message;
     if (typeof message === 'string' && message.length > 0) return message;
     return 'Error fetching GitHub data';
   }
