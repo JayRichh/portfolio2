@@ -26,6 +26,42 @@ export interface WorkProject {
 
 export const projectsData: WorkProject[] = [
   {
+    title: "AmpSize",
+    description:
+      "Cable sizing and electrical calculators to AS/NZS 3008 and AS/NZS 3000 for New Zealand and Australia. Fifteen calculators show worked steps, clause references, saved projects and PDF reports.",
+    technologies: [
+      "Next.js 15",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "PostgreSQL",
+      "Drizzle ORM",
+      "Azure",
+      "Expo",
+    ],
+    mainImage: {
+      src: "/images/ampsize-home.png",
+      alt: "AmpSize Calculator Index",
+    },
+    subImages: [
+      {
+        src: "/images/ampsize-cable-size.png",
+        alt: "AmpSize Cable Size Result",
+      },
+      {
+        src: "/images/ampsize-guide.png",
+        alt: "AmpSize Worked Guide",
+      },
+    ],
+    links: {
+      live: "https://ampsize.nz",
+    },
+    theme: {
+      textColor: "text-amber-600 dark:text-amber-400",
+      gradient: "",
+    },
+  },
+  {
     title: "Riddlit",
     description:
       "Daily team riddles with one-shot answers, streak tracking, and instant leaderboards. Built with Next.js, Supabase, Clerk, and Drizzle ORM.",

@@ -45,6 +45,98 @@ export interface Project {
 
 const rawProjects: Omit<Project, 'slug'>[] = [
   {
+    title: "AmpSize",
+    description: "Cable sizing and electrical calculators to AS/NZS 3008 and AS/NZS 3000 for New Zealand and Australia.",
+    imgUrl: "/images/ampsize-home.png",
+    repoUrl: "",
+    liveUrl: "https://ampsize.nz",
+    updatedAt: "2026-09-19",
+    details: {
+      title: "AmpSize - Cable Sizing and Electrical Calculators",
+      description: "AmpSize runs 15 calculators for cables, protection, loads, power and safety. Each result shows the worked steps and names the clause or table behind it. Guides work one case from end to end, and learn pages explain one idea each. Signed-in users save calculations, group them into projects and export PDF reports. An Android build ships on the Play internal track, and every standards table carries a verification status. Built between 17 and 19 September 2026.",
+      technologies: [
+        "Next.js 15",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "PostgreSQL",
+        "Drizzle ORM",
+        "Azure",
+        "Expo",
+        "Playwright"
+      ],
+      features: [
+        {
+          title: "Fifteen calculators with worked steps",
+          text: "The engine sizes cables and checks voltage drop, loop impedance, fault rating, conduit fill, max demand, motors and more. Every calculator prints the intermediate values, not just the answer, so a reviewer can follow the arithmetic."
+        },
+        {
+          title: "Clause references on every result",
+          text: "Each step cites the standard, edition, table and clause it reads. The cable size result names AS/NZS 3008.1.2:2017 tables for derating and AS/NZS 3000:2018 clauses for the checks."
+        },
+        {
+          title: "Guides and learn pages",
+          text: "Guides solve one real case with numbers, such as a 32 A single-phase 25 m run. Learn pages cover one idea each, in plain words, and link to the calculators that apply it."
+        },
+        {
+          title: "Saved calculations, projects and PDF reports",
+          text: "A calculation encodes into a shareable state, so a saved item and a PDF link carry the same inputs. Users group saved work into projects and export a report for a job file."
+        },
+        {
+          title: "Android app on the Play internal track",
+          text: "An Expo Router app reads the same calculation engine and design tokens as the web app. The internal test build is live, so the phone and the browser return identical numbers."
+        },
+        {
+          title: "Standards data with a verification status",
+          text: "Every table is JSON with a header naming the standard, edition and status. A derived table shows an under review badge until someone checks it against the licensed copy."
+        }
+      ],
+      challenges: [
+        {
+          title: "Trusting the numbers",
+          text: "An electrician acts on these results, so a wrong table is a safety problem. The fix was a status flag on every table, a badge on any calculator that reads a derived one, and an admin toggle that flips the flag without a deploy."
+        },
+        {
+          title: "One engine, two clients",
+          text: "The web app and the mobile app must never disagree. The calculation engine is a pure package with no input or output, and both clients compile it from source, so there is one implementation and one set of tests."
+        },
+        {
+          title: "Sharing state across a link and a PDF",
+          text: "A saved calculation, a shared URL and a PDF all need the same inputs. A single encoded state package handles all three, which removed a class of drift between what a user saw and what the report printed."
+        }
+      ],
+      learnings: [
+        {
+          title: "Domain accuracy",
+          points: [
+            { text: "Showing the steps is worth more than showing the answer, because a reader can check the work." },
+            { text: "Marking data as unverified is honest and cheap; hiding the gap would have been neither." }
+          ]
+        },
+        {
+          title: "Monorepo structure",
+          points: [
+            { text: "Source-only packages keep the build simple, with no separate compile step between the engine and the apps." },
+            { text: "Shared design tokens kept the Expo app consistent with the web app at almost no cost." }
+          ]
+        },
+        {
+          title: "Shipping in three days",
+          points: [
+            { text: "A narrow first release works when the engine, the tests and the deploy exist from day one." },
+            { text: "Terraform on Azure Container Apps made the infrastructure repeatable, including a guard against deleting the database." }
+          ]
+        }
+      ],
+      additionalImages: [
+        "/images/ampsize-cable-size.png",
+        "/images/ampsize-guide.png",
+        "/images/ampsize-learn.png",
+        "/images/ampsize-mobile.png"
+      ]
+    }
+  },
+  {
     title: "Web Portfolio",
     description: "Personal portfolio site I keep rebuilding to test new patterns. Screenshots here are from the original React build; the live site has been through several rewrites since.",
     imgUrl: "/images/main1.png",

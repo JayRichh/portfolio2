@@ -3,6 +3,7 @@
 /code
 /work
 /contact
+/code/ampsize
 /code/web-portfolio
 /code/cirro-iot-platform
 /code/riddlit
