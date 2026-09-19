@@ -53,7 +53,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     updatedAt: "2026-09-19",
     details: {
       title: "AmpSize - Cable Sizing and Electrical Calculators",
-      description: "AmpSize runs 15 calculators for cables, protection, loads, power and safety. Each result shows the worked steps and names the clause or table behind it. Guides work one case from end to end, and learn pages explain one idea each. Signed-in users save calculations, group them into projects and export PDF reports. An Android build ships on the Play internal track, and every standards table carries a verification status. Built between 17 and 19 September 2026.",
+      description: "AmpSize runs 15 calculators that show worked steps and name the clause or table behind each result. Guides work one case from end to end, and learn pages explain one idea each. Signed-in users save calculations, group them into projects and export PDF reports. An Android build ships on the Play internal track, and every standards table carries a verification status. Built between 17 and 19 September 2026.",
       technologies: [
         "Next.js 15",
         "React",
@@ -62,8 +62,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         "PostgreSQL",
         "Drizzle ORM",
         "Azure",
-        "Expo",
-        "Playwright"
+        "Expo"
       ],
       features: [
         {
@@ -94,15 +93,15 @@ const rawProjects: Omit<Project, 'slug'>[] = [
       challenges: [
         {
           title: "Trusting the numbers",
-          text: "An electrician acts on these results, so a wrong table is a safety problem. The fix was a status flag on every table, a badge on any calculator that reads a derived one, and an admin toggle that flips the flag without a deploy."
+          text: "An electrician acts on these results, so a wrong table is a safety problem. The fix was a status flag on every table, and a badge on any calculator that reads a derived one. An admin toggle flips the flag without a deploy."
         },
         {
           title: "One engine, two clients",
-          text: "The web app and the mobile app must never disagree. The calculation engine is a pure package with no input or output, and both clients compile it from source, so there is one implementation and one set of tests."
+          text: "The web app and the mobile app must never disagree. The calculation engine is a pure package with no input or output, and both clients compile it from source. There is one implementation and one set of tests."
         },
         {
           title: "Sharing state across a link and a PDF",
-          text: "A saved calculation, a shared URL and a PDF all need the same inputs. A single encoded state package handles all three, which removed a class of drift between what a user saw and what the report printed."
+          text: "A saved calculation, a shared URL and a PDF all need the same inputs. A single encoded state package handles all three. That removed drift between what a user saw and what the report printed."
         }
       ],
       learnings: [
