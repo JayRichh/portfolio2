@@ -28,7 +28,7 @@ export const projectsData: WorkProject[] = [
   {
     title: "AmpSize",
     description:
-      "Cable sizing and electrical calculators to AS/NZS 3008 and AS/NZS 3000 for New Zealand and Australia. Fifteen calculators show worked steps, clause references, saved projects and PDF reports.",
+      "Cable sizing and electrical calculators to AS/NZS 3008 and AS/NZS 3000 for New Zealand and Australia. 84 calculators with worked steps and clause references, projects, plans and PDF reports, in seven languages, with a free Android app on Google Play.",
     technologies: [
       "Next.js 15",
       "React",

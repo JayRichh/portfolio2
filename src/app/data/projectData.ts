@@ -50,23 +50,24 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     imgUrl: "/images/ampsize-home.png",
     repoUrl: "",
     liveUrl: "https://ampsize.nz",
-    updatedAt: "2026-09-19",
+    updatedAt: "2026-10-14",
     details: {
       title: "AmpSize - Cable Sizing and Electrical Calculators",
-      description: "AmpSize runs 15 calculators that show worked steps and name the clause or table behind each result. Guides work one case from end to end, and learn pages explain one idea each. Signed-in users save calculations, group them into projects and export PDF reports. An Android build ships on the Play internal track, and every standards table carries a verification status. Built between 17 and 19 September 2026.",
+      description: "AmpSize runs 84 calculators that show worked steps and name the clause or table behind each result. Guides work one case from end to end, and learn pages explain one idea each. Signed-in users save calculations, group them into projects, draw a plan and export PDF reports. The site reads in seven languages, and the Android app is free on Google Play (https://play.google.com/store/apps/details?id=nz.ampsize.app). Every standards table carries a verification status. First release built between 17 and 19 September 2026; 68 releases by 14 October 2026.",
       technologies: [
-        "Next.js 15",
+        "Next.js 16",
         "React",
         "TypeScript",
         "Tailwind CSS",
         "PostgreSQL",
         "Drizzle ORM",
         "Azure",
-        "Expo"
+        "Expo",
+        "Terraform"
       ],
       features: [
         {
-          title: "Fifteen calculators with worked steps",
+          title: "84 calculators with worked steps",
           text: "The engine sizes cables and checks voltage drop, loop impedance, fault rating, conduit fill, max demand, motors and more. Every calculator prints the intermediate values, not just the answer, so a reviewer can follow the arithmetic."
         },
         {
@@ -82,8 +83,12 @@ const rawProjects: Omit<Project, 'slug'>[] = [
           text: "A calculation encodes into a shareable state, so a saved item and a PDF link carry the same inputs. Users group saved work into projects and export a report for a job file."
         },
         {
-          title: "Android app on the Play internal track",
-          text: "An Expo Router app reads the same calculation engine and design tokens as the web app. The internal test build is live, so the phone and the browser return identical numbers."
+          title: "Android app on Google Play",
+          text: "An Expo Router app reads the same calculation engine and design tokens as the web app. It is public on Google Play, runs offline with no account, and a share link opens the same numbers on ampsize.nz."
+        },
+        {
+          title: "Seven languages, one catalog",
+          text: "English, Simplified Chinese, Vietnamese, Arabic, Hindi, Filipino and te reo Māori, with a trade glossary per language and a review gate before a language enters the search index."
         },
         {
           title: "Standards data with a verification status",
