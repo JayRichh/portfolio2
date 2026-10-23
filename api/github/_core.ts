@@ -35,11 +35,15 @@ export interface LanguageStats {
   totalSize: number;
   totalFiles: number;
   totalLines: number;
+  repoCount: number;
+  privateRepoCount: number;
+  includesPrivate: boolean;
 }
 
 interface Repository {
   name: string;
   isFork: boolean;
+  isPrivate: boolean;
   languages?: {
     edges?: Array<{
       size: number;
@@ -98,6 +102,7 @@ const REPOS_QUERY = `
         nodes {
           name
           isFork
+          isPrivate
           languages(first: 20, orderBy: {field: SIZE, direction: DESC}) {
             edges {
               size
@@ -120,6 +125,8 @@ const BYTES_PER_FILE: Record<string, number> = {
   Python: 8000, Go: 15000, Rust: 12000, C: 10000, 'C++': 12000,
 };
 
+let lastTokenScopes = '';
+
 async function fetchGitHub<T>(query: string, variables: Record<string, unknown>): Promise<T> {
   const token = process.env['GITHUB_TOKEN'];
   if (!token) throw new GitHubError(500, 'GitHub API is not configured');
@@ -138,6 +145,7 @@ async function fetchGitHub<T>(query: string, variables: Record<string, unknown>)
       }
     );
 
+    lastTokenScopes = String(response.headers?.['x-oauth-scopes'] ?? '');
     if (response.data.errors?.length > 0) {
       throw new GitHubError(400, response.data.errors[0].message);
     }
@@ -255,7 +263,9 @@ export async function getLanguageStats(): Promise<LanguageStats> {
     }))
     .sort((a, b) => b.size - a.size);
 
-  return { languages, totalSize, totalFiles, totalLines };
+  const privateRepoCount = repos.filter((r) => r.isPrivate).length;
+  const includesPrivate = privateRepoCount > 0 || /\brepo\b/.test(lastTokenScopes);
+  return { languages, totalSize, totalFiles, totalLines, repoCount: repos.length, privateRepoCount, includesPrivate };
 }
 
 export function parseYearParam(raw: string | string[] | undefined): number {
