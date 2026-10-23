@@ -23,6 +23,9 @@ export interface LanguageStats {
   readonly totalSize: number;
   readonly totalFiles: number;
   readonly totalLines: number;
+  readonly repoCount?: number;
+  readonly privateRepoCount?: number;
+  readonly includesPrivate?: boolean;
 }
 
 export interface CachedGitHubData {

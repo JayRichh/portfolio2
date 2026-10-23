@@ -2,7 +2,7 @@
   <div class="chart-header">
     <h3>Code Composition</h3>
     <app-info-tooltip
-      [content]="'Byte-share of languages across all current repositories (not filtered by year). Line and file counts are estimates based on language-specific averages.'"
+      [content]="'Byte-share of languages across all current repositories, public and private (not filtered by year). Line and file counts are estimates based on language-specific averages.'"
     />
   </div>
 
@@ -17,6 +17,11 @@
           <div class="chart-footer-item">
             Total Files: {{ formatNumber(data().totalFiles) }}
           </div>
+          @if (data().repoCount) {
+            <div class="chart-footer-item">
+              Repos: {{ data().repoCount }} ({{ data().privateRepoCount }} private)
+            </div>
+          }
         </div>
       </div>
     </div>
