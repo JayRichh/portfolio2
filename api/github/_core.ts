@@ -264,7 +264,7 @@ export async function getLanguageStats(): Promise<LanguageStats> {
     .sort((a, b) => b.size - a.size);
 
   const privateRepoCount = repos.filter((r) => r.isPrivate).length;
-  const includesPrivate = privateRepoCount > 0 || /repo/.test(lastTokenScopes);
+  const includesPrivate = privateRepoCount > 0 || /\brepo\b/.test(lastTokenScopes);
   return { languages, totalSize, totalFiles, totalLines, repoCount: repos.length, privateRepoCount, includesPrivate };
 }
 
