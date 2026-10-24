@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-hero-section',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-hero-section',
+    imports: [CommonModule],
+    template: `
     <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
       <div class="relative z-10 flex flex-col items-center px-4 text-center">
         <h1
@@ -47,7 +46,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
     }
@@ -65,14 +64,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
       animation: bounce 2s infinite;
     }
   `],
-  animations: [
-    trigger('fadeInUp', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('600ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
-      ])
-    ])
-  ]
+    animations: [
+        trigger('fadeInUp', [
+            transition(':enter', [
+                style({ opacity: 0, transform: 'translateY(20px)' }),
+                animate('600ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
+            ])
+        ])
+    ]
 })
 export class HeroSectionComponent {
   scrollToProjects(): void {

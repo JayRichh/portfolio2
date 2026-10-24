@@ -8,18 +8,17 @@ import { ScrollIndicatorComponent } from '../../components/scroll-indicator/scro
 import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/explore-nav/explore-nav.component';
 
 @Component({
-  selector: 'app-about-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TopSectionComponent,
-    TimelineComponent,
-    HobbiesComponent,
-    SocialLinksComponent,
-    ScrollIndicatorComponent,
-    ExploreNavComponent
-  ],
-  template: `
+    selector: 'app-about-page',
+    imports: [
+        CommonModule,
+        TopSectionComponent,
+        TimelineComponent,
+        HobbiesComponent,
+        SocialLinksComponent,
+        ScrollIndicatorComponent,
+        ExploreNavComponent
+    ],
+    template: `
     <div class="about-page">
       <app-top-section />
       <app-timeline />
@@ -29,7 +28,7 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
       <app-scroll-indicator />
     </div>
   `,
-  styles: [`
+    styles: [`
     .about-page {
       position: relative;
       min-height: 100vh;

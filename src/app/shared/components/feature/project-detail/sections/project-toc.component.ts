@@ -8,10 +8,9 @@ export interface TocItem {
 }
 
 @Component({
-  selector: 'app-project-toc',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-toc',
+    imports: [CommonModule],
+    template: `
     <nav class="toc" *ngIf="items?.length" aria-label="Project sections">
       <span class="toc-label">On this page</span>
       <ol class="toc-list">
@@ -29,7 +28,7 @@ export interface TocItem {
       </ol>
     </nav>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .toc {
       position: sticky;

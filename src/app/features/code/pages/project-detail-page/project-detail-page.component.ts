@@ -8,10 +8,9 @@ import { JsonLdService } from '@core/services/json-ld.service';
 import { NotFoundComponent } from '../../../not-found/not-found.component';
 
 @Component({
-  selector: 'app-project-detail-page',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ProjectDetailViewComponent, NotFoundComponent],
-  template: `
+    selector: 'app-project-detail-page',
+    imports: [CommonModule, RouterModule, ProjectDetailViewComponent, NotFoundComponent],
+    template: `
     <ng-container *ngIf="project() as p; else notFound">
       <div class="min-h-screen bg-background pt-24 md:pt-32">
         <div class="container mx-auto px-4 pb-24 sm:px-6 lg:px-8">
@@ -32,7 +31,7 @@ import { NotFoundComponent } from '../../../not-found/not-found.component';
       <app-not-found />
     </ng-template>
   `,
-  styles: [`:host { display: block; }`]
+    styles: [`:host { display: block; }`]
 })
 export class ProjectDetailPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

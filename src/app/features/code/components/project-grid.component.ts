@@ -7,10 +7,9 @@ import { ProjectCardSkeletonComponent } from './project-card-skeleton.component'
 import { CODE_CONSTANTS } from '../constants/code.constants';
 
 @Component({
-  selector: 'app-project-grid',
-  standalone: true,
-  imports: [CommonModule, ProjectCardComponent, ProjectCardSkeletonComponent],
-  template: `
+    selector: 'app-project-grid',
+    imports: [CommonModule, ProjectCardComponent, ProjectCardSkeletonComponent],
+    template: `
     <div *ngIf="!mounted || isLoading" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-2">
       <app-project-card-skeleton
         *ngFor="let skeleton of skeletonArray"
@@ -45,7 +44,7 @@ import { CODE_CONSTANTS } from '../constants/code.constants';
       />
     </div>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
     }
@@ -62,27 +61,27 @@ import { CODE_CONSTANTS } from '../constants/code.constants';
       animation: none !important;
     }
   `],
-  animations: [
-    trigger('listAnimation', [
-      transition('* => *', [
-        query(':enter', [
-          style({ opacity: 0 }),
-          stagger(50, [
-            animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
-          ])
-        ], { optional: true })
-      ])
-    ]),
-    trigger('fadeInUp', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+    animations: [
+        trigger('listAnimation', [
+            transition('* => *', [
+                query(':enter', [
+                    style({ opacity: 0 }),
+                    stagger(50, [
+                        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
+                    ])
+                ], { optional: true })
+            ])
+        ]),
+        trigger('fadeInUp', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
+            ]),
+            transition(':leave', [
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))
+            ])
+        ])
+    ]
 })
 export class ProjectGridComponent {
   @Input() isLoading = false;

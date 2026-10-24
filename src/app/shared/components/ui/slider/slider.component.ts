@@ -2,10 +2,9 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-slider',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-slider',
+    imports: [CommonModule],
+    template: `
     <div class="slider-container">
       <button
         type="button"
@@ -46,7 +45,7 @@ import { CommonModule } from '@angular/common';
       <span class="slider-value">{{ value }}</span>
     </div>
   `,
-  styles: [`
+    styles: [`
     .slider-container {
       display: flex;
       align-items: center;

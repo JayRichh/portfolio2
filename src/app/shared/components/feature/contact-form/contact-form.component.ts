@@ -11,18 +11,17 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
 import { FormData, FormStatus } from './models/form-data.interface';
 
 @Component({
-  selector: 'app-contact-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ButtonComponent,
-    InputComponent,
-    TextareaComponent,
-    DrawingCanvasComponent
-  ],
-  templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+    selector: 'app-contact-form',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ButtonComponent,
+        InputComponent,
+        TextareaComponent,
+        DrawingCanvasComponent
+    ],
+    templateUrl: './contact-form.component.html',
+    styleUrls: ['./contact-form.component.scss']
 })
 export class ContactFormComponent implements OnInit {
   @ViewChild(DrawingCanvasComponent) canvas?: DrawingCanvasComponent;

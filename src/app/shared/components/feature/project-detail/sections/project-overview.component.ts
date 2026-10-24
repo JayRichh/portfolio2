@@ -4,10 +4,9 @@ import { Project } from '@data/projectData';
 import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
 
 @Component({
-  selector: 'app-project-overview',
-  standalone: true,
-  imports: [CommonModule, TechBadgeComponent],
-  template: `
+    selector: 'app-project-overview',
+    imports: [CommonModule, TechBadgeComponent],
+    template: `
     <section class="project-overview" *ngIf="project" id="overview">
       <p class="lede">{{ project.details.description }}</p>
       <div class="tech-row">
@@ -19,7 +18,7 @@ import { TechBadgeComponent } from '@features/code/components/tech-badge.compone
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .project-overview {
       display: flex;

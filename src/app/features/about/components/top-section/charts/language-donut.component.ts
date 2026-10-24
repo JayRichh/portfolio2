@@ -26,12 +26,11 @@ const TOP_N = 8;
 const OTHER_COLOR = 'hsl(215, 16%, 55%)';
 
 @Component({
-  selector: 'app-language-donut',
-  standalone: true,
-  imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
-  templateUrl: './language-donut.component.html',
-  styleUrls: ['./language-donut.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-language-donut',
+    imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
+    templateUrl: './language-donut.component.html',
+    styleUrls: ['./language-donut.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageDonutComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;

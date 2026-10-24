@@ -8,10 +8,9 @@ export interface LightboxImage {
 }
 
 @Component({
-  selector: 'app-lightbox',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-lightbox',
+    imports: [CommonModule],
+    template: `
     <div
       *ngIf="isOpen"
       @fadeIn
@@ -99,22 +98,22 @@ export interface LightboxImage {
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: contents;
     }
   `],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+    animations: [
+        trigger('fadeIn', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
+            ]),
+            transition(':leave', [
+                animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))
+            ])
+        ])
+    ]
 })
 export class LightboxComponent implements OnInit, OnDestroy, OnChanges {
   @Input() images: LightboxImage[] = [];

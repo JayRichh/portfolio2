@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { techIcons } from '@data/techIcons';
 
 @Component({
-  selector: 'app-tech-badge',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-tech-badge',
+    imports: [CommonModule],
+    template: `
     <button
       type="button"
       [class]="badgeClasses"
@@ -24,7 +23,7 @@ import { techIcons } from '@data/techIcons';
       </span>
     </button>
   `,
-  styles: [`
+    styles: [`
     button {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }

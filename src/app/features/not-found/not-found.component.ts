@@ -3,10 +3,9 @@ import { RouterModule } from '@angular/router';
 import { RESPONSE_INIT } from '../../core/tokens/response.token';
 
 @Component({
-  selector: 'app-not-found',
-  standalone: true,
-  imports: [RouterModule],
-  template: `
+    selector: 'app-not-found',
+    imports: [RouterModule],
+    template: `
     <div class="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-24 text-center">
       <p class="text-7xl font-bold text-primary sm:text-8xl">404</p>
       <h1 class="mt-6 text-2xl font-semibold text-foreground sm:text-3xl">Page not found</h1>
@@ -21,7 +20,7 @@ import { RESPONSE_INIT } from '../../core/tokens/response.token';
       </a>
     </div>
   `,
-  styles: [':host { display: block; }']
+    styles: [':host { display: block; }']
 })
 export class NotFoundComponent {
   private readonly responseState = inject(RESPONSE_INIT, { optional: true });

@@ -21,12 +21,11 @@ interface MonthPosition {
 }
 
 @Component({
-  selector: 'app-contribution-calendar',
-  standalone: true,
-  imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
-  templateUrl: './contribution-calendar.component.html',
-  styleUrls: ['./contribution-calendar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-contribution-calendar',
+    imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
+    templateUrl: './contribution-calendar.component.html',
+    styleUrls: ['./contribution-calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContributionCalendarComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;

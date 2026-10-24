@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 
 @Component({
-  selector: 'app-contact-page',
-  standalone: true,
-  imports: [CommonModule, ContactFormComponent],
-  template: `
+    selector: 'app-contact-page',
+    imports: [CommonModule, ContactFormComponent],
+    template: `
     <section class="contact-page">
       <div class="contact-container">
         <h1 class="contact-title">Get In Touch</h1>
@@ -17,7 +16,7 @@ import { ContactFormComponent } from '@shared/components/feature/contact-form/co
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     .contact-page {
       min-height: 100vh;
       padding: 8rem 1rem 3rem;

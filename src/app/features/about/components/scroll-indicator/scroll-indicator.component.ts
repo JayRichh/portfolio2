@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-scroll-indicator',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-scroll-indicator',
+    imports: [CommonModule],
+    template: `
     <button
       *ngIf="showIndicator()"
       type="button"
@@ -37,7 +36,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
       </div>
     </button>
   `,
-  styles: [`
+    styles: [`
     .scroll-indicator {
       position: fixed;
       bottom: 2rem;
@@ -132,17 +131,17 @@ import { trigger, transition, style, animate } from '@angular/animations';
       }
     }
   `],
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'scale(1)' }))
-      ]),
-      transition(':leave', [
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'scale(0.8)' }))
-      ])
-    ])
-  ]
+    animations: [
+        trigger('fadeInOut', [
+            transition(':enter', [
+                style({ opacity: 0, transform: 'scale(0.8)' }),
+                animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'scale(1)' }))
+            ]),
+            transition(':leave', [
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'scale(0.8)' }))
+            ])
+        ])
+    ]
 })
 export class ScrollIndicatorComponent implements OnInit, OnDestroy {
   readonly showIndicator = signal(false);

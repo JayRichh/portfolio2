@@ -17,11 +17,10 @@ const BRUSH_TYPES: readonly BrushTypeOption[] = [
 ];
 
 @Component({
-  selector: 'app-drawing-canvas',
-  standalone: true,
-  imports: [CommonModule, ButtonComponent, SliderComponent],
-  templateUrl: './drawing-canvas.component.html',
-  styleUrls: ['./drawing-canvas.component.scss']
+    selector: 'app-drawing-canvas',
+    imports: [CommonModule, ButtonComponent, SliderComponent],
+    templateUrl: './drawing-canvas.component.html',
+    styleUrls: ['./drawing-canvas.component.scss']
 })
 export class DrawingCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef?: ElementRef<HTMLCanvasElement>;

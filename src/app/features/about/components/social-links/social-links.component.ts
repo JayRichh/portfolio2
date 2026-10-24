@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-social-links',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-social-links',
+    imports: [CommonModule],
+    template: `
     <section class="social-section">
       <div class="social-container">
         <div class="social-grid">
@@ -104,7 +103,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     .social-section {
       width: 100%;
       padding: 3rem 1rem;

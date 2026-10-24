@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
 @Component({
-  selector: 'app-language-donut-skeleton',
-  standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent],
-  template: `
+    selector: 'app-language-donut-skeleton',
+    imports: [CommonModule, SkeletonLoaderComponent],
+    template: `
     <div class="donut-chart-container">
       <div class="chart-header">
         <app-skeleton-loader width="180px" height="28px" />
@@ -35,7 +34,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .donut-chart-container {
       background: hsl(var(--card));
       border-radius: var(--radius);
@@ -144,7 +143,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       .stats-scroll-container { max-height: 250px; }
     }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageDonutSkeletonComponent {
   readonly rows = [1, 2, 3, 4, 5, 6, 7, 8];

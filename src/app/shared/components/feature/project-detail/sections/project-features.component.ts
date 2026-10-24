@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FeatureDetail } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-features',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-features',
+    imports: [CommonModule],
+    template: `
     <section class="features" *ngIf="features?.length" id="features">
       <h2 class="section-title">
         <span class="section-eyebrow">Build</span>
@@ -26,7 +25,7 @@ import { FeatureDetail } from '@data/projectData';
       </ol>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .features { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }
     .section-title {

@@ -9,11 +9,10 @@ interface ThemeOption {
 }
 
 @Component({
-  selector: 'app-theme-selector',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './theme-selector.component.html',
-  styleUrls: ['./theme-selector.component.scss']
+    selector: 'app-theme-selector',
+    imports: [CommonModule],
+    templateUrl: './theme-selector.component.html',
+    styleUrls: ['./theme-selector.component.scss']
 })
 export class ThemeSelectorComponent {
   private readonly themeService = inject(ThemeService);

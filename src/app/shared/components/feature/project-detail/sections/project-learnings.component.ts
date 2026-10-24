@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { LearningDetail } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-learnings',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-learnings',
+    imports: [CommonModule],
+    template: `
     <section class="learnings" *ngIf="learnings?.length" id="learnings">
       <h2 class="section-title">
         <span class="section-eyebrow">Takeaways</span>
@@ -38,7 +37,7 @@ import { LearningDetail } from '@data/projectData';
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .learnings { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }
     .section-title {

@@ -7,10 +7,9 @@ interface TooltipItem {
 }
 
 @Component({
-  selector: 'app-image-tooltip',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-image-tooltip',
+    imports: [CommonModule],
+    template: `
     <div
       *ngIf="isVisible()"
       class="tooltip-container"
@@ -39,7 +38,7 @@ interface TooltipItem {
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .tooltip-container {
       position: fixed;
       z-index: 9999;

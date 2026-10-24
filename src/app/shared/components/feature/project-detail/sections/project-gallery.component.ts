@@ -2,10 +2,9 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-project-gallery',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-gallery',
+    imports: [CommonModule],
+    template: `
     <section class="gallery" *ngIf="images?.length" id="gallery">
       <h2 class="section-title">
         <span class="section-eyebrow">Visual</span>
@@ -26,7 +25,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .gallery { padding: 2.5rem 0; }
     .section-title {

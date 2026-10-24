@@ -8,14 +8,13 @@ import { ProjectGridComponent } from '../../components/project-grid.component';
 import { CODE_CONSTANTS } from '../../constants/code.constants';
 
 @Component({
-  selector: 'app-code-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FilterSectionComponent,
-    ProjectGridComponent
-  ],
-  template: `
+    selector: 'app-code-page',
+    imports: [
+        CommonModule,
+        FilterSectionComponent,
+        ProjectGridComponent
+    ],
+    template: `
     <div class="min-h-screen bg-background pt-24 md:pt-32">
       <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <header class="mb-8 text-center">
@@ -74,7 +73,7 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
       </div>
     </div>
   `,
-  styles: [`:host { display: block; }`]
+    styles: [`:host { display: block; }`]
 })
 export class CodePageComponent implements OnInit {
   readonly CODE_CONSTANTS = CODE_CONSTANTS;

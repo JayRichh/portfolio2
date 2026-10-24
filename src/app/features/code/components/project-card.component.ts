@@ -6,10 +6,9 @@ import { CODE_CONSTANTS } from '../constants/code.constants';
 import { ProjectService } from '../../../core/services/project.service';
 
 @Component({
-  selector: 'app-project-card',
-  standalone: true,
-  imports: [CommonModule, TechBadgeComponent],
-  template: `
+    selector: 'app-project-card',
+    imports: [CommonModule, TechBadgeComponent],
+    template: `
     <div
       class="group relative overflow-hidden rounded-lg border border-border bg-card text-card-foreground transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg cursor-pointer flex flex-col w-full"
       (click)="onProjectSelect()"
@@ -107,7 +106,7 @@ import { ProjectService } from '../../../core/services/project.service';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: flex;
       height: 100%;

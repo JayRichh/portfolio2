@@ -8,16 +8,15 @@ import { projectData, Project } from '@data/projectData';
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 @Component({
-  selector: 'app-home-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    HeroQuadrantComponent,
-    FrameworkShowcaseComponent,
-    ContactFormComponent,
-    ProjectModalComponent
-  ],
-  template: `
+    selector: 'app-home-page',
+    imports: [
+        CommonModule,
+        HeroQuadrantComponent,
+        FrameworkShowcaseComponent,
+        ContactFormComponent,
+        ProjectModalComponent
+    ],
+    template: `
     <div class="home-page">
       <app-hero-quadrant />
       <app-framework-showcase (projectClick)="openProject($event)" />
@@ -38,7 +37,7 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
       />
     </div>
   `,
-  styles: [`
+    styles: [`
     .home-page {
       width: 100%;
       background: hsl(var(--background));

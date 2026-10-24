@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ChallengeDetail } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-challenges',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-challenges',
+    imports: [CommonModule],
+    template: `
     <section class="challenges" *ngIf="challenges?.length" id="challenges">
       <h2 class="section-title">
         <span class="section-eyebrow">Friction</span>
@@ -28,7 +27,7 @@ import { ChallengeDetail } from '@data/projectData';
       </ol>
     </section>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .challenges { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }
     .section-title {

@@ -8,11 +8,10 @@ import { ScrollIndicatorComponent } from '@features/about/components/scroll-indi
 import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/explore-nav/explore-nav.component';
 
 @Component({
-  selector: 'app-work-page',
-  standalone: true,
-  imports: [CommonModule, RouterModule, HeroSectionComponent, TechBadgeComponent, ScrollIndicatorComponent, ExploreNavComponent],
-  templateUrl: './work-page.component.html',
-  styleUrl: './work-page.component.scss'
+    selector: 'app-work-page',
+    imports: [CommonModule, RouterModule, HeroSectionComponent, TechBadgeComponent, ScrollIndicatorComponent, ExploreNavComponent],
+    templateUrl: './work-page.component.html',
+    styleUrl: './work-page.component.scss'
 })
 export class WorkPageComponent implements OnInit, OnDestroy {
   readonly projects = projectsData;

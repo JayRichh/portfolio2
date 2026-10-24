@@ -11,11 +11,10 @@ export interface TooltipData {
 }
 
 @Component({
-  selector: 'app-chart-tooltip',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './chart-tooltip.component.html',
-  styleUrls: ['./chart-tooltip.component.scss']
+    selector: 'app-chart-tooltip',
+    imports: [CommonModule],
+    templateUrl: './chart-tooltip.component.html',
+    styleUrls: ['./chart-tooltip.component.scss']
 })
 export class ChartTooltipComponent {
   readonly data = signal<TooltipData>({

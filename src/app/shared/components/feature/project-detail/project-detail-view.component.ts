@@ -14,22 +14,21 @@ import { ProjectTocComponent, TocItem } from './sections/project-toc.component';
 export type ProjectDetailMode = 'page' | 'modal';
 
 @Component({
-  selector: 'app-project-detail-view',
-  standalone: true,
-  imports: [
-    CommonModule,
-    LightboxComponent,
-    ProjectHeroComponent,
-    ProjectOverviewComponent,
-    ProjectFeaturesComponent,
-    ProjectChallengesComponent,
-    ProjectLearningsComponent,
-    ProjectGalleryComponent,
-    ProjectActionsComponent,
-    ProjectTocComponent
-  ],
-  templateUrl: './project-detail-view.component.html',
-  styleUrls: ['./project-detail-view.component.scss']
+    selector: 'app-project-detail-view',
+    imports: [
+        CommonModule,
+        LightboxComponent,
+        ProjectHeroComponent,
+        ProjectOverviewComponent,
+        ProjectFeaturesComponent,
+        ProjectChallengesComponent,
+        ProjectLearningsComponent,
+        ProjectGalleryComponent,
+        ProjectActionsComponent,
+        ProjectTocComponent
+    ],
+    templateUrl: './project-detail-view.component.html',
+    styleUrls: ['./project-detail-view.component.scss']
 })
 export class ProjectDetailViewComponent {
   @Input() project: Project | null = null;

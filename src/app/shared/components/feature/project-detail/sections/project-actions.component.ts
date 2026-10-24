@@ -2,10 +2,9 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-project-actions',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-actions',
+    imports: [CommonModule],
+    template: `
     <div class="actions" [class.sticky]="sticky">
       <a
         *ngIf="liveUrl"
@@ -36,7 +35,7 @@ import { CommonModule } from '@angular/common';
       </a>
     </div>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .actions {
       display: flex;

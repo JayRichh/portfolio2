@@ -34,11 +34,10 @@ const lerp = (start: number, end: number, t: number): number => {
 };
 
 @Component({
-  selector: 'app-hobbies',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './hobbies.component.html',
-  styleUrl: './hobbies.component.scss'
+    selector: 'app-hobbies',
+    imports: [CommonModule],
+    templateUrl: './hobbies.component.html',
+    styleUrl: './hobbies.component.scss'
 })
 export class HobbiesComponent implements OnInit, OnDestroy {
   @ViewChildren('groupWrapper') groupWrappers!: QueryList<ElementRef>;

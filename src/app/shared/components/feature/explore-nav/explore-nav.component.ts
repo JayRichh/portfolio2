@@ -11,11 +11,10 @@ export interface ExploreNavLink {
 }
 
 @Component({
-  selector: 'app-explore-nav',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './explore-nav.component.html',
-  styleUrl: './explore-nav.component.scss'
+    selector: 'app-explore-nav',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './explore-nav.component.html',
+    styleUrl: './explore-nav.component.scss'
 })
 export class ExploreNavComponent {
   @Input() links: ExploreNavLink[] = [];

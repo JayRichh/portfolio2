@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Project } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-hero',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-hero',
+    imports: [CommonModule],
+    template: `
     <header class="project-hero" *ngIf="project">
       <div class="hero-media" (click)="imageClick.emit()">
         <img [src]="project.imgUrl" [alt]="project.title" loading="eager" />
@@ -22,7 +21,7 @@ import { Project } from '@data/projectData';
       </div>
     </header>
   `,
-  styles: [`
+    styles: [`
     :host { display: block; }
     .project-hero {
       position: relative;

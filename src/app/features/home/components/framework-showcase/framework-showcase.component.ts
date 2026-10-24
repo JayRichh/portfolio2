@@ -13,11 +13,10 @@ interface FrameworkGroup {
 }
 
 @Component({
-  selector: 'app-framework-showcase',
-  standalone: true,
-  imports: [CommonModule, RouterModule, ImageTooltipComponent, ScrollIndicatorComponent],
-  templateUrl: './framework-showcase.component.html',
-  styleUrl: './framework-showcase.component.scss'
+    selector: 'app-framework-showcase',
+    imports: [CommonModule, RouterModule, ImageTooltipComponent, ScrollIndicatorComponent],
+    templateUrl: './framework-showcase.component.html',
+    styleUrl: './framework-showcase.component.scss'
 })
 export class FrameworkShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ImageTooltipComponent) tooltip!: ImageTooltipComponent;

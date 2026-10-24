@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
 @Component({
-  selector: 'app-contribution-calendar-skeleton',
-  standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent],
-  template: `
+    selector: 'app-contribution-calendar-skeleton',
+    imports: [CommonModule, SkeletonLoaderComponent],
+    template: `
     <div class="skeleton-container">
       <div class="skeleton-header">
         <app-skeleton-loader width="200px" height="28px" />
@@ -27,7 +26,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .skeleton-container {
       background: hsl(var(--card));
       border-radius: calc(var(--radius) - 2px);

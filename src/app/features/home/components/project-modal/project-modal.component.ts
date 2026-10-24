@@ -6,10 +6,9 @@ import { ProjectDetailViewComponent } from '@shared/components/feature/project-d
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 @Component({
-  selector: 'app-project-modal',
-  standalone: true,
-  imports: [CommonModule, ProjectDetailViewComponent],
-  template: `
+    selector: 'app-project-modal',
+    imports: [CommonModule, ProjectDetailViewComponent],
+    template: `
     <div
       *ngIf="isOpen && project"
       @fadeIn
@@ -38,16 +37,16 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
       </div>
     </div>
   `,
-  styles: [`:host { display: contents; }`],
-  animations: [
-    trigger('fadeIn', [
-      transition(':enter', [style({ opacity: 0 }), animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))]),
-      transition(':leave', [animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))])
-    ]),
-    trigger('slideUp', [
-      transition(':enter', [style({ opacity: 0, transform: 'translateY(20px)' }), animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))])
-    ])
-  ]
+    styles: [`:host { display: contents; }`],
+    animations: [
+        trigger('fadeIn', [
+            transition(':enter', [style({ opacity: 0 }), animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))]),
+            transition(':leave', [animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0 }))])
+        ]),
+        trigger('slideUp', [
+            transition(':enter', [style({ opacity: 0, transform: 'translateY(20px)' }), animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))])
+        ])
+    ]
 })
 export class ProjectModalComponent implements OnChanges {
   @Input() project: Project | null = null;
