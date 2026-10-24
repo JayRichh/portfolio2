@@ -45,6 +45,8 @@
         class="mobile-menu-toggle"
         [class.open]="mobileMenuOpen()"
         aria-label="Toggle menu"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        aria-controls="mobile-menu"
         >
         <span class="hamburger">
           <span class="line"></span>
@@ -67,7 +69,7 @@
       [class.open]="mobileMenuOpen()"
       (click)="$event.stopPropagation()"
       >
-      <nav class="mobile-nav mt-12">
+      <nav id="mobile-menu" class="mobile-nav mt-12" aria-label="Mobile">
         @for (link of navLinks; track link) {
           <a
             [routerLink]="link.path"

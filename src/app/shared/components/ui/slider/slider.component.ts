@@ -11,6 +11,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
         (click)="decrease()"
         [disabled]="value <= min"
         class="slider-btn"
+        aria-label="Decrease"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" x2="19" y1="12" y2="12"/></svg>
       </button>
@@ -38,6 +39,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
         (click)="increase()"
         [disabled]="value >= max"
         class="slider-btn"
+        aria-label="Increase"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
       </button>

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, signal, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
+import { RouterModule } from '@angular/router';
 import { Project } from '@data/projectData';
 import { TechBadgeComponent } from './tech-badge.component';
 import { CODE_CONSTANTS } from '../constants/code.constants';
@@ -7,7 +8,7 @@ import { ProjectService } from '../../../core/services/project.service';
 
 @Component({
     selector: 'app-project-card',
-    imports: [TechBadgeComponent],
+    imports: [RouterModule, TechBadgeComponent],
     template: `
     <div
       class="group relative overflow-hidden rounded-lg border border-border bg-card text-card-foreground transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg cursor-pointer flex flex-col w-full"
@@ -88,7 +89,7 @@ import { ProjectService } from '../../../core/services/project.service';
     
         <div class="p-4 xs:p-6 flex flex-col flex-1">
           <h3 class="mb-2 line-clamp-1 text-xl font-semibold text-foreground">
-            {{ project.title }}
+            <a [routerLink]="['/code', project.slug]" (click)="$event.stopPropagation()" class="hover:text-primary transition-colors">{{ project.title }}</a>
           </h3>
           <p class="mb-4 line-clamp-2 text-sm text-muted-foreground flex-1">
             {{ project.description }}
