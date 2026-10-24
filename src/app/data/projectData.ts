@@ -419,7 +419,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Elite Garage Screens",
     description:
       "Business website for garage screen door installation with interactive gallery, form handling, and SEO optimizations built with Next.js 15.",
-    imgUrl: "/images/eweb4.png",
+    imgUrl: "/images/eweb4.webp",
     repoUrl: "",
     liveUrl: "https://elitescreens.co.nz",
     updatedAt: "2025-06-04",
@@ -446,7 +446,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         {
           title: "Interactive Gallery",
           text: "Category-filtered image gallery with modal view and keyboard navigation. Features optimized image loading, transition effects, and responsive grid layout.",
-          image: "/images/eweb4.png",
+          image: "/images/eweb4.webp",
         },
         {
           title: "Form Handling",
@@ -705,7 +705,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Trekk",
     description:
       "Interactive 3D hiking trail platform with topographical mapping, trail details, and community features built with Vue 3, .NET Core, and Mapbox GL",
-    imgUrl: "/images/trek1.png",
+    imgUrl: "/images/trek1.webp",
     repoUrl: "",
     liveUrl: "https://trekk-seven.vercel.app",
     updatedAt: "2025-04-10",
@@ -898,7 +898,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Encompass Travel",
     description:
       "Digital platform for NZ motorcycle tours using Vue, Supabase and server-side caching. Focused on performance and progressive enhancement.",
-    imgUrl: "/images/encompass-hero.png",
+    imgUrl: "/images/encompass-hero.webp",
     repoUrl: "https://github.com/JayRichh",
     liveUrl: "https://encompasstours.co.nz",
     updatedAt: "2024-11-19",
@@ -1189,7 +1189,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "SteamShare",
     description:
       "Steam screenshot management platform with integrated gallery organization and canvas editing. Features seamless Steam authentication, real-time data fetch, and collage creation tools.",
-    imgUrl: "/images/steam4.png",
+    imgUrl: "/images/steam4.webp",
     repoUrl: "https://github.com/JayRichh/steamshare",
     liveUrl: "https://steamshare.net",
     updatedAt: "2024-11-22",
@@ -1221,7 +1221,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         {
           title: "Canvas Editor",
           text: "Professional-grade editing tools powered by Fabric.js. Includes drawing tools, filters, and advanced image manipulation features for creating gaming collages.",
-          image: "/images/steam4.png",
+          image: "/images/steam4.webp",
         },
         {
           title: "Friend System",
@@ -1290,7 +1290,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     description:
       "Trip planning app built with Next.js. Handles timelines, budgets, and activity tracking.",
     imgUrl: "/images/tiki1.png",
-    repoUrl: "https://github.com/JayRichh/tiki-tours",
+    repoUrl: "",
     liveUrl: "https://tiki.tours",
     updatedAt: "2025-01-10",
     details: {
@@ -1643,7 +1643,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Holiday House Map",
     description:
       "Interactive map visualization of holiday houses using Mapbox GL and custom UI components",
-    imgUrl: "/images/map3.png",
+    imgUrl: "/images/map3.webp",
     repoUrl: "https://codepen.io/JayRichh/pen/xxNRWpK",
     liveUrl: "https://codepen.io/JayRichh/full/xxNRWpK",
     updatedAt: "2024-11-17",
@@ -1735,7 +1735,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Off The Floor",
     description:
       "Simple business website built while learning Vue3 and TypeScript fundamentals",
-    imgUrl: "/images/otf-vue1.png",
+    imgUrl: "/images/otf-vue1.webp",
     repoUrl: "https://github.com/JayRichh/otf-vue",
     liveUrl: "http://otf-vue.vercel.app",
     updatedAt: "2024-01-25",
@@ -1758,7 +1758,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         {
           title: "Content Sections",
           text: "Simple content components using Vue3 composition API. Needs better component organization.",
-          image: "/images/otf-vue1.png",
+          image: "/images/otf-vue1.webp",
         },
         {
           title: "Image Sliders",
@@ -1816,7 +1816,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         },
       ],
       additionalImages: [
-        "/images/otf-vue1.png",
+        "/images/otf-vue1.webp",
         "/images/otf-vue2.png",
         "/images/otf-vue3.png",
       ],
@@ -2116,7 +2116,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Restyled 2.0",
     description:
       "Wardrobe management app exploring AI integration and multi-tenant architecture",
-    imgUrl: "/images/restyled1.png",
+    imgUrl: "/images/restyled1.webp",
     repoUrl: "https://github.com/JayRichh/",
     liveUrl: "https://restyled.app",
     updatedAt: "2024-10-13",
@@ -2201,7 +2201,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         },
       ],
       additionalImages: [
-        "/images/restyled1.png",
+        "/images/restyled1.webp",
         "/images/restyled2.png",
         "/images/restyled3.png",
         "/images/restyled4.png",
@@ -2406,7 +2406,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
       "Basic time tracking tool built while learning React hooks and charts. Helps track coding time and project progress.",
     imgUrl: "/images/devmap-logo.webp",
     repoUrl: "",
-    liveUrl: "https://devmap.me",
+    liveUrl: "",
     updatedAt: "2024-08-10",
     details: {
       title: "DevMap - Time Tracking Tool",
@@ -2503,7 +2503,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     description:
       "3D graphics and game dev testing environment built with Three.js",
     repoUrl: "https://github.com/JayRichh/axiom",
-    imgUrl: "/images/axiom-1.png",
+    imgUrl: "/images/axiom-1.webp",
     liveUrl: "",
     updatedAt: "2024-11-15",
     details: {
@@ -2918,8 +2918,8 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "The Odin Project",
     description:
       "Collection of learning projects completed through The Odin Project's full-stack curriculum. From basic HTML to full-stack applications.",
-    imgUrl: "/images/top10.png",
-    repoUrl: "https://github.com/JayRichh/the-odin-project",
+    imgUrl: "/images/top10.webp",
+    repoUrl: "",
     liveUrl: "",
     updatedAt: "2023-01-01",
     details: {

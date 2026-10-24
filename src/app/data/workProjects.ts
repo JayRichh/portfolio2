@@ -136,7 +136,7 @@ export const projectsData: WorkProject[] = [
       "Digital platform for NZ motorcycle tours using Vue and Supabase, server-side caching, dynamic tour management, and interactive route visualization.",
     technologies: ["Vue.js", "Supabase", "Redis", "Node.js", "TypeScript"],
     mainImage: {
-      src: "/images/encompass-hero.png",
+      src: "/images/encompass-hero.webp",
       alt: "Encompass Tours Hero",
     },
     subImages: [
@@ -174,7 +174,7 @@ export const projectsData: WorkProject[] = [
       "Pinia",
     ],
     mainImage: {
-      src: "/images/trek1.png",
+      src: "/images/trek1.webp",
       alt: "Trekk 3D Trail Map",
     },
     subImages: [
@@ -210,7 +210,7 @@ export const projectsData: WorkProject[] = [
       "reCAPTCHA",
     ],
     mainImage: {
-      src: "/images/eweb4.png",
+      src: "/images/eweb4.webp",
       alt: "Elite Garage Screens Gallery",
     },
     subImages: [
@@ -349,7 +349,7 @@ export const projectsData: WorkProject[] = [
       "Framer Motion",
     ],
     mainImage: {
-      src: "/images/steam4.png",
+      src: "/images/steam4.webp",
       alt: "SteamShare Main",
     },
     subImages: [
