@@ -1,101 +1,107 @@
-import { Component, Input, Output, EventEmitter, signal, afterNextRender, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, signal, afterNextRender, HostListener, ChangeDetectionStrategy } from '@angular/core';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TechBadgeComponent } from './tech-badge.component';
 import { techCategories } from '@data/techCategories';
 
 @Component({
-  selector: 'app-filter-section',
-  standalone: true,
-  imports: [CommonModule, TechBadgeComponent],
-  template: `
-    <div *ngIf="mounted()" class="sticky top-0 z-20 bg-background/95 backdrop-blur-sm pb-6 pt-4">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="relative" #dropdownContainer>
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-all hover:border-primary/50 hover:bg-card/80"
-            (click)="toggleDropdown()"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-            </svg>
-            <span>Filter by Technology</span>
-            <span
-              *ngIf="selectedTech.length > 0"
-              class="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground"
-            >
-              {{ selectedTech.length }}
-            </span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              [class.rotate-180]="isDropdownOpen"
-              class="transition-transform"
-            >
-              <path d="m6 9 6 6 6-6"/>
-            </svg>
-          </button>
-
-          <div
-            *ngIf="isDropdownOpen"
-            @slideDown
-            class="absolute left-0 mt-2 w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-card p-4 shadow-lg sm:w-auto sm:min-w-[500px] sm:max-w-4xl z-10"
-          >
-            <div class="space-y-4">
-              <div *ngFor="let category of categoryKeys" class="space-y-2">
-                <h3 class="text-sm font-semibold text-muted-foreground">
-                  {{ category }}
-                </h3>
-                <div class="flex flex-wrap gap-2">
-                  <app-tech-badge
-                    *ngFor="let tech of techCategories[category]"
-                    [tech]="tech"
-                    [isActive]="isSelected(tech)"
-                    [isClickable]="true"
-                    (badgeClick)="onToggleTech($event)"
-                  />
+    selector: 'app-filter-section',
+    imports: [TechBadgeComponent],
+    template: `
+    @if (mounted()) {
+      <div class="sticky top-0 z-20 bg-background/95 backdrop-blur-sm pb-6 pt-4">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="relative" #dropdownContainer>
+            <button
+              type="button"
+              class="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition-all hover:border-primary/50 hover:bg-card/80"
+              (click)="toggleDropdown()"
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+              </svg>
+              <span>Filter by Technology</span>
+              @if (selectedTech.length > 0) {
+                <span
+                  class="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground"
+                  >
+                  {{ selectedTech.length }}
+                </span>
+              }
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                [class.rotate-180]="isDropdownOpen"
+                class="transition-transform"
+                >
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            @if (isDropdownOpen) {
+              <div
+                @slideDown
+                class="absolute left-0 mt-2 w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-card p-4 shadow-lg sm:w-auto sm:min-w-[500px] sm:max-w-4xl z-10"
+                >
+                <div class="space-y-4">
+                  @for (category of categoryKeys; track category) {
+                    <div class="space-y-2">
+                      <h3 class="text-sm font-semibold text-muted-foreground">
+                        {{ category }}
+                      </h3>
+                      <div class="flex flex-wrap gap-2">
+                        @for (tech of techCategories[category]; track tech) {
+                          <app-tech-badge
+                            [tech]="tech"
+                            [isActive]="isSelected(tech)"
+                            [isClickable]="true"
+                            (badgeClick)="onToggleTech($event)"
+                            />
+                        }
+                      </div>
+                    </div>
+                  }
                 </div>
               </div>
-            </div>
+            }
           </div>
+          <button
+            type="button"
+            [class]="sortButtonClasses"
+            (click)="onToggleSort()"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 16 4 4 4-4"/>
+              <path d="M7 20V4"/>
+              <path d="m21 8-4-4-4 4"/>
+              <path d="M17 4v16"/>
+            </svg>
+            <span>{{ sortByRecent ? 'Clear Sort' : 'Sort Recent' }}</span>
+          </button>
         </div>
-
-        <button
-          type="button"
-          [class]="sortButtonClasses"
-          (click)="onToggleSort()"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m3 16 4 4 4-4"/>
-            <path d="M7 20V4"/>
-            <path d="m21 8-4-4-4 4"/>
-            <path d="M17 4v16"/>
-          </svg>
-          <span>{{ sortByRecent ? 'Clear Sort' : 'Sort Recent' }}</span>
-        </button>
+        @if (selectedTech.length > 0) {
+          <div class="mt-4 flex flex-wrap gap-2" @fadeIn>
+            <span class="text-sm text-muted-foreground">Active filters:</span>
+            @for (tech of selectedTech; track tech) {
+              <app-tech-badge
+                [tech]="tech"
+                [isActive]="true"
+                [isClickable]="true"
+                (badgeClick)="onToggleTech($event)"
+                />
+            }
+          </div>
+        }
       </div>
-
-      <div *ngIf="selectedTech.length > 0" class="mt-4 flex flex-wrap gap-2" @fadeIn>
-        <span class="text-sm text-muted-foreground">Active filters:</span>
-        <app-tech-badge
-          *ngFor="let tech of selectedTech"
-          [tech]="tech"
-          [isActive]="true"
-          [isClickable]="true"
-          (badgeClick)="onToggleTech($event)"
-        />
-      </div>
-    </div>
-  `,
-  styles: [`
+    }
+    `,
+    styles: [`
     :host {
       display: block;
     }
@@ -104,23 +110,24 @@ import { techCategories } from '@data/techCategories';
       transform: rotate(180deg);
     }
   `],
-  animations: [
-    trigger('slideDown', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-10px)' }),
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
-      ]),
-      transition(':leave', [
-        animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'translateY(-10px)' }))
-      ])
-    ]),
-    trigger('fadeIn', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
-      ])
-    ])
-  ]
+    changeDetection: ChangeDetectionStrategy.Eager,
+    animations: [
+        trigger('slideDown', [
+            transition(':enter', [
+                style({ opacity: 0, transform: 'translateY(-10px)' }),
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
+            ]),
+            transition(':leave', [
+                animate('150ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'translateY(-10px)' }))
+            ])
+        ]),
+        trigger('fadeIn', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
+            ])
+        ])
+    ]
 })
 export class FilterSectionComponent {
   @Input() selectedTech: string[] = [];

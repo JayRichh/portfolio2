@@ -1,43 +1,42 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-scroll-indicator',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <button
-      *ngIf="showIndicator()"
-      type="button"
-      class="scroll-indicator"
-      [class.at-bottom]="isAtBottom()"
-      (click)="handleScroll()"
-      @fadeInOut
-      [attr.aria-label]="isAtBottom() ? 'Scroll to top' : 'Scroll down'"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="indicator-icon"
-        [style.transform]="'rotate(' + rotation() + 'deg)'"
-      >
-        <path d="m18 15-6-6-6 6"/>
-      </svg>
-
-      <div class="tooltip">
-        {{ isAtBottom() ? 'Scroll to top' : 'Scroll down' }}
-      </div>
-    </button>
-  `,
-  styles: [`
+    selector: 'app-scroll-indicator',
+    imports: [],
+    template: `
+    @if (showIndicator()) {
+      <button
+        type="button"
+        class="scroll-indicator"
+        [class.at-bottom]="isAtBottom()"
+        (click)="handleScroll()"
+        @fadeInOut
+        [attr.aria-label]="isAtBottom() ? 'Scroll to top' : 'Scroll down'"
+        >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="indicator-icon"
+          [style.transform]="'rotate(' + rotation() + 'deg)'"
+          >
+          <path d="m18 15-6-6-6 6"/>
+        </svg>
+        <div class="tooltip">
+          {{ isAtBottom() ? 'Scroll to top' : 'Scroll down' }}
+        </div>
+      </button>
+    }
+    `,
+    styles: [`
     .scroll-indicator {
       position: fixed;
       bottom: 2rem;
@@ -132,17 +131,18 @@ import { trigger, transition, style, animate } from '@angular/animations';
       }
     }
   `],
-  animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.8)' }),
-        animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'scale(1)' }))
-      ]),
-      transition(':leave', [
-        animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'scale(0.8)' }))
-      ])
-    ])
-  ]
+    changeDetection: ChangeDetectionStrategy.Eager,
+    animations: [
+        trigger('fadeInOut', [
+            transition(':enter', [
+                style({ opacity: 0, transform: 'scale(0.8)' }),
+                animate('300ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'scale(1)' }))
+            ]),
+            transition(':leave', [
+                animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 0, transform: 'scale(0.8)' }))
+            ])
+        ])
+    ]
 })
 export class ScrollIndicatorComponent implements OnInit, OnDestroy {
   readonly showIndicator = signal(false);

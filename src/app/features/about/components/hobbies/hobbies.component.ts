@@ -5,9 +5,10 @@ import {
   OnDestroy,
   ViewChildren,
   QueryList,
-  signal
+  signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HOBBY_GROUPS } from './hobbies.data';
 
 interface CardOffset {
@@ -34,11 +35,11 @@ const lerp = (start: number, end: number, t: number): number => {
 };
 
 @Component({
-  selector: 'app-hobbies',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './hobbies.component.html',
-  styleUrl: './hobbies.component.scss'
+    selector: 'app-hobbies',
+    imports: [],
+    templateUrl: './hobbies.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrl: './hobbies.component.scss'
 })
 export class HobbiesComponent implements OnInit, OnDestroy {
   @ViewChildren('groupWrapper') groupWrappers!: QueryList<ElementRef>;

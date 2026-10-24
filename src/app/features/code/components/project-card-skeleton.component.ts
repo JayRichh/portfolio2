@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
-  selector: 'app-project-card-skeleton',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-project-card-skeleton',
+    imports: [],
+    template: `
     <div class="overflow-hidden rounded-lg border border-border bg-card">
       <div class="aspect-video w-full animate-pulse bg-muted"></div>
 
@@ -25,7 +24,8 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     :host {
       display: block;
     }

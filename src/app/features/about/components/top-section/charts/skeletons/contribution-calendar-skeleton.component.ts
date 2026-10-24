@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
 @Component({
-  selector: 'app-contribution-calendar-skeleton',
-  standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent],
-  template: `
+    selector: 'app-contribution-calendar-skeleton',
+    imports: [SkeletonLoaderComponent],
+    template: `
     <div class="skeleton-container">
       <div class="skeleton-header">
         <app-skeleton-loader width="200px" height="28px" />
@@ -18,7 +17,9 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       <div class="skeleton-legend">
         <app-skeleton-loader width="60px" height="16px" />
         <div class="skeleton-legend-boxes">
-          <app-skeleton-loader width="16px" height="16px" *ngFor="let i of [1,2,3,4,5]" />
+          @for (i of [1,2,3,4,5]; track i) {
+            <app-skeleton-loader width="16px" height="16px" />
+          }
         </div>
         <app-skeleton-loader width="60px" height="16px" />
       </div>
@@ -26,8 +27,9 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
         <app-skeleton-loader width="100%" height="100%" />
       </div>
     </div>
-  `,
-  styles: [`
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .skeleton-container {
       background: hsl(var(--card));
       border-radius: calc(var(--radius) - 2px);

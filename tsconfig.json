@@ -16,9 +16,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["ES2022", "dom"],
     "useDefineForClassFields": false,
     "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],

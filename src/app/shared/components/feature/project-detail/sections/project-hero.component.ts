@@ -1,28 +1,32 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+
 import { Project } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-hero',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <header class="project-hero" *ngIf="project">
-      <div class="hero-media" (click)="imageClick.emit()">
-        <img [src]="project.imgUrl" [alt]="project.title" loading="eager" />
-        <div class="hero-scrim"></div>
-      </div>
-      <div class="hero-content">
-        <div class="hero-meta">
-          <span class="meta-pill">Updated {{ formatDate(project.updatedAt) }}</span>
-          <span class="meta-pill primary" *ngIf="project.details.technologies[0] as primary">{{ primary }}</span>
+    selector: 'app-project-hero',
+    imports: [],
+    template: `
+    @if (project) {
+      <header class="project-hero">
+        <div class="hero-media" (click)="imageClick.emit()">
+          <img [src]="project.imgUrl" [alt]="project.title" loading="eager" />
+          <div class="hero-scrim"></div>
         </div>
-        <h1 class="hero-title">{{ project.details.title }}</h1>
-        <p class="hero-tagline">{{ project.description }}</p>
-      </div>
-    </header>
-  `,
-  styles: [`
+        <div class="hero-content">
+          <div class="hero-meta">
+            <span class="meta-pill">Updated {{ formatDate(project.updatedAt) }}</span>
+            @if (project.details.technologies[0]; as primary) {
+              <span class="meta-pill primary">{{ primary }}</span>
+            }
+          </div>
+          <h1 class="hero-title">{{ project.details.title }}</h1>
+          <p class="hero-tagline">{{ project.description }}</p>
+        </div>
+      </header>
+    }
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     :host { display: block; }
     .project-hero {
       position: relative;

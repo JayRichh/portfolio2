@@ -1,5 +1,5 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+
 import { Router } from '@angular/router';
 import { Project } from '@data/projectData';
 import { ProjectService } from '../../../../core/services/project.service';
@@ -8,14 +8,12 @@ import { ProjectGridComponent } from '../../components/project-grid.component';
 import { CODE_CONSTANTS } from '../../constants/code.constants';
 
 @Component({
-  selector: 'app-code-page',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-code-page',
+    imports: [
     FilterSectionComponent,
     ProjectGridComponent
-  ],
-  template: `
+],
+    template: `
     <div class="min-h-screen bg-background pt-24 md:pt-32">
       <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <header class="mb-8 text-center">
@@ -74,7 +72,8 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
       </div>
     </div>
   `,
-  styles: [`:host { display: block; }`]
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`:host { display: block; }`]
 })
 export class CodePageComponent implements OnInit {
   readonly CODE_CONSTANTS = CODE_CONSTANTS;

@@ -1,32 +1,35 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
-  selector: 'app-project-gallery',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <section class="gallery" *ngIf="images?.length" id="gallery">
-      <h2 class="section-title">
-        <span class="section-eyebrow">Visual</span>
-        Gallery
-      </h2>
-      <div class="gallery-mosaic">
-        <button
-          type="button"
-          *ngFor="let image of images; let i = index"
-          class="gallery-tile"
-          [class.tall]="(i + 1) % 4 === 0"
-          [class.wide]="(i + 1) % 5 === 0"
-          (click)="imageClick.emit(i)"
-          [attr.aria-label]="'Open gallery image ' + (i + 1)"
-        >
-          <img [src]="image" [alt]="'Gallery image ' + (i + 1)" loading="lazy" />
-        </button>
-      </div>
-    </section>
-  `,
-  styles: [`
+    selector: 'app-project-gallery',
+    imports: [],
+    template: `
+    @if (images?.length) {
+      <section class="gallery" id="gallery">
+        <h2 class="section-title">
+          <span class="section-eyebrow">Visual</span>
+          Gallery
+        </h2>
+        <div class="gallery-mosaic">
+          @for (image of images; track image; let i = $index) {
+            <button
+              type="button"
+              class="gallery-tile"
+              [class.tall]="(i + 1) % 4 === 0"
+              [class.wide]="(i + 1) % 5 === 0"
+              (click)="imageClick.emit(i)"
+              [attr.aria-label]="'Open gallery image ' + (i + 1)"
+              >
+              <img [src]="image" [alt]="'Gallery image ' + (i + 1)" loading="lazy" />
+            </button>
+          }
+        </div>
+      </section>
+    }
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     :host { display: block; }
     .gallery { padding: 2.5rem 0; }
     .section-title {

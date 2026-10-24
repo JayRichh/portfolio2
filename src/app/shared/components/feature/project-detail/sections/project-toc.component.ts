@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnDestroy, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 export interface TocItem {
@@ -8,28 +8,32 @@ export interface TocItem {
 }
 
 @Component({
-  selector: 'app-project-toc',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <nav class="toc" *ngIf="items?.length" aria-label="Project sections">
-      <span class="toc-label">On this page</span>
-      <ol class="toc-list">
-        <li *ngFor="let item of items">
-          <a
-            [href]="'#' + item.id"
-            class="toc-link"
-            [class.active]="active() === item.id"
-            (click)="onClick($event, item.id)"
-          >
-            <span class="toc-marker"></span>
-            <span class="toc-text">{{ item.label }}</span>
-          </a>
-        </li>
-      </ol>
-    </nav>
-  `,
-  styles: [`
+    selector: 'app-project-toc',
+    imports: [],
+    template: `
+    @if (items?.length) {
+      <nav class="toc" aria-label="Project sections">
+        <span class="toc-label">On this page</span>
+        <ol class="toc-list">
+          @for (item of items; track item) {
+            <li>
+              <a
+                [href]="'#' + item.id"
+                class="toc-link"
+                [class.active]="active() === item.id"
+                (click)="onClick($event, item.id)"
+                >
+                <span class="toc-marker"></span>
+                <span class="toc-text">{{ item.label }}</span>
+              </a>
+            </li>
+          }
+        </ol>
+      </nav>
+    }
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     :host { display: block; }
     .toc {
       position: sticky;

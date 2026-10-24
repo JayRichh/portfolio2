@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
-  selector: 'app-social-links',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-social-links',
+    imports: [],
+    template: `
     <section class="social-section">
       <div class="social-container">
         <div class="social-grid">
@@ -104,7 +103,8 @@ import { CommonModule } from '@angular/common';
       </div>
     </section>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .social-section {
       width: 100%;
       padding: 3rem 1rem;

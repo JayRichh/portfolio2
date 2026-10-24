@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
-  selector: 'app-loading-progress',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-loading-progress',
+    imports: [],
+    template: `
     <div class="loading-progress">
       <div class="progress-content">
         <div class="spinner"></div>
@@ -13,7 +12,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styles: [`
+    styles: [`
     .loading-progress {
       display: flex;
       flex-direction: column;
@@ -52,7 +51,7 @@ import { CommonModule } from '@angular/common';
       to   { opacity: 1; transform: translateY(0); }
     }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingProgressComponent {
   @Input() label: string = 'Loading...';

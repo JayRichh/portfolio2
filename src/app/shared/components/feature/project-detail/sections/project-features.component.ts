@@ -1,32 +1,38 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+
 import { FeatureDetail } from '@data/projectData';
 
 @Component({
-  selector: 'app-project-features',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
-    <section class="features" *ngIf="features?.length" id="features">
-      <h2 class="section-title">
-        <span class="section-eyebrow">Build</span>
-        Key Features
-      </h2>
-      <ol class="feature-list">
-        <li *ngFor="let feature of features; let i = index" class="feature-row" [class.reverse]="i % 2 === 1">
-          <div class="feature-text">
-            <span class="feature-index">{{ formatIndex(i) }}</span>
-            <h3 class="feature-title">{{ feature.title }}</h3>
-            <p class="feature-body">{{ feature.text }}</p>
-          </div>
-          <figure class="feature-media" *ngIf="feature.image" (click)="imageClick.emit(feature.image)">
-            <img [src]="feature.image" [alt]="feature.title" loading="lazy" />
-          </figure>
-        </li>
-      </ol>
-    </section>
-  `,
-  styles: [`
+    selector: 'app-project-features',
+    imports: [],
+    template: `
+    @if (features?.length) {
+      <section class="features" id="features">
+        <h2 class="section-title">
+          <span class="section-eyebrow">Build</span>
+          Key Features
+        </h2>
+        <ol class="feature-list">
+          @for (feature of features; track feature; let i = $index) {
+            <li class="feature-row" [class.reverse]="i % 2 === 1">
+              <div class="feature-text">
+                <span class="feature-index">{{ formatIndex(i) }}</span>
+                <h3 class="feature-title">{{ feature.title }}</h3>
+                <p class="feature-body">{{ feature.text }}</p>
+              </div>
+              @if (feature.image) {
+                <figure class="feature-media" (click)="imageClick.emit(feature.image)">
+                  <img [src]="feature.image" [alt]="feature.title" loading="lazy" />
+                </figure>
+              }
+            </li>
+          }
+        </ol>
+      </section>
+    }
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     :host { display: block; }
     .features { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }
     .section-title {

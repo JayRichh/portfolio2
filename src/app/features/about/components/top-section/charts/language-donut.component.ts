@@ -9,7 +9,7 @@ import {
   ElementRef,
   AfterViewInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { select, Selection } from 'd3-selection';
 import { arc, pie, PieArcDatum } from 'd3-shape';
 import 'd3-transition';
@@ -26,12 +26,11 @@ const TOP_N = 8;
 const OTHER_COLOR = 'hsl(215, 16%, 55%)';
 
 @Component({
-  selector: 'app-language-donut',
-  standalone: true,
-  imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
-  templateUrl: './language-donut.component.html',
-  styleUrls: ['./language-donut.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-language-donut',
+    imports: [InfoTooltipComponent, ChartTooltipComponent],
+    templateUrl: './language-donut.component.html',
+    styleUrls: ['./language-donut.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageDonutComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;

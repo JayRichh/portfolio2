@@ -9,7 +9,7 @@ import {
   ElementRef,
   AfterViewInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { select, Selection } from 'd3-selection';
 import { YearContributions, ContributionDay } from '../../../../../core/models/github.models';
 import { InfoTooltipComponent } from '../../../../../shared/components/ui/info-tooltip/info-tooltip.component';
@@ -21,12 +21,11 @@ interface MonthPosition {
 }
 
 @Component({
-  selector: 'app-contribution-calendar',
-  standalone: true,
-  imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
-  templateUrl: './contribution-calendar.component.html',
-  styleUrls: ['./contribution-calendar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-contribution-calendar',
+    imports: [InfoTooltipComponent, ChartTooltipComponent],
+    templateUrl: './contribution-calendar.component.html',
+    styleUrls: ['./contribution-calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContributionCalendarComponent implements AfterViewInit {
   @ViewChild('svgContainer') svgContainer!: ElementRef<SVGSVGElement>;

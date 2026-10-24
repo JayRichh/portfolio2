@@ -1,12 +1,12 @@
-import { Component, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, signal, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
-  selector: 'app-info-tooltip',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './info-tooltip.component.html',
-  styleUrls: ['./info-tooltip.component.scss']
+    selector: 'app-info-tooltip',
+    imports: [],
+    templateUrl: './info-tooltip.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrls: ['./info-tooltip.component.scss']
 })
 export class InfoTooltipComponent {
   readonly content = input.required<string>();

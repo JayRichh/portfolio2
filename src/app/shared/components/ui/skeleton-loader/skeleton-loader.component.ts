@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+
 
 @Component({
-  selector: 'app-skeleton-loader',
-  standalone: true,
-  imports: [CommonModule],
-  template: `
+    selector: 'app-skeleton-loader',
+    imports: [],
+    template: `
     <div class="skeleton" [style.width]="width" [style.height]="height" [class.skeleton-circle]="circle">
       <div class="skeleton-shimmer"></div>
     </div>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .skeleton {
       position: relative;
       overflow: hidden;

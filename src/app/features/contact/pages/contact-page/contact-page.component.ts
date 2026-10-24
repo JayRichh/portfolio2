@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 
 @Component({
-  selector: 'app-contact-page',
-  standalone: true,
-  imports: [CommonModule, ContactFormComponent],
-  template: `
+    selector: 'app-contact-page',
+    imports: [ContactFormComponent],
+    template: `
     <section class="contact-page">
       <div class="contact-container">
         <h1 class="contact-title">Get In Touch</h1>
@@ -17,7 +16,8 @@ import { ContactFormComponent } from '@shared/components/feature/contact-form/co
       </div>
     </section>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .contact-page {
       min-height: 100vh;
       padding: 8rem 1rem 3rem;

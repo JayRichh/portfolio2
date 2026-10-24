@@ -1,17 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
 @Component({
-  selector: 'app-language-donut-skeleton',
-  standalone: true,
-  imports: [CommonModule, SkeletonLoaderComponent],
-  template: `
+    selector: 'app-language-donut-skeleton',
+    imports: [SkeletonLoaderComponent],
+    template: `
     <div class="donut-chart-container">
       <div class="chart-header">
         <app-skeleton-loader width="180px" height="28px" />
       </div>
-
+    
       <div class="chart-layout">
         <div class="chart-section">
           <div class="chart-wrapper">
@@ -24,18 +23,20 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
             </div>
           </div>
         </div>
-
+    
         <div class="stats-section">
           <div class="stats-scroll-container">
             <div class="stats-grid">
-              <app-skeleton-loader width="100%" height="92px" *ngFor="let i of rows" />
+              @for (i of rows; track i) {
+                <app-skeleton-loader width="100%" height="92px" />
+              }
             </div>
           </div>
         </div>
       </div>
     </div>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .donut-chart-container {
       background: hsl(var(--card));
       border-radius: var(--radius);
@@ -144,7 +145,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       .stats-scroll-container { max-height: 250px; }
     }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageDonutSkeletonComponent {
   readonly rows = [1, 2, 3, 4, 5, 6, 7, 8];

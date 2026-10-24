@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Component, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Location } from '@angular/common';
 import { HeroQuadrantComponent } from '../../components/hero-quadrant/hero-quadrant.component';
 import { FrameworkShowcaseComponent } from '../../components/framework-showcase/framework-showcase.component';
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
@@ -8,16 +8,14 @@ import { projectData, Project } from '@data/projectData';
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
 @Component({
-  selector: 'app-home-page',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-home-page',
+    imports: [
     HeroQuadrantComponent,
     FrameworkShowcaseComponent,
     ContactFormComponent,
     ProjectModalComponent
-  ],
-  template: `
+],
+    template: `
     <div class="home-page">
       <app-hero-quadrant />
       <app-framework-showcase (projectClick)="openProject($event)" />
@@ -38,7 +36,8 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
       />
     </div>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .home-page {
       width: 100%;
       background: hsl(var(--background));

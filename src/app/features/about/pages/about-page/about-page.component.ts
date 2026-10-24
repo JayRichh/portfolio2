@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { TopSectionComponent } from '../../components/top-section/top-section.component';
 import { TimelineComponent } from '../../components/timeline/timeline.component';
 import { HobbiesComponent } from '../../components/hobbies/hobbies.component';
@@ -8,18 +8,16 @@ import { ScrollIndicatorComponent } from '../../components/scroll-indicator/scro
 import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/explore-nav/explore-nav.component';
 
 @Component({
-  selector: 'app-about-page',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-about-page',
+    imports: [
     TopSectionComponent,
     TimelineComponent,
     HobbiesComponent,
     SocialLinksComponent,
     ScrollIndicatorComponent,
     ExploreNavComponent
-  ],
-  template: `
+],
+    template: `
     <div class="about-page">
       <app-top-section />
       <app-timeline />
@@ -29,7 +27,8 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
       <app-scroll-indicator />
     </div>
   `,
-  styles: [`
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styles: [`
     .about-page {
       position: relative;
       min-height: 100vh;

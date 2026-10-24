@@ -1,15 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+
 
 type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
 
 @Component({
-  selector: 'button[appButton], a[appButton]',
-  standalone: true,
-  imports: [CommonModule],
-  template: '<ng-content></ng-content>',
-  styles: [`
+    selector: 'button[appButton], a[appButton]',
+    imports: [],
+    template: '<ng-content></ng-content>',
+    styles: [`
     :host {
       display: inline-flex;
       align-items: center;
@@ -103,9 +102,10 @@ type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
       }
     }
   `],
-  host: {
-    '[class]': 'classes'
-  }
+    changeDetection: ChangeDetectionStrategy.Eager,
+    host: {
+        '[class]': 'classes'
+    }
 })
 export class ButtonComponent {
   @Input() variant: ButtonVariant = 'default';

@@ -1,5 +1,5 @@
-import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+
 
 export interface TooltipData {
   x: number;
@@ -11,11 +11,11 @@ export interface TooltipData {
 }
 
 @Component({
-  selector: 'app-chart-tooltip',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './chart-tooltip.component.html',
-  styleUrls: ['./chart-tooltip.component.scss']
+    selector: 'app-chart-tooltip',
+    imports: [],
+    templateUrl: './chart-tooltip.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrls: ['./chart-tooltip.component.scss']
 })
 export class ChartTooltipComponent {
   readonly data = signal<TooltipData>({

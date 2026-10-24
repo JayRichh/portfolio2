@@ -1,5 +1,5 @@
-import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+
 import { Project } from '@data/projectData';
 import { LightboxComponent, LightboxImage } from '@features/code/components/lightbox.component';
 import { ProjectHeroComponent } from './sections/project-hero.component';
@@ -14,10 +14,8 @@ import { ProjectTocComponent, TocItem } from './sections/project-toc.component';
 export type ProjectDetailMode = 'page' | 'modal';
 
 @Component({
-  selector: 'app-project-detail-view',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-project-detail-view',
+    imports: [
     LightboxComponent,
     ProjectHeroComponent,
     ProjectOverviewComponent,
@@ -27,9 +25,10 @@ export type ProjectDetailMode = 'page' | 'modal';
     ProjectGalleryComponent,
     ProjectActionsComponent,
     ProjectTocComponent
-  ],
-  templateUrl: './project-detail-view.component.html',
-  styleUrls: ['./project-detail-view.component.scss']
+],
+    templateUrl: './project-detail-view.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrls: ['./project-detail-view.component.scss']
 })
 export class ProjectDetailViewComponent {
   @Input() project: Project | null = null;

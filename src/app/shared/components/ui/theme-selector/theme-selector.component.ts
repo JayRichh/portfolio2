@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+
 import { ThemeService, type Theme, type Mode } from '@core/services/theme.service';
 
 interface ThemeOption {
@@ -9,11 +9,11 @@ interface ThemeOption {
 }
 
 @Component({
-  selector: 'app-theme-selector',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './theme-selector.component.html',
-  styleUrls: ['./theme-selector.component.scss']
+    selector: 'app-theme-selector',
+    imports: [],
+    templateUrl: './theme-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    styleUrls: ['./theme-selector.component.scss']
 })
 export class ThemeSelectorComponent {
   private readonly themeService = inject(ThemeService);
