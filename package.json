@@ -28,6 +28,9 @@
   ],
   "author": "Jayden Richardson <jayrich.dev@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "22.x"
+  },
   "type": "module",
   "bugs": {
     "url": "https://github.com/JayRichh/portfolio2/issues"
