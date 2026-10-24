@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal, inject, OnInit, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 import { take } from 'rxjs/operators';
 import { GitHubService } from '../../../../core/services/github.service';
@@ -12,13 +12,12 @@ import { LoadingProgressComponent } from './loading-progress/loading-progress.co
 @Component({
     selector: 'app-top-section',
     imports: [
-        CommonModule,
-        ContributionCalendarComponent,
-        LanguageDonutComponent,
-        LanguageDonutSkeletonComponent,
-        ContributionCalendarSkeletonComponent,
-        LoadingProgressComponent
-    ],
+    ContributionCalendarComponent,
+    LanguageDonutComponent,
+    LanguageDonutSkeletonComponent,
+    ContributionCalendarSkeletonComponent,
+    LoadingProgressComponent
+],
     templateUrl: './top-section.component.html',
     styleUrl: './top-section.component.scss',
     animations: [

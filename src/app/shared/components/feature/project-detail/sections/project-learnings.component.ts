@@ -1,42 +1,49 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LearningDetail } from '@data/projectData';
 
 @Component({
     selector: 'app-project-learnings',
-    imports: [CommonModule],
+    imports: [],
     template: `
-    <section class="learnings" *ngIf="learnings?.length" id="learnings">
-      <h2 class="section-title">
-        <span class="section-eyebrow">Takeaways</span>
-        Learnings
-      </h2>
-      <div class="learning-grid">
-        <article *ngFor="let learning of learnings" class="learning-card">
-          <h3 class="learning-title">{{ learning.title }}</h3>
-          <ul class="learning-points">
-            <li *ngFor="let point of learning.points">
-              <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="point-text">
-                {{ point.text }}
-                <button
-                  type="button"
-                  *ngIf="point.image"
-                  class="point-image-trigger"
-                  (click)="imageClick.emit(point.image!)"
-                  [attr.aria-label]="'Open image for ' + point.text"
-                >
-                  view image
-                </button>
-              </span>
-            </li>
-          </ul>
-        </article>
-      </div>
-    </section>
-  `,
+    @if (learnings?.length) {
+      <section class="learnings" id="learnings">
+        <h2 class="section-title">
+          <span class="section-eyebrow">Takeaways</span>
+          Learnings
+        </h2>
+        <div class="learning-grid">
+          @for (learning of learnings; track learning) {
+            <article class="learning-card">
+              <h3 class="learning-title">{{ learning.title }}</h3>
+              <ul class="learning-points">
+                @for (point of learning.points; track point) {
+                  <li>
+                    <svg class="check-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="point-text">
+                      {{ point.text }}
+                      @if (point.image) {
+                        <button
+                          type="button"
+                          class="point-image-trigger"
+                          (click)="imageClick.emit(point.image!)"
+                          [attr.aria-label]="'Open image for ' + point.text"
+                          >
+                          view image
+                        </button>
+                      }
+                    </span>
+                  </li>
+                }
+              </ul>
+            </article>
+          }
+        </div>
+      </section>
+    }
+    `,
     styles: [`
     :host { display: block; }
     .learnings { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }

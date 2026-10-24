@@ -7,7 +7,7 @@ import {
   QueryList,
   signal
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HOBBY_GROUPS } from './hobbies.data';
 
 interface CardOffset {
@@ -35,7 +35,7 @@ const lerp = (start: number, end: number, t: number): number => {
 
 @Component({
     selector: 'app-hobbies',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './hobbies.component.html',
     styleUrl: './hobbies.component.scss'
 })

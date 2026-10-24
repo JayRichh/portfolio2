@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, computed, inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -13,13 +13,12 @@ import { FormData, FormStatus } from './models/form-data.interface';
 @Component({
     selector: 'app-contact-form',
     imports: [
-        CommonModule,
-        FormsModule,
-        ButtonComponent,
-        InputComponent,
-        TextareaComponent,
-        DrawingCanvasComponent
-    ],
+    FormsModule,
+    ButtonComponent,
+    InputComponent,
+    TextareaComponent,
+    DrawingCanvasComponent
+],
     templateUrl: './contact-form.component.html',
     styleUrls: ['./contact-form.component.scss']
 })

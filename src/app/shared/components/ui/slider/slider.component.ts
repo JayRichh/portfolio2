@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-slider',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <div class="slider-container">
       <button

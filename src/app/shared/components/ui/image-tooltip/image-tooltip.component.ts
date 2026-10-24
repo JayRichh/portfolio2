@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 interface TooltipItem {
   imageUrl: string;
@@ -8,36 +8,39 @@ interface TooltipItem {
 
 @Component({
     selector: 'app-image-tooltip',
-    imports: [CommonModule],
+    imports: [],
     template: `
-    <div
-      *ngIf="isVisible()"
-      class="tooltip-container"
-      [style.left.px]="position().x"
-      [style.top.px]="position().y"
-      [class.tooltip-visible]="isContentVisible()"
-    >
+    @if (isVisible()) {
       <div
-        class="tooltip-content"
-        #scrollContainer
-        (wheel)="onMouseWheel($event)"
-      >
-        <div class="scroll-viewport" [style.transform]="'translateY(' + scrollOffset() + 'px)'">
-          <div *ngFor="let item of items()" class="tooltip-item">
-            <img
-              [src]="item.imageUrl"
-              [alt]="item.title"
-              class="tooltip-image"
-              loading="eager"
-            />
-            <div class="tooltip-overlay">
-              <h4 class="tooltip-title">{{ item.title }}</h4>
+        class="tooltip-container"
+        [style.left.px]="position().x"
+        [style.top.px]="position().y"
+        [class.tooltip-visible]="isContentVisible()"
+        >
+        <div
+          class="tooltip-content"
+          #scrollContainer
+          (wheel)="onMouseWheel($event)"
+          >
+          <div class="scroll-viewport" [style.transform]="'translateY(' + scrollOffset() + 'px)'">
+            @for (item of items(); track item) {
+              <div class="tooltip-item">
+                <img
+                  [src]="item.imageUrl"
+                  [alt]="item.title"
+                  class="tooltip-image"
+                  loading="eager"
+                  />
+                  <div class="tooltip-overlay">
+                    <h4 class="tooltip-title">{{ item.title }}</h4>
+                  </div>
+                </div>
+              }
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  `,
+      }
+    `,
     styles: [`
     .tooltip-container {
       position: fixed;

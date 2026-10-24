@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-project-card-skeleton',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <div class="overflow-hidden rounded-lg border border-border bg-card">
       <div class="aspect-video w-full animate-pulse bg-muted"></div>

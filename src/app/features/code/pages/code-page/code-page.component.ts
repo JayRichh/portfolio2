@@ -1,5 +1,5 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { Project } from '@data/projectData';
 import { ProjectService } from '../../../../core/services/project.service';
@@ -10,10 +10,9 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
 @Component({
     selector: 'app-code-page',
     imports: [
-        CommonModule,
-        FilterSectionComponent,
-        ProjectGridComponent
-    ],
+    FilterSectionComponent,
+    ProjectGridComponent
+],
     template: `
     <div class="min-h-screen bg-background pt-24 md:pt-32">
       <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">

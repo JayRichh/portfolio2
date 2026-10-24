@@ -1,6 +1,6 @@
 import { Component, signal, computed, OnInit, HostListener, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ThemeSelectorComponent } from '@shared/components/ui/theme-selector/theme-selector.component';
@@ -12,7 +12,7 @@ interface NavLink {
 
 @Component({
     selector: 'app-header',
-    imports: [CommonModule, RouterModule, ThemeSelectorComponent],
+    imports: [RouterModule, ThemeSelectorComponent],
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })

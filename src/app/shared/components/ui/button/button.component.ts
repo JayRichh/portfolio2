@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
 
 @Component({
     selector: 'button[appButton], a[appButton]',
-    imports: [CommonModule],
+    imports: [],
     template: '<ng-content></ng-content>',
     styles: [`
     :host {

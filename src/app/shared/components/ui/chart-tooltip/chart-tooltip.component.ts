@@ -1,5 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export interface TooltipData {
   x: number;
@@ -12,7 +12,7 @@ export interface TooltipData {
 
 @Component({
     selector: 'app-chart-tooltip',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './chart-tooltip.component.html',
     styleUrls: ['./chart-tooltip.component.scss']
 })

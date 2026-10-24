@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { Project } from '@data/projectData';
 import { ProjectCardComponent } from './project-card.component';
@@ -8,42 +8,47 @@ import { CODE_CONSTANTS } from '../constants/code.constants';
 
 @Component({
     selector: 'app-project-grid',
-    imports: [CommonModule, ProjectCardComponent, ProjectCardSkeletonComponent],
+    imports: [ProjectCardComponent, ProjectCardSkeletonComponent],
     template: `
-    <div *ngIf="!mounted || isLoading" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-2">
-      <app-project-card-skeleton
-        *ngFor="let skeleton of skeletonArray"
-      />
-    </div>
-
-    <div
-      *ngIf="mounted && !isLoading"
-      class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-2"
-      [class.no-animation]="!shouldAnimate"
-    >
-      <div
-        *ngIf="filteredProjects.length === 0"
-        class="col-span-full flex flex-col items-center justify-center py-16"
-      >
-        <h3 class="text-xl font-semibold text-primary">
-          No Projects Found
-        </h3>
-        <p class="mt-2 text-muted-foreground">
-          Try adjusting your filters to find more projects.
-        </p>
+    @if (!mounted || isLoading) {
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-2">
+        @for (skeleton of skeletonArray; track skeleton) {
+          <app-project-card-skeleton
+            />
+        }
       </div>
-
-      <app-project-card
-        *ngFor="let project of filteredProjects; trackBy: trackByTitle"
-        [class.project-card-wrapper]="shouldAnimate"
-        [class.project-card-wrapper-no-anim]="!shouldAnimate"
-        [@fadeInUp]="shouldAnimate ? '' : null"
-        [project]="project"
-        [index]="0"
-        (selectProject)="onSelectProject($event)"
-      />
-    </div>
-  `,
+    }
+    
+    @if (mounted && !isLoading) {
+      <div
+        class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-2"
+        [class.no-animation]="!shouldAnimate"
+        >
+        @if (filteredProjects.length === 0) {
+          <div
+            class="col-span-full flex flex-col items-center justify-center py-16"
+            >
+            <h3 class="text-xl font-semibold text-primary">
+              No Projects Found
+            </h3>
+            <p class="mt-2 text-muted-foreground">
+              Try adjusting your filters to find more projects.
+            </p>
+          </div>
+        }
+        @for (project of filteredProjects; track trackByTitle($index, project)) {
+          <app-project-card
+            [class.project-card-wrapper]="shouldAnimate"
+            [class.project-card-wrapper-no-anim]="!shouldAnimate"
+            [@fadeInUp]="shouldAnimate ? '' : null"
+            [project]="project"
+            [index]="0"
+            (selectProject)="onSelectProject($event)"
+            />
+        }
+      </div>
+    }
+    `,
     styles: [`
     :host {
       display: block;

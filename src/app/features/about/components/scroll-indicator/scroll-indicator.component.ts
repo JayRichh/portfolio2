@@ -1,41 +1,41 @@
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-scroll-indicator',
-    imports: [CommonModule],
+    imports: [],
     template: `
-    <button
-      *ngIf="showIndicator()"
-      type="button"
-      class="scroll-indicator"
-      [class.at-bottom]="isAtBottom()"
-      (click)="handleScroll()"
-      @fadeInOut
-      [attr.aria-label]="isAtBottom() ? 'Scroll to top' : 'Scroll down'"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="indicator-icon"
-        [style.transform]="'rotate(' + rotation() + 'deg)'"
-      >
-        <path d="m18 15-6-6-6 6"/>
-      </svg>
-
-      <div class="tooltip">
-        {{ isAtBottom() ? 'Scroll to top' : 'Scroll down' }}
-      </div>
-    </button>
-  `,
+    @if (showIndicator()) {
+      <button
+        type="button"
+        class="scroll-indicator"
+        [class.at-bottom]="isAtBottom()"
+        (click)="handleScroll()"
+        @fadeInOut
+        [attr.aria-label]="isAtBottom() ? 'Scroll to top' : 'Scroll down'"
+        >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="indicator-icon"
+          [style.transform]="'rotate(' + rotation() + 'deg)'"
+          >
+          <path d="m18 15-6-6-6 6"/>
+        </svg>
+        <div class="tooltip">
+          {{ isAtBottom() ? 'Scroll to top' : 'Scroll down' }}
+        </div>
+      </button>
+    }
+    `,
     styles: [`
     .scroll-indicator {
       position: fixed;

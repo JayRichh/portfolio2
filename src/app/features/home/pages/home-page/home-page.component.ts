@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { HeroQuadrantComponent } from '../../components/hero-quadrant/hero-quadrant.component';
 import { FrameworkShowcaseComponent } from '../../components/framework-showcase/framework-showcase.component';
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
@@ -10,12 +10,11 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
 @Component({
     selector: 'app-home-page',
     imports: [
-        CommonModule,
-        HeroQuadrantComponent,
-        FrameworkShowcaseComponent,
-        ContactFormComponent,
-        ProjectModalComponent
-    ],
+    HeroQuadrantComponent,
+    FrameworkShowcaseComponent,
+    ContactFormComponent,
+    ProjectModalComponent
+],
     template: `
     <div class="home-page">
       <app-hero-quadrant />

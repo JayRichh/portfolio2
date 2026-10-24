@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-loading-progress',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <div class="loading-progress">
       <div class="progress-content">

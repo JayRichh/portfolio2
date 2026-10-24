@@ -1,23 +1,26 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Project } from '@data/projectData';
 import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
 
 @Component({
     selector: 'app-project-overview',
-    imports: [CommonModule, TechBadgeComponent],
+    imports: [TechBadgeComponent],
     template: `
-    <section class="project-overview" *ngIf="project" id="overview">
-      <p class="lede">{{ project.details.description }}</p>
-      <div class="tech-row">
-        <app-tech-badge
-          *ngFor="let tech of project.details.technologies"
-          [tech]="tech"
-          [isClickable]="false"
-        />
-      </div>
-    </section>
-  `,
+    @if (project) {
+      <section class="project-overview" id="overview">
+        <p class="lede">{{ project.details.description }}</p>
+        <div class="tech-row">
+          @for (tech of project.details.technologies; track tech) {
+            <app-tech-badge
+              [tech]="tech"
+              [isClickable]="false"
+              />
+          }
+        </div>
+      </section>
+    }
+    `,
     styles: [`
     :host { display: block; }
     .project-overview {

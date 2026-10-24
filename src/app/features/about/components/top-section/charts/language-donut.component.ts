@@ -9,7 +9,7 @@ import {
   ElementRef,
   AfterViewInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { select, Selection } from 'd3-selection';
 import { arc, pie, PieArcDatum } from 'd3-shape';
 import 'd3-transition';
@@ -27,7 +27,7 @@ const OTHER_COLOR = 'hsl(215, 16%, 55%)';
 
 @Component({
     selector: 'app-language-donut',
-    imports: [CommonModule, InfoTooltipComponent, ChartTooltipComponent],
+    imports: [InfoTooltipComponent, ChartTooltipComponent],
     templateUrl: './language-donut.component.html',
     styleUrls: ['./language-donut.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

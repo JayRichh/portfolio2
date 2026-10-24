@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TopSectionComponent } from '../../components/top-section/top-section.component';
 import { TimelineComponent } from '../../components/timeline/timeline.component';
 import { HobbiesComponent } from '../../components/hobbies/hobbies.component';
@@ -10,14 +10,13 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
 @Component({
     selector: 'app-about-page',
     imports: [
-        CommonModule,
-        TopSectionComponent,
-        TimelineComponent,
-        HobbiesComponent,
-        SocialLinksComponent,
-        ScrollIndicatorComponent,
-        ExploreNavComponent
-    ],
+    TopSectionComponent,
+    TimelineComponent,
+    HobbiesComponent,
+    SocialLinksComponent,
+    ScrollIndicatorComponent,
+    ExploreNavComponent
+],
     template: `
     <div class="about-page">
       <app-top-section />

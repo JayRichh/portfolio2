@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { techIcons } from '@data/techIcons';
 
 @Component({
     selector: 'app-tech-badge',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <button
       type="button"
@@ -12,17 +12,18 @@ import { techIcons } from '@data/techIcons';
       [disabled]="!isClickable"
       (click)="handleClick($event)"
       [style.border-color]="techColor"
-    >
+      >
       <span class="inline-flex items-center gap-1.5">
-        <span
-          *ngIf="techColor"
-          class="w-2 h-2 rounded-full"
-          [style.background-color]="techColor"
-        ></span>
+        @if (techColor) {
+          <span
+            class="w-2 h-2 rounded-full"
+            [style.background-color]="techColor"
+          ></span>
+        }
         {{ tech }}
       </span>
     </button>
-  `,
+    `,
     styles: [`
     button {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

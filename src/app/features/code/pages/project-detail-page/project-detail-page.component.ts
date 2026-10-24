@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
 import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail/project-detail-view.component';
@@ -9,9 +9,9 @@ import { NotFoundComponent } from '../../../not-found/not-found.component';
 
 @Component({
     selector: 'app-project-detail-page',
-    imports: [CommonModule, RouterModule, ProjectDetailViewComponent, NotFoundComponent],
+    imports: [RouterModule, ProjectDetailViewComponent, NotFoundComponent],
     template: `
-    <ng-container *ngIf="project() as p; else notFound">
+    @if (project(); as p) {
       <div class="min-h-screen bg-background pt-24 md:pt-32">
         <div class="container mx-auto px-4 pb-24 sm:px-6 lg:px-8">
           <nav class="mb-8 flex items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
@@ -21,16 +21,14 @@ import { NotFoundComponent } from '../../../not-found/not-found.component';
             <span aria-hidden="true">/</span>
             <span class="text-foreground" aria-current="page">{{ p.title }}</span>
           </nav>
-
           <app-project-detail-view [project]="p" mode="page" />
         </div>
       </div>
-    </ng-container>
-
-    <ng-template #notFound>
+    } @else {
       <app-not-found />
-    </ng-template>
-  `,
+    }
+    
+    `,
     styles: [`:host { display: block; }`]
 })
 export class ProjectDetailPageComponent implements OnInit {

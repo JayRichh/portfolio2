@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-skeleton-loader',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <div class="skeleton" [style.width]="width" [style.height]="height" [class.skeleton-circle]="circle">
       <div class="skeleton-shimmer"></div>

@@ -1,9 +1,11 @@
 <section class="contact-form">
   <form (submit)="onSubmit($event)" autocomplete="on">
-    <div *ngIf="isSubmitting()" class="loading-overlay">
-      <div class="spinner"></div>
-      <p>Sending your message...</p>
-    </div>
+    @if (isSubmitting()) {
+      <div class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Sending your message...</p>
+      </div>
+    }
 
     <div class="form-grid">
       <div class="form-fields">
@@ -17,66 +19,74 @@
             (ngModelChange)="updateField('name', $event)"
             required
             [class.error]="fieldErrors().name"
-          />
-          <span *ngIf="fieldErrors().name as err" class="error-message">{{ err }}</span>
-        </div>
+            />
+            @if (fieldErrors().name; as err) {
+              <span class="error-message">{{ err }}</span>
+            }
+          </div>
 
-        <div class="field-group">
-          <input
-            appInput
-            type="email"
-            name="email"
-            placeholder="Email *"
-            [ngModel]="formData().email"
-            (ngModelChange)="updateField('email', $event)"
-            required
-            [class.error]="fieldErrors().email"
-          />
-          <span *ngIf="fieldErrors().email as err" class="error-message">{{ err }}</span>
-        </div>
+          <div class="field-group">
+            <input
+              appInput
+              type="email"
+              name="email"
+              placeholder="Email *"
+              [ngModel]="formData().email"
+              (ngModelChange)="updateField('email', $event)"
+              required
+              [class.error]="fieldErrors().email"
+              />
+              @if (fieldErrors().email; as err) {
+                <span class="error-message">{{ err }}</span>
+              }
+            </div>
 
-        <div class="field-group">
-          <textarea
-            appTextarea
-            name="message"
-            placeholder="Message *"
-            rows="4"
-            [ngModel]="formData().message"
-            (ngModelChange)="updateField('message', $event)"
-            required
-            [class.error]="fieldErrors().message"
-          ></textarea>
-          <span *ngIf="fieldErrors().message as err" class="error-message">{{ err }}</span>
-        </div>
+            <div class="field-group">
+              <textarea
+                appTextarea
+                name="message"
+                placeholder="Message *"
+                rows="4"
+                [ngModel]="formData().message"
+                (ngModelChange)="updateField('message', $event)"
+                required
+                [class.error]="fieldErrors().message"
+              ></textarea>
+              @if (fieldErrors().message; as err) {
+                <span class="error-message">{{ err }}</span>
+              }
+            </div>
 
-        <div class="honeypot" aria-hidden="true">
-          <label for="website-url">Website</label>
-          <input
-            id="website-url"
-            type="text"
-            name="website"
-            tabindex="-1"
-            autocomplete="off"
-            [ngModel]="honeypot()"
-            (ngModelChange)="honeypot.set($event)"
-          />
-        </div>
-      </div>
+            <div class="honeypot" aria-hidden="true">
+              <label for="website-url">Website</label>
+              <input
+                id="website-url"
+                type="text"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+                [ngModel]="honeypot()"
+                (ngModelChange)="honeypot.set($event)"
+                />
+              </div>
+            </div>
 
-      <app-drawing-canvas />
-    </div>
+            <app-drawing-canvas />
+          </div>
 
-    <div class="form-actions">
-      <button appButton variant="outline" type="button" (click)="clearForm()">
-        Clear All
-      </button>
-      <button appButton type="submit" data-submit-intent="send" [disabled]="isSubmitting()">
-        Send Message
-      </button>
-    </div>
+          <div class="form-actions">
+            <button appButton variant="outline" type="button" (click)="clearForm()">
+              Clear All
+            </button>
+            <button appButton type="submit" data-submit-intent="send" [disabled]="isSubmitting()">
+              Send Message
+            </button>
+          </div>
 
-    <div *ngIf="status()" class="status-message" [class.success]="statusSuccess()" [class.error]="!statusSuccess()">
-      {{ statusMessage() }}
-    </div>
-  </form>
-</section>
+          @if (status()) {
+            <div class="status-message" [class.success]="statusSuccess()" [class.error]="!statusSuccess()">
+              {{ statusMessage() }}
+            </div>
+          }
+        </form>
+      </section>

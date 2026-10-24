@@ -1,9 +1,9 @@
 import { Component, input, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-info-tooltip',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './info-tooltip.component.html',
     styleUrls: ['./info-tooltip.component.scss']
 })

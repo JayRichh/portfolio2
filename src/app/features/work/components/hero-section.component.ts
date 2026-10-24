@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-hero-section',
-    imports: [CommonModule],
+    imports: [],
     template: `
     <section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
       <div class="relative z-10 flex flex-col items-center px-4 text-center">

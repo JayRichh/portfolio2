@@ -1,5 +1,5 @@
 import { Component, signal, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter, NgZone, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
 import { groupProjectsByFramework } from '@data/techUtils';
@@ -14,7 +14,7 @@ interface FrameworkGroup {
 
 @Component({
     selector: 'app-framework-showcase',
-    imports: [CommonModule, RouterModule, ImageTooltipComponent, ScrollIndicatorComponent],
+    imports: [RouterModule, ImageTooltipComponent, ScrollIndicatorComponent],
     templateUrl: './framework-showcase.component.html',
     styleUrl: './framework-showcase.component.scss'
 })

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ThemeService, type Theme, type Mode } from '@core/services/theme.service';
 
 interface ThemeOption {
@@ -10,7 +10,7 @@ interface ThemeOption {
 
 @Component({
     selector: 'app-theme-selector',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './theme-selector.component.html',
     styleUrls: ['./theme-selector.component.scss']
 })

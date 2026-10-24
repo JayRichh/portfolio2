@@ -1,23 +1,21 @@
-    <section class="hobbies-section">
-      <div class="hobbies-container">
-        <h2 class="hobbies-title">Currently</h2>
+<section class="hobbies-section">
+  <div class="hobbies-container">
+    <h2 class="hobbies-title">Currently</h2>
 
-        <div
-          *ngFor="let group of hobbyGroups; let groupIndex = index"
-          class="hobby-group-wrapper"
-          #groupWrapper
+    @for (group of hobbyGroups; track group; let groupIndex = $index) {
+      <div
+        class="hobby-group-wrapper"
+        #groupWrapper
         >
-          <div class="hobby-group-sticky">
-            <div class="hobby-group-blur"></div>
-
-            <div class="hobby-group-content">
-              <div class="group-icon" [innerHTML]="group.icon"></div>
-              <p class="group-description">{{ group.description }}</p>
-            </div>
-
-            <div class="floating-cards-container">
+        <div class="hobby-group-sticky">
+          <div class="hobby-group-blur"></div>
+          <div class="hobby-group-content">
+            <div class="group-icon" [innerHTML]="group.icon"></div>
+            <p class="group-description">{{ group.description }}</p>
+          </div>
+          <div class="floating-cards-container">
+            @for (detail of group.details; track detail; let i = $index) {
               <div
-                *ngFor="let detail of group.details; let i = index"
                 class="floating-card"
                 [class.flipped]="cardStates()[groupIndex][i].isFlipped"
                 [style.transform]="getCardTransform(groupIndex, i)"
@@ -25,7 +23,7 @@
                 (mouseenter)="onCardHover(groupIndex, i, true)"
                 (mouseleave)="onCardHover(groupIndex, i, false)"
                 (mousemove)="onCardMouseMove(groupIndex, i, $event)"
-              >
+                >
                 <div class="card-inner">
                   <div class="card-front">
                     <img
@@ -34,43 +32,45 @@
                       class="card-image"
                       [style.object-position]="getImagePosition(detail.title)"
                       loading="lazy"
-                    />
-                  </div>
-
-                  <div class="card-back">
-                    <div class="card-back-content">
-                      <h3 class="card-back-title">{{ detail.title }}</h3>
-                      <p class="card-back-description">{{ detail.description }}</p>
+                      />
                     </div>
-
-                    <div class="card-back-actions" *ngIf="detail.link">
-                      <a
-                        [href]="detail.link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="card-link"
-                        (click)="$event.stopPropagation()"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                          <polyline points="15 3 21 3 21 9"/>
-                          <line x1="10" x2="21" y1="14" y2="3"/>
-                        </svg>
-                        Open Link
-                      </a>
+                    <div class="card-back">
+                      <div class="card-back-content">
+                        <h3 class="card-back-title">{{ detail.title }}</h3>
+                        <p class="card-back-description">{{ detail.description }}</p>
+                      </div>
+                      @if (detail.link) {
+                        <div class="card-back-actions">
+                          <a
+                            [href]="detail.link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="card-link"
+                            (click)="$event.stopPropagation()"
+                            >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                              <polyline points="15 3 21 3 21 9"/>
+                              <line x1="10" x2="21" y1="14" y2="3"/>
+                            </svg>
+                            Open Link
+                          </a>
+                        </div>
+                      }
+                      @if (cardStates()[groupIndex][i].isHovered) {
+                        <div
+                          class="floating-circle"
+                          [style.left.px]="cardStates()[groupIndex][i].circleX"
+                          [style.top.px]="cardStates()[groupIndex][i].circleY"
+                        ></div>
+                      }
                     </div>
-
-                    <div
-                      *ngIf="cardStates()[groupIndex][i].isHovered"
-                      class="floating-circle"
-                      [style.left.px]="cardStates()[groupIndex][i].circleX"
-                      [style.top.px]="cardStates()[groupIndex][i].circleY"
-                    ></div>
                   </div>
                 </div>
-              </div>
+              }
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      }
+    </div>
+  </section>

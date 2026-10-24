@@ -1,32 +1,38 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ChallengeDetail } from '@data/projectData';
 
 @Component({
     selector: 'app-project-challenges',
-    imports: [CommonModule],
+    imports: [],
     template: `
-    <section class="challenges" *ngIf="challenges?.length" id="challenges">
-      <h2 class="section-title">
-        <span class="section-eyebrow">Friction</span>
-        Challenges
-      </h2>
-      <ol class="challenge-list">
-        <li *ngFor="let challenge of challenges; let i = index" class="challenge-item">
-          <div class="challenge-marker">
-            <span class="challenge-num">{{ i + 1 }}</span>
-          </div>
-          <div class="challenge-body">
-            <h3 class="challenge-title">{{ challenge.title }}</h3>
-            <p class="challenge-text">{{ challenge.text }}</p>
-            <figure class="challenge-image" *ngIf="challenge.image" (click)="imageClick.emit(challenge.image)">
-              <img [src]="challenge.image" [alt]="challenge.title" loading="lazy" />
-            </figure>
-          </div>
-        </li>
-      </ol>
-    </section>
-  `,
+    @if (challenges?.length) {
+      <section class="challenges" id="challenges">
+        <h2 class="section-title">
+          <span class="section-eyebrow">Friction</span>
+          Challenges
+        </h2>
+        <ol class="challenge-list">
+          @for (challenge of challenges; track challenge; let i = $index) {
+            <li class="challenge-item">
+              <div class="challenge-marker">
+                <span class="challenge-num">{{ i + 1 }}</span>
+              </div>
+              <div class="challenge-body">
+                <h3 class="challenge-title">{{ challenge.title }}</h3>
+                <p class="challenge-text">{{ challenge.text }}</p>
+                @if (challenge.image) {
+                  <figure class="challenge-image" (click)="imageClick.emit(challenge.image)">
+                    <img [src]="challenge.image" [alt]="challenge.title" loading="lazy" />
+                  </figure>
+                }
+              </div>
+            </li>
+          }
+        </ol>
+      </section>
+    }
+    `,
     styles: [`
     :host { display: block; }
     .challenges { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }

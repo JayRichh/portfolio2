@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 
 @Component({
     selector: 'app-contact-page',
-    imports: [CommonModule, ContactFormComponent],
+    imports: [ContactFormComponent],
     template: `
     <section class="contact-page">
       <div class="contact-container">

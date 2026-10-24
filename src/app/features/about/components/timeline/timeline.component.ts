@@ -1,11 +1,11 @@
 import { Component, signal, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TIMELINE_ITEMS } from './timeline.data';
 
 @Component({
     selector: 'app-timeline',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './timeline.component.html',
     styleUrl: './timeline.component.scss',
     animations: [

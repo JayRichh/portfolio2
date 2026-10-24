@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy, OnChanges, SimpleChanges, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, transition, style, animate } from '@angular/animations';
 
 export interface LightboxImage {
@@ -9,95 +9,94 @@ export interface LightboxImage {
 
 @Component({
     selector: 'app-lightbox',
-    imports: [CommonModule],
+    imports: [],
     template: `
-    <div
-      *ngIf="isOpen"
-      @fadeIn
-      class="fixed inset-0 z-[200]"
-    >
+    @if (isOpen) {
       <div
-        class="absolute inset-0 bg-black/90"
-        (click)="close()"
-      ></div>
-
-      <div
-        class="absolute inset-0 flex items-center justify-center overflow-hidden touch-none select-none"
-        (wheel)="onWheel($event)"
-        (pointerdown)="onPointerDown($event)"
-        (pointermove)="onPointerMove($event)"
-        (pointerup)="onPointerUp($event)"
-        (pointercancel)="onPointerUp($event)"
-        (dblclick)="onDoubleClick()"
-        (click)="onSurfaceClick($event)"
-      >
-        <img
-          [src]="currentImage.src"
-          [alt]="currentImage.alt"
-          [style.transform]="imageTransform()"
-          [style.cursor]="imageCursor()"
-          [style.transition]="isInteracting() ? 'none' : 'transform 150ms ease-out'"
-          class="max-h-[90vh] max-w-[90vw] object-contain will-change-transform"
-          draggable="false"
-        />
-      </div>
-
-      <button
-        type="button"
-        class="absolute right-4 top-4 z-20 rounded-lg bg-white/10 p-2 text-white transition-all hover:bg-white/20 pointer-events-auto"
-        (click)="close(); $event.stopPropagation()"
-        aria-label="Close lightbox"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 6 6 18"/>
-          <path d="m6 6 12 12"/>
-        </svg>
-      </button>
-
-      <button
-        *ngIf="scale() !== 1"
-        type="button"
-        class="absolute right-16 top-4 z-20 rounded-lg bg-white/10 px-3 py-2 text-xs font-medium text-white transition-all hover:bg-white/20 pointer-events-auto"
-        (click)="resetZoom(); $event.stopPropagation()"
-        aria-label="Reset zoom"
-      >
-        Reset
-      </button>
-
-      <button
-        *ngIf="images.length > 1"
-        type="button"
-        class="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-lg bg-white/10 p-3 text-white transition-all hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto"
-        (click)="previous(); $event.stopPropagation()"
-        [disabled]="currentIndex === 0"
-        aria-label="Previous image"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-      </button>
-
-      <button
-        *ngIf="images.length > 1"
-        type="button"
-        class="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-lg bg-white/10 p-3 text-white transition-all hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto"
-        (click)="next(); $event.stopPropagation()"
-        [disabled]="currentIndex === images.length - 1"
-        aria-label="Next image"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m9 18 6-6-6-6"/>
-        </svg>
-      </button>
-
-      <div
-        *ngIf="images.length > 1"
-        class="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-sm text-white pointer-events-none"
-      >
-        {{ currentIndex + 1 }} / {{ images.length }}
-      </div>
-    </div>
-  `,
+        @fadeIn
+        class="fixed inset-0 z-[200]"
+        >
+        <div
+          class="absolute inset-0 bg-black/90"
+          (click)="close()"
+        ></div>
+        <div
+          class="absolute inset-0 flex items-center justify-center overflow-hidden touch-none select-none"
+          (wheel)="onWheel($event)"
+          (pointerdown)="onPointerDown($event)"
+          (pointermove)="onPointerMove($event)"
+          (pointerup)="onPointerUp($event)"
+          (pointercancel)="onPointerUp($event)"
+          (dblclick)="onDoubleClick()"
+          (click)="onSurfaceClick($event)"
+          >
+          <img
+            [src]="currentImage.src"
+            [alt]="currentImage.alt"
+            [style.transform]="imageTransform()"
+            [style.cursor]="imageCursor()"
+            [style.transition]="isInteracting() ? 'none' : 'transform 150ms ease-out'"
+            class="max-h-[90vh] max-w-[90vw] object-contain will-change-transform"
+            draggable="false"
+            />
+          </div>
+          <button
+            type="button"
+            class="absolute right-4 top-4 z-20 rounded-lg bg-white/10 p-2 text-white transition-all hover:bg-white/20 pointer-events-auto"
+            (click)="close(); $event.stopPropagation()"
+            aria-label="Close lightbox"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"/>
+              <path d="m6 6 12 12"/>
+            </svg>
+          </button>
+          @if (scale() !== 1) {
+            <button
+              type="button"
+              class="absolute right-16 top-4 z-20 rounded-lg bg-white/10 px-3 py-2 text-xs font-medium text-white transition-all hover:bg-white/20 pointer-events-auto"
+              (click)="resetZoom(); $event.stopPropagation()"
+              aria-label="Reset zoom"
+              >
+              Reset
+            </button>
+          }
+          @if (images.length > 1) {
+            <button
+              type="button"
+              class="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-lg bg-white/10 p-3 text-white transition-all hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto"
+              (click)="previous(); $event.stopPropagation()"
+              [disabled]="currentIndex === 0"
+              aria-label="Previous image"
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+              </svg>
+            </button>
+          }
+          @if (images.length > 1) {
+            <button
+              type="button"
+              class="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-lg bg-white/10 p-3 text-white transition-all hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed pointer-events-auto"
+              (click)="next(); $event.stopPropagation()"
+              [disabled]="currentIndex === images.length - 1"
+              aria-label="Next image"
+              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </button>
+          }
+          @if (images.length > 1) {
+            <div
+              class="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-sm text-white pointer-events-none"
+              >
+              {{ currentIndex + 1 }} / {{ images.length }}
+            </div>
+          }
+        </div>
+      }
+    `,
     styles: [`
     :host {
       display: contents;

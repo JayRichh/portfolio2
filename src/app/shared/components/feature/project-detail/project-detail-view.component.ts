@@ -1,5 +1,5 @@
 import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Project } from '@data/projectData';
 import { LightboxComponent, LightboxImage } from '@features/code/components/lightbox.component';
 import { ProjectHeroComponent } from './sections/project-hero.component';
@@ -16,17 +16,16 @@ export type ProjectDetailMode = 'page' | 'modal';
 @Component({
     selector: 'app-project-detail-view',
     imports: [
-        CommonModule,
-        LightboxComponent,
-        ProjectHeroComponent,
-        ProjectOverviewComponent,
-        ProjectFeaturesComponent,
-        ProjectChallengesComponent,
-        ProjectLearningsComponent,
-        ProjectGalleryComponent,
-        ProjectActionsComponent,
-        ProjectTocComponent
-    ],
+    LightboxComponent,
+    ProjectHeroComponent,
+    ProjectOverviewComponent,
+    ProjectFeaturesComponent,
+    ProjectChallengesComponent,
+    ProjectLearningsComponent,
+    ProjectGalleryComponent,
+    ProjectActionsComponent,
+    ProjectTocComponent
+],
     templateUrl: './project-detail-view.component.html',
     styleUrls: ['./project-detail-view.component.scss']
 })
