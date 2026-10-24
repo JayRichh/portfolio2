@@ -40,7 +40,7 @@ export const projectsData: WorkProject[] = [
       "Expo",
     ],
     mainImage: {
-      src: "/images/ampsize-home.png",
+      src: "/images/ampsize-home.webp",
       alt: "AmpSize Calculator Index",
     },
     subImages: [

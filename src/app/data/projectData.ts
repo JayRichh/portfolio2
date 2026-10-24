@@ -47,7 +47,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
   {
     title: "AmpSize",
     description: "Cable sizing and electrical calculators to AS/NZS 3008 and AS/NZS 3000 for New Zealand and Australia.",
-    imgUrl: "/images/ampsize-home.png",
+    imgUrl: "/images/ampsize-home.webp",
     repoUrl: "",
     liveUrl: "https://ampsize.nz",
     updatedAt: "2026-10-14",
@@ -143,7 +143,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
   {
     title: "Web Portfolio",
     description: "Personal portfolio site I keep rebuilding to test new patterns. Screenshots here are from the original React build; the live site has been through several rewrites since.",
-    imgUrl: "/images/main1.png",
+    imgUrl: "/images/main1.webp",
     repoUrl: "https://github.com/JayRichh/portfolio2",
     liveUrl: "https://jayrich.dev",
     updatedAt: "2026-04-30",
@@ -523,7 +523,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Web Tools",
     description:
       "Collection of developer utilities built with vanilla Web Components, showcasing modern web development without framework dependencies",
-    imgUrl: "/images/toolimg2.png",
+    imgUrl: "/images/toolimg2.webp",
     repoUrl: "https://github.com/JayRichh/jayrichh.github.io",
     liveUrl: "https://jayrichh.github.io/",
     updatedAt: "2026-01-20",
@@ -550,7 +550,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         {
           title: "Clipboard Handler",
           text: "Advanced clipboard management with drag-drop support, file handling, and image processing. Features real-time preview and download capabilities.",
-          image: "/images/toolimg2.png",
+          image: "/images/toolimg2.webp",
         },
         {
           title: "Emoji Picker",
@@ -3192,7 +3192,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
     title: "Portfolio Website",
     description:
       "Personal portfolio built with Next.js 15, featuring interactive mindmap visualization and dynamic project Works",
-    imgUrl: "/images/main1.png",
+    imgUrl: "/images/main1.webp",
     repoUrl: "https://github.com/JayRichh/portfolio",
     liveUrl: "https://jayrich.dev",
     updatedAt: "2024-11-18",
@@ -3229,7 +3229,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         {
           title: "Responsive Design",
           text: "Mobile-first approach using Tailwind CSS with dynamic layouts and optimized interactions. Includes dark mode support and system preference detection.",
-          image: "/images/main1.png",
+          image: "/images/main1.webp",
         },
       ],
       challenges: [
@@ -3282,7 +3282,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         },
       ],
       additionalImages: [
-        "/images/main1.png",
+        "/images/main1.webp",
         "/images/main2.png",
         "/images/main3.png",
         "/images/main4.png",
