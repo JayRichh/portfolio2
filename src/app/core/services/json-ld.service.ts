@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, DOCUMENT } from '@angular/core';
+
 import { Project } from '../../data/projectData';
 import { JsonLdBreadcrumbItem } from '../models/page-metadata.model';
 
