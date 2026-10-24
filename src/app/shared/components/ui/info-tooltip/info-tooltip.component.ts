@@ -1,10 +1,11 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, signal, ChangeDetectionStrategy } from '@angular/core';
 
 
 @Component({
     selector: 'app-info-tooltip',
     imports: [],
     templateUrl: './info-tooltip.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./info-tooltip.component.scss']
 })
 export class InfoTooltipComponent {

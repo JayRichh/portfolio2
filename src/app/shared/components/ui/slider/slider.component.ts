@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 
 
 @Component({
@@ -45,6 +45,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
       <span class="slider-value">{{ value }}</span>
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .slider-container {
       display: flex;

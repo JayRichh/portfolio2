@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
@@ -29,6 +29,7 @@ import { NotFoundComponent } from '../../../not-found/not-found.component';
     }
     
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`:host { display: block; }`]
 })
 export class ProjectDetailPageComponent implements OnInit {

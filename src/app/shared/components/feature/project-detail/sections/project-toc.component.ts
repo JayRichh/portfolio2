@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
@@ -32,6 +32,7 @@ export interface TocItem {
       </nav>
     }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host { display: block; }
     .toc {

@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 
@@ -131,6 +131,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
       }
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('fadeInOut', [
             transition(':enter', [

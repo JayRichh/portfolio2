@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 
 type ButtonVariant = 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
@@ -102,6 +102,7 @@ type ButtonSize = 'default' | 'sm' | 'lg' | 'icon';
       }
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[class]': 'classes'
     }

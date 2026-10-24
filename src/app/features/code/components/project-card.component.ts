@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Project } from '@data/projectData';
 import { TechBadgeComponent } from './tech-badge.component';
@@ -112,6 +112,7 @@ import { ProjectService } from '../../../core/services/project.service';
         </div>
       </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host {
       display: flex;

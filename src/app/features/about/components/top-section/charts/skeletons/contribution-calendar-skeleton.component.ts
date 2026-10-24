@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/skeleton-loader.component';
 
@@ -28,6 +28,7 @@ import { SkeletonLoaderComponent } from '@shared/components/ui/skeleton-loader/s
       </div>
     </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .skeleton-container {
       background: hsl(var(--card));

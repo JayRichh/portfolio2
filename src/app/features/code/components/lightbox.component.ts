@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy, OnChanges, SimpleChanges, signal, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnInit, OnDestroy, OnChanges, SimpleChanges, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 
@@ -102,6 +102,7 @@ export interface LightboxImage {
       display: contents;
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('fadeIn', [
             transition(':enter', [

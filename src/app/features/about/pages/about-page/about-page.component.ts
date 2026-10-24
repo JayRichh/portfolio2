@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { TopSectionComponent } from '../../components/top-section/top-section.component';
 import { TimelineComponent } from '../../components/timeline/timeline.component';
@@ -27,6 +27,7 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
       <app-scroll-indicator />
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .about-page {
       position: relative;

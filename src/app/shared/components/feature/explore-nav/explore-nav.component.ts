@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -14,6 +14,7 @@ export interface ExploreNavLink {
     selector: 'app-explore-nav',
     imports: [CommonModule, RouterModule],
     templateUrl: './explore-nav.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './explore-nav.component.scss'
 })
 export class ExploreNavComponent {

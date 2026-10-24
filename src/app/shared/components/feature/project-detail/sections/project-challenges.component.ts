@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { ChallengeDetail } from '@data/projectData';
 
@@ -33,6 +33,7 @@ import { ChallengeDetail } from '@data/projectData';
       </section>
     }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host { display: block; }
     .challenges { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }

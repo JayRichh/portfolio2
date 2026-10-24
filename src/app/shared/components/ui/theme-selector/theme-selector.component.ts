@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { ThemeService, type Theme, type Mode } from '@core/services/theme.service';
 
@@ -12,6 +12,7 @@ interface ThemeOption {
     selector: 'app-theme-selector',
     imports: [],
     templateUrl: './theme-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./theme-selector.component.scss']
 })
 export class ThemeSelectorComponent {

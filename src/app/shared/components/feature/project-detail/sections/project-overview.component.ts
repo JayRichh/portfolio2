@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Project } from '@data/projectData';
 import { TechBadgeComponent } from '@features/code/components/tech-badge.component';
@@ -21,6 +21,7 @@ import { TechBadgeComponent } from '@features/code/components/tech-badge.compone
       </section>
     }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host { display: block; }
     .project-overview {

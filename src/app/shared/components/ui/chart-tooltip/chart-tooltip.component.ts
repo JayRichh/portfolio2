@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 
 
 export interface TooltipData {
@@ -14,6 +14,7 @@ export interface TooltipData {
     selector: 'app-chart-tooltip',
     imports: [],
     templateUrl: './chart-tooltip.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-tooltip.component.scss']
 })
 export class ChartTooltipComponent {

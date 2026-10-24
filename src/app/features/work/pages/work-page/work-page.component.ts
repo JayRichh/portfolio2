@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { projectsData } from '@data/workProjects';
@@ -11,6 +11,7 @@ import { ExploreNavComponent, ExploreNavLink } from '@shared/components/feature/
     selector: 'app-work-page',
     imports: [CommonModule, RouterModule, HeroSectionComponent, TechBadgeComponent, ScrollIndicatorComponent, ExploreNavComponent],
     templateUrl: './work-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './work-page.component.scss'
 })
 export class WorkPageComponent implements OnInit, OnDestroy {

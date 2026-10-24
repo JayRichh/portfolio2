@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter, NgZone, inject } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef, Output, EventEmitter, NgZone, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
@@ -16,6 +16,7 @@ interface FrameworkGroup {
     selector: 'app-framework-showcase',
     imports: [RouterModule, ImageTooltipComponent, ScrollIndicatorComponent],
     templateUrl: './framework-showcase.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './framework-showcase.component.scss'
 })
 export class FrameworkShowcaseComponent implements OnInit, AfterViewInit, OnDestroy {

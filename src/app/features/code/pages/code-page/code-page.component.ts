@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Project } from '@data/projectData';
@@ -72,6 +72,7 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
       </div>
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`:host { display: block; }`]
 })
 export class CodePageComponent implements OnInit {

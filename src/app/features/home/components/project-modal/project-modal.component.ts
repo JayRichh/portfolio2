@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnChanges, SimpleChanges, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Project } from '@data/projectData';
@@ -39,6 +39,7 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
     }
     `,
     styles: [`:host { display: contents; }`],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('fadeIn', [
             transition(':enter', [style({ opacity: 0 }), animate('200ms cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))]),

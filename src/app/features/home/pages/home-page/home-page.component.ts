@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Location } from '@angular/common';
 import { HeroQuadrantComponent } from '../../components/hero-quadrant/hero-quadrant.component';
 import { FrameworkShowcaseComponent } from '../../components/framework-showcase/framework-showcase.component';
@@ -36,6 +36,7 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
       />
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .home-page {
       width: 100%;

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 
 
 interface TooltipItem {
@@ -41,6 +41,7 @@ interface TooltipItem {
         </div>
       }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .tooltip-container {
       position: fixed;

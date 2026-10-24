@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TIMELINE_ITEMS } from './timeline.data';
@@ -8,6 +8,7 @@ import { TIMELINE_ITEMS } from './timeline.data';
     imports: [],
     templateUrl: './timeline.component.html',
     styleUrl: './timeline.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('fadeInSlide', [
             transition(':enter', [

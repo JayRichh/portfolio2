@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, signal, afterNextRender, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, afterNextRender, HostListener, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 import { TechBadgeComponent } from './tech-badge.component';
@@ -110,6 +110,7 @@ import { techCategories } from '@data/techCategories';
       transform: rotate(180deg);
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('slideDown', [
             transition(':enter', [

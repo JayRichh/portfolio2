@@ -1,4 +1,4 @@
-import { Component, Input, signal, computed } from '@angular/core';
+import { Component, Input, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 
 import { Project } from '@data/projectData';
 import { LightboxComponent, LightboxImage } from '@features/code/components/lightbox.component';
@@ -27,6 +27,7 @@ export type ProjectDetailMode = 'page' | 'modal';
     ProjectTocComponent
 ],
     templateUrl: './project-detail-view.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./project-detail-view.component.scss']
 })
 export class ProjectDetailViewComponent {

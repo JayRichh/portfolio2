@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { Project } from '@data/projectData';
@@ -66,6 +66,7 @@ import { CODE_CONSTANTS } from '../constants/code.constants';
       animation: none !important;
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('listAnimation', [
             transition('* => *', [

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { trigger, transition, style, animate } from '@angular/animations';
 
@@ -64,6 +64,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
       animation: bounce 2s infinite;
     }
   `],
+    changeDetection: ChangeDetectionStrategy.Eager,
     animations: [
         trigger('fadeInUp', [
             transition(':enter', [

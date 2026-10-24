@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
 
 @Component({
@@ -28,6 +28,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
       </section>
     }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host { display: block; }
     .gallery { padding: 2.5rem 0; }

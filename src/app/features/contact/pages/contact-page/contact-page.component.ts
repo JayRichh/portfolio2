@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 
@@ -16,6 +16,7 @@ import { ContactFormComponent } from '@shared/components/feature/contact-form/co
       </div>
     </section>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .contact-page {
       min-height: 100vh;

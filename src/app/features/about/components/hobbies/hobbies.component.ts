@@ -5,7 +5,8 @@ import {
   OnDestroy,
   ViewChildren,
   QueryList,
-  signal
+  signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { HOBBY_GROUPS } from './hobbies.data';
@@ -37,6 +38,7 @@ const lerp = (start: number, end: number, t: number): number => {
     selector: 'app-hobbies',
     imports: [],
     templateUrl: './hobbies.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './hobbies.component.scss'
 })
 export class HobbiesComponent implements OnInit, OnDestroy {

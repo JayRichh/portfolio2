@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, signal, computed, inject, output } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ViewChild, ElementRef, signal, computed, inject, output, ChangeDetectionStrategy } from '@angular/core';
 
 import { ButtonComponent } from '@shared/components/ui/button/button.component';
 import { SliderComponent } from '@shared/components/ui/slider/slider.component';
@@ -20,6 +20,7 @@ const BRUSH_TYPES: readonly BrushTypeOption[] = [
     selector: 'app-drawing-canvas',
     imports: [ButtonComponent, SliderComponent],
     templateUrl: './drawing-canvas.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./drawing-canvas.component.scss']
 })
 export class DrawingCanvasComponent implements AfterViewInit, OnDestroy {

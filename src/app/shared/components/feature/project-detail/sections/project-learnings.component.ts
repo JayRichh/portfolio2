@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { LearningDetail } from '@data/projectData';
 
@@ -44,6 +44,7 @@ import { LearningDetail } from '@data/projectData';
       </section>
     }
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     :host { display: block; }
     .learnings { padding: 2.5rem 0; border-bottom: 1px solid hsl(var(--border)); }

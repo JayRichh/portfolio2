@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 
 @Component({
@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
       <div class="skeleton-shimmer"></div>
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     .skeleton {
       position: relative;

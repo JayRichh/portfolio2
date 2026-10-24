@@ -1,4 +1,4 @@
-import { Component, signal, computed, OnInit, HostListener, inject, DestroyRef } from '@angular/core';
+import { Component, signal, computed, OnInit, HostListener, inject, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
@@ -14,6 +14,7 @@ interface NavLink {
     selector: 'app-header',
     imports: [RouterModule, ThemeSelectorComponent],
     templateUrl: './header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {

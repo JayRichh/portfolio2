@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { RESPONSE_INIT } from '../../core/tokens/response.token';
 
@@ -20,6 +20,7 @@ import { RESPONSE_INIT } from '../../core/tokens/response.token';
       </a>
     </div>
   `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [':host { display: block; }']
 })
 export class NotFoundComponent {

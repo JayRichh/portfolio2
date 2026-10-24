@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { techIcons } from '@data/techIcons';
 
@@ -24,6 +24,7 @@ import { techIcons } from '@data/techIcons';
       </span>
     </button>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`
     button {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
