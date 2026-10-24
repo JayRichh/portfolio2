@@ -60,7 +60,7 @@
     filter: invert(1) brightness(1.1);
   }
 
-  html[data-theme*="dark"] & {
+  html.dark & {
     filter: invert(1) brightness(1.1);
   }
 }
@@ -86,7 +86,7 @@
     filter: invert(1) brightness(1.1);
   }
 
-  html[data-theme*="dark"] & {
+  html.dark & {
     filter: invert(1) brightness(1.1);
   }
 }

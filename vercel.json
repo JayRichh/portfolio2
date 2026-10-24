@@ -19,7 +19,7 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://jayrich.dev" },
+        { "key": "Access-Control-Allow-Origin", "value": "https://www.jayrich.dev" },
         { "key": "Access-Control-Allow-Methods", "value": "GET,POST,OPTIONS" },
         { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Accept" },
         { "key": "Vary", "value": "Origin" }

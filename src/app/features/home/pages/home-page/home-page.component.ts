@@ -4,6 +4,7 @@ import { HeroQuadrantComponent } from '../../components/hero-quadrant/hero-quadr
 import { FrameworkShowcaseComponent } from '../../components/framework-showcase/framework-showcase.component';
 import { ContactFormComponent } from '@shared/components/feature/contact-form/contact-form.component';
 import { ProjectModalComponent } from '../../components/project-modal/project-modal.component';
+import { QuestLogComponent } from '../../components/quest-log/quest-log.component';
 import { projectData, Project } from '@data/projectData';
 import { BrowserPlatformService } from '@core/services/browser-platform.service';
 
@@ -13,11 +14,13 @@ import { BrowserPlatformService } from '@core/services/browser-platform.service'
     HeroQuadrantComponent,
     FrameworkShowcaseComponent,
     ContactFormComponent,
-    ProjectModalComponent
+    ProjectModalComponent,
+    QuestLogComponent
 ],
     template: `
     <div class="home-page">
       <app-hero-quadrant />
+      <app-quest-log />
       <app-framework-showcase (projectClick)="openProject($event)" />
       <section class="contact-section">
         <div class="contact-container">

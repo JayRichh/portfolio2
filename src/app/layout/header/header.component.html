@@ -6,7 +6,7 @@
   <nav class="container mx-auto px-6">
     <div class="flex items-center justify-between h-16">
       <a routerLink="/" class="logo-link" aria-label="Jayden Richardson - Home Page">
-        <img src="/JRLOGO.png" alt="JR Logo" class="logo-image" />
+        <img src="/JRLOGO.png" alt="JR monogram" width="48" height="48" class="logo-image" />
       </a>
 
       <div class="flex items-center h-full">
@@ -34,7 +34,7 @@
   >
   <div class="flex items-center justify-between px-4 py-3">
     <a routerLink="/" class="logo-link-mobile" aria-label="Jayden Richardson - Home Page">
-      <img src="/JRLOGO.png" alt="JR Logo" class="logo-image-mobile" />
+      <img src="/JRLOGO.png" alt="JR monogram" width="48" height="48" class="logo-image-mobile" />
     </a>
 
     <div class="flex items-center gap-2">
@@ -45,6 +45,8 @@
         class="mobile-menu-toggle"
         [class.open]="mobileMenuOpen()"
         aria-label="Toggle menu"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        aria-controls="mobile-menu"
         >
         <span class="hamburger">
           <span class="line"></span>
@@ -67,7 +69,7 @@
       [class.open]="mobileMenuOpen()"
       (click)="$event.stopPropagation()"
       >
-      <nav class="mobile-nav mt-12">
+      <nav id="mobile-menu" class="mobile-nav mt-12" aria-label="Mobile">
         @for (link of navLinks; track link) {
           <a
             [routerLink]="link.path"

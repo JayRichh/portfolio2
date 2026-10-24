@@ -11,6 +11,7 @@ const RATE_LIMIT_PER_HOUR = 5;
 const HOUR_MS = 60 * 60 * 1000;
 const ALLOWED_ORIGINS = new Set([
   'https://jayrich.dev',
+  'https://www.jayrich.dev',
   'http://localhost:4200',
   'http://localhost:4000'
 ]);
@@ -28,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const origin = req.headers.origin;
   res.setHeader(
     'Access-Control-Allow-Origin',
-    origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://jayrich.dev'
+    origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.jayrich.dev'
   );
   res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');

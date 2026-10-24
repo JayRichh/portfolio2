@@ -1,10 +1,11 @@
-import { Component, OnInit, signal, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { projectData, Project } from '@data/projectData';
 import { ProjectDetailViewComponent } from '@shared/components/feature/project-detail/project-detail-view.component';
 import { MetaService } from '@core/services/meta.service';
 import { JsonLdService } from '@core/services/json-ld.service';
+import { SITE_URL } from '@core/site-url';
 import { NotFoundComponent } from '../../../not-found/not-found.component';
 
 @Component({
@@ -32,7 +33,7 @@ import { NotFoundComponent } from '../../../not-found/not-found.component';
     changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`:host { display: block; }`]
 })
-export class ProjectDetailPageComponent implements OnInit {
+export class ProjectDetailPageComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly metaService = inject(MetaService);
   private readonly jsonLd = inject(JsonLdService);
@@ -51,7 +52,7 @@ export class ProjectDetailPageComponent implements OnInit {
         description: found.description,
         ogTitle: `${found.title} | Jayden Richardson`,
         ogDescription: found.description,
-        ogImage: found.imgUrl.startsWith('http') ? found.imgUrl : `https://jayrich.dev${found.imgUrl}`,
+        ogImage: found.imgUrl.startsWith('http') ? found.imgUrl : `${SITE_URL}${found.imgUrl}`,
         ogType: 'article',
         canonical
       });
@@ -68,5 +69,9 @@ export class ProjectDetailPageComponent implements OnInit {
         noindex: true
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.jsonLd.clear('ld-creativework');
   }
 }

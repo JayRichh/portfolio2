@@ -5,7 +5,7 @@
       <span class="project-count">({{ totalProjects() }})</span>
     </div>
 
-    @for (group of frameworkGroups(); track group) {
+    @for (group of frameworkGroups(); track group.framework) {
       <div class="framework-section">
         <hr class="section-divider" />
         <div class="section-layout">
@@ -14,9 +14,9 @@
           </div>
           <div class="section-content">
             <div class="project-list">
-              @for (project of group.projects; track project) {
+              @for (project of group.projects; track project.slug) {
                 <a
-                  href="#"
+                  [href]="'/code/' + project.slug"
                   class="project-item"
                   #projectItem
                   [attr.data-img]="project.imgUrl"
@@ -25,10 +25,7 @@
                   (mousemove)="onProjectMove($event)"
                   (mouseleave)="onProjectLeave()"
                   >
-                  <span
-                    class="project-bg"
-                    [style.background-image]="'url(' + project.imgUrl + ')'"
-                  ></span>
+                  <span class="project-bg"></span>
                   <span class="project-name">{{ project.title }}</span>
                   <svg class="project-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 17L17 7M17 7H7M17 7V17"/>

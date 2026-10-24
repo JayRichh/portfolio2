@@ -16,10 +16,10 @@ export interface PageMetadata {
   noindex?: boolean;
 }
 
-const BASE_URL = 'https://jayrich.dev';
+import { SITE_URL as BASE_URL } from '../site-url';
 const DEFAULT_TITLE = 'Jayden Richardson | Full Stack Web Developer';
 const DEFAULT_DESCRIPTION = 'Full Stack Web Developer specializing in Angular, React, TypeScript, and modern web technologies. Explore my portfolio of interactive web applications, development tools, and technical resources.';
-const DEFAULT_IMAGE = `${BASE_URL}/JRLOGO.png`;
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
 const INDEX_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 const NOINDEX_ROBOTS = 'noindex, follow';
 
@@ -50,12 +50,13 @@ export class MetaService {
     this.meta.updateTag({ property: 'og:title', content: ogTitle });
     this.meta.updateTag({ property: 'og:description', content: ogDescription });
     this.meta.updateTag({ property: 'og:image', content: ogImage });
+    this.meta.updateTag({ property: 'og:image:alt', content: ogTitle });
     this.meta.updateTag({ property: 'og:url', content: canonicalUrl });
     this.meta.updateTag({ property: 'og:type', content: ogType });
 
     if (ogImage === DEFAULT_IMAGE) {
-      this.meta.updateTag({ property: 'og:image:width', content: '512' });
-      this.meta.updateTag({ property: 'og:image:height', content: '512' });
+      this.meta.updateTag({ property: 'og:image:width', content: '1200' });
+      this.meta.updateTag({ property: 'og:image:height', content: '630' });
     } else {
       this.meta.removeTag("property='og:image:width'");
       this.meta.removeTag("property='og:image:height'");

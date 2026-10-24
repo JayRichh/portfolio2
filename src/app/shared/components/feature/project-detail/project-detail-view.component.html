@@ -8,7 +8,7 @@
           <app-project-actions [liveUrl]="project.liveUrl" [repoUrl]="project.repoUrl" />
         </aside>
       }
-      <main class="detail-main">
+      <div class="detail-main">
         <app-project-overview [project]="project" />
         <app-project-features
           [features]="project.details.features"
@@ -32,7 +32,7 @@
                     [repoUrl]="project.repoUrl"
                     />
                 }
-              </main>
+              </div>
             </div>
             <app-lightbox
               [images]="lightboxImages()"
