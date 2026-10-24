@@ -3,6 +3,7 @@ import { createWriteStream, writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { projectData } from '../src/app/data/projectData';
+import { SITE_URL } from '../src/app/core/site-url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -13,7 +14,7 @@ interface RouteEntry {
   lastmod?: string;
 }
 
-const HOSTNAME = 'https://jayrich.dev';
+const HOSTNAME = SITE_URL;
 const SITEMAP_PATH = resolve(__dirname, '../public/sitemap.xml');
 const PRERENDER_PATH = resolve(__dirname, '../prerender-routes.txt');
 

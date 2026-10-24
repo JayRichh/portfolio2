@@ -3,7 +3,7 @@ import { Injectable, inject, DOCUMENT } from '@angular/core';
 import { Project } from '../../data/projectData';
 import { JsonLdBreadcrumbItem } from '../models/page-metadata.model';
 
-const BASE_URL = 'https://jayrich.dev';
+import { SITE_URL as BASE_URL } from '../site-url';
 const SOCIAL_LINKS = [
   'https://github.com/JayRichh',
   'https://codepen.io/jayrichh',
@@ -22,7 +22,7 @@ export class JsonLdService {
       url: BASE_URL,
       jobTitle: 'Full Stack Web Developer',
       sameAs: SOCIAL_LINKS,
-      image: `${BASE_URL}/JRLOGO.png`
+      image: `${BASE_URL}/og-image.png`
     });
   }
 
@@ -53,10 +53,24 @@ export class JsonLdService {
     });
   }
 
+  setItemList(projects: readonly Project[]): void {
+    this.write('ld-itemlist', {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      itemListElement: projects.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.title,
+        url: `${BASE_URL}/code/${p.slug}`
+      }))
+    });
+  }
+
   setCreativeWork(project: Project, url: string): void {
     this.write('ld-creativework', {
       '@context': 'https://schema.org',
-      '@type': 'CreativeWork',
+      '@type': project.repoUrl ? 'SoftwareSourceCode' : 'CreativeWork',
+      ...(project.repoUrl && { codeRepository: project.repoUrl }),
       name: project.title,
       description: project.description,
       url: `${BASE_URL}${url}`,

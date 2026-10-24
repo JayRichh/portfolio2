@@ -1,7 +1,8 @@
-import { Component, signal, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { Project } from '@data/projectData';
+import { Project, projectData } from '@data/projectData';
+import { JsonLdService } from '@core/services/json-ld.service';
 import { ProjectService } from '../../../../core/services/project.service';
 import { FilterSectionComponent } from '../../components/filter-section.component';
 import { ProjectGridComponent } from '../../components/project-grid.component';
@@ -21,7 +22,7 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
             Projects
           </h1>
           <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
-            few things to look at
+            {{ projectCount }} projects across Angular, React, Vue, Next.js and .NET. Filter by stack or sort by date.
           </p>
 
           <div class="mt-6 flex flex-wrap justify-center gap-4">
@@ -75,11 +76,13 @@ import { CODE_CONSTANTS } from '../../constants/code.constants';
     changeDetection: ChangeDetectionStrategy.Eager,
     styles: [`:host { display: block; }`]
 })
-export class CodePageComponent implements OnInit {
+export class CodePageComponent implements OnInit, OnDestroy {
   readonly CODE_CONSTANTS = CODE_CONSTANTS;
+  readonly projectCount = projectData.length;
 
   readonly projectService = inject(ProjectService);
   private readonly router = inject(Router);
+  private readonly jsonLd = inject(JsonLdService);
 
   readonly mounted = signal(false);
   readonly selectedTech = this.projectService.selectedTech;
@@ -90,6 +93,7 @@ export class CodePageComponent implements OnInit {
   readonly filteredProjects = this.projectService.filteredProjects;
 
   ngOnInit(): void {
+    this.jsonLd.setItemList(projectData);
     const hasState = this.projectService.loadState();
 
     if (hasState) {
@@ -106,6 +110,10 @@ export class CodePageComponent implements OnInit {
     }
 
     this.projectService.preloadTopImages(6);
+  }
+
+  ngOnDestroy(): void {
+    this.jsonLd.clear('ld-itemlist');
   }
 
   toggleTechFilter(tech: string): void {
