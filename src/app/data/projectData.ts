@@ -2106,7 +2106,7 @@ const rawProjects: Omit<Project, 'slug'>[] = [
         },
       ],
       additionalImages: [
-        "/logo_bg_remove.png",
+        "/logo_bg_remove.webp",
         "/images/workwaka.png",
         "/images/moitsBoat.png",
       ],
