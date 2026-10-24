@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
     { label: 'Code', path: '/code' },
-    { label: 'Featured', path: '/work' },
+    { label: 'Work', path: '/work' },
     { label: 'Contact', path: '/contact' },
   ];
 

@@ -164,6 +164,9 @@ export class FrameworkShowcaseComponent implements OnInit, AfterViewInit, OnDest
           opacity = this.siblingOpacity;
         }
       }
+      if (opacity > 0 && !bg.style.backgroundImage) {
+        bg.style.backgroundImage = `url(${ref.nativeElement.dataset['img']})`;
+      }
       bg.style.opacity = String(opacity);
     });
   }
